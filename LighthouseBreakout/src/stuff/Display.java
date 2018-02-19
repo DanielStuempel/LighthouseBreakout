@@ -20,6 +20,8 @@ public class Display extends JFrame {
 	
 	HashSet<String> args = new HashSet<String>();
 	
+	Style.Theme theme;
+	
 	Graphics g;
 	
 	Insets insets;
@@ -41,9 +43,10 @@ public class Display extends JFrame {
 	
 	public void init() {
 		//TODO: make size a parameter
+		theme = Style.Theme.getCurrent();
 		setSize(size.width * scale.width, size.height * scale.height);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		setBackground(Style.BACKGROUND);
+		setBackground(theme.background);
 		setVisible(true);
 		insets = getInsets();
 		offset = new Dimension(insets.right, insets.top);
@@ -67,6 +70,7 @@ public class Display extends JFrame {
 							state[p++] & 0xff,
 							state[p++] & 0xff,
 							state[p++] & 0xff);
+					//TODO: only draw changes
 					drawRect(x, y, c);
 				}
 			}
@@ -95,7 +99,7 @@ public class Display extends JFrame {
 				(int) width,
 				(int) height);
 		if (args.contains("raster")) {
-			g.setColor(Color.BLACK);
+			g.setColor(theme.background);
 			g.drawRect(
 					offset.width + (int) (x * width),
 					offset.height + (int) (y * height),
