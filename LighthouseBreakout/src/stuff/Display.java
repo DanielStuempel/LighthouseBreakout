@@ -14,13 +14,11 @@ public class Display extends JFrame {
 	private Dimension size = new Dimension(28, 14);
 	private Dimension scale = new Dimension (20, 40);
 	
-	private byte[] state = new byte[size.width * size.height * 3];
+	private volatile byte[] state = new byte[size.width * size.height * 3];
 	
 	private volatile boolean state_changed;
 	
 	HashSet<String> args = new HashSet<String>();
-	
-	Style.Theme theme;
 	
 	Graphics g;
 	
@@ -43,25 +41,31 @@ public class Display extends JFrame {
 	
 	public void init() {
 		//TODO: make size a parameter
-		theme = Style.Theme.getCurrent();
 		setSize(size.width * scale.width, size.height * scale.height);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		setBackground(theme.background);
+		setBackground(Style.theme.background);
 		setVisible(true);
 		insets = getInsets();
 		offset = new Dimension(insets.right, insets.top);
 		g = getGraphics();
+		if (!args.contains("resizable"))
+			setResizable(false);
 		if (!args.contains("scalable"))
 			addComponentListener();
 		setSize(insets.right + getWidth() + insets.left, insets.top + getHeight() + insets.bottom);
 	}
 	
 	public void run() {
+		long lastFrame = System.currentTimeMillis();
 		while (true) {
 			//TODO: improve frame rate precision and state change detection
-			do {
-				sleep(20);
-			} while (!state_changed);
+			while (20 - (System.currentTimeMillis() - lastFrame) > 0) {
+				sleep(1);
+			}
+			double fps = 1_000d / (System.currentTimeMillis() - lastFrame);
+			lastFrame = System.currentTimeMillis();
+			if (!state_changed)
+				continue;
 			state_changed = false;
 //			System.out.println(System.nanoTime());
 			for (int p = 0, x = 0; x < size.width; x++) {
@@ -74,6 +78,10 @@ public class Display extends JFrame {
 					drawRect(x, y, c);
 				}
 			}
+			if (args.contains("fps")) {
+				g.setColor(Color.BLACK);
+				g.drawString(String.valueOf(fps) + "fps", offset.width, offset.height + getInnerHeight());
+			}
 			validate();
 		}
 	}
@@ -84,27 +92,22 @@ public class Display extends JFrame {
 	}
 	
 	private void drawRect(int x, int y, Color c) {
-		double width, height;
-		if (args.contains("resizable")) {
-			width = getInnerWidth() / size.getWidth();
-			height = getInnerHeight() / size.getHeight();
-		} else {
-			width = scale.width;
-			height = scale.height;
-		}
+		double
+		 width = getInnerWidth() / size.getWidth(),
+		 height = getInnerHeight() / size.getHeight();
 		g.setColor(c);
 		g.fillRect(
 				offset.width + (int) (x * width),
 				offset.height + (int) (y * height),
-				(int) width,
-				(int) height);
+				(int) width + 1,
+				(int) height + 1);
 		if (args.contains("raster")) {
-			g.setColor(theme.background);
+			g.setColor(Style.theme.background);
 			g.drawRect(
 					offset.width + (int) (x * width),
 					offset.height + (int) (y * height),
-					(int) width,
-					(int) height);
+					(int) width + 1,
+					(int) height + 1);
 		}
 	}
 	
@@ -112,7 +115,7 @@ public class Display extends JFrame {
 		//TODO: validation
 		if (data.length != state.length)
 			throw new IllegalArgumentException();
-		this.state = data;
+		this.state = data.clone();
 		state_changed = true;
 	}
 	
@@ -135,6 +138,7 @@ public class Display extends JFrame {
 			setSize(getInnerWidth(), getInnerWidth());
 		}
 	}
+	
 	private void addComponentListener() {
 		addComponentListener(new ComponentListener() {
 			private String lastEvent = "";

@@ -2,13 +2,13 @@ package stuff;
 
 public class Main {
 	static int length = 28 * 14 * 3;
-	
+
 	public static void main(String[] args) {
-		Style.Theme.setCurrent(Style.Theme.LIGHT);
+		Style.theme = Style.Theme.DARK;
 		
 		Display display = new Display();
 		DisplayThread displayThread = new DisplayThread(display);
-		displayThread.start("raster resizable scalable");
+		displayThread.start("raster resizable scalable fps");
 		
 		byte r, g, b;
 		r = g = b = 0;
