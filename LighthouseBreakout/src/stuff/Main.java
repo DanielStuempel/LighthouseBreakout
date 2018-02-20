@@ -8,7 +8,7 @@ public class Main {
 		
 		Display display = new Display();
 		DisplayThread displayThread = new DisplayThread(display);
-		displayThread.start("raster resizable scalable fps");
+		displayThread.start("raster resizable fps");
 		
 		byte r, g, b;
 		r = g = b = 0;

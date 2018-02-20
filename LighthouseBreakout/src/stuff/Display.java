@@ -4,8 +4,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Insets;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
 import java.util.HashSet;
 
 import javax.swing.JFrame;
@@ -50,24 +48,26 @@ public class Display extends JFrame {
 		g = getGraphics();
 		if (!args.contains("resizable"))
 			setResizable(false);
-		if (!args.contains("scalable"))
-			addComponentListener();
 		setSize(insets.right + getWidth() + insets.left, insets.top + getHeight() + insets.bottom);
 	}
 	
 	public void run() {
-		long lastFrame = System.currentTimeMillis();
+		long
+		 startTime = System.nanoTime(),
+		 lastFrame = startTime;
 		while (true) {
-			//TODO: improve frame rate precision and state change detection
-			while (20 - (System.currentTimeMillis() - lastFrame) > 0) {
+			while (20_000_000 - (System.nanoTime() - lastFrame) > 1_000_000) {
+				if (!args.contains("rescalable") && getWidth() != getHeight()) {
+					setSize(getInnerWidth(), getInnerWidth());
+				}
 				sleep(1);
 			}
-			double fps = 1_000d / (System.currentTimeMillis() - lastFrame);
-			lastFrame = System.currentTimeMillis();
+			System.out.println(System.nanoTime() - lastFrame);
+			double fps = 1_000_000_000d / (System.nanoTime() - lastFrame);
+			lastFrame = System.nanoTime();
 			if (!state_changed)
 				continue;
 			state_changed = false;
-//			System.out.println(System.nanoTime());
 			for (int p = 0, x = 0; x < size.width; x++) {
 				for (int y = 0; y < size.height; y++) {
 					Color c = new Color(
@@ -119,7 +119,7 @@ public class Display extends JFrame {
 		state_changed = true;
 	}
 	
-	private void sleep(int millis) {
+	private void sleep(long millis) {
 		try {
 			Thread.sleep(millis);
 		} catch (Exception e) { }
@@ -131,33 +131,5 @@ public class Display extends JFrame {
 	
 	private int getInnerHeight() {
 		return getHeight() - insets.top - insets.bottom;
-	}
-	
-	private void onResize() {
-		if (getWidth() != getHeight()) {
-			setSize(getInnerWidth(), getInnerWidth());
-		}
-	}
-	
-	private void addComponentListener() {
-		addComponentListener(new ComponentListener() {
-			private String lastEvent = "";
-			
-			@Override
-			public void componentHidden(ComponentEvent arg0) { }
-			
-			@Override
-			public void componentMoved(ComponentEvent arg0) { }
-
-			@Override
-			public void componentResized(ComponentEvent arg0) {
-				if (lastEvent.equals(lastEvent = arg0.paramString()))
-					onResize();
-//				System.out.println(lastEvent);
-			}
-
-			@Override
-			public void componentShown(ComponentEvent arg0) { }
-		});
 	}
 }

@@ -11,7 +11,7 @@ public class Style {
 		
 		public static final Theme DEFAULT = DARK;
 		
-		public Color background = Color.BLACK;
+		public Color background;
 		
 		private Theme(Color bg) {
 			this.background = bg;
