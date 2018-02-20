@@ -3,7 +3,6 @@ package stuff;
 //testing...
 
 public class Main {
-	static int test;
 	static int length = 28 * 14 * 3;
 
 	public static void main(String[] args) {
