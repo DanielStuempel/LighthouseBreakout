@@ -3,7 +3,7 @@ package stuff;
 import java.awt.Color;
 
 public class Style {
-	private int test = 0;
+	private int test = 1;
 	public static Theme theme = Theme.DEFAULT;
 	
 	public static enum Theme {
