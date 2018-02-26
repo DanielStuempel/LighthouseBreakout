@@ -59,7 +59,7 @@ public class Display extends JFrame {
 		while (true) {
 //			System.out.println(System.currentTimeMillis());
 			long wait = 20_000_000 - System.nanoTime() % 20_000_000;
-			System.out.println(wait);
+//			System.out.println(wait);
 			sleep(wait);
 			
 			if (!args.contains("rescalable") && getWidth() != getHeight()) {
@@ -70,7 +70,7 @@ public class Display extends JFrame {
 			double fps = 1_000_000_000d / (time - lastFrame);
 			lastFrame = time;
 			
-//			System.out.println(fps);
+			System.out.println(fps);
 			
 			if (!state_changed)
 				continue;

@@ -18,9 +18,9 @@ public class Main {
 			sleep(20);
 			byte[] data = new byte[length];
 			for (int p = 0; p < length;) {
-				data[p++] = r;
-				data[p++] = g;
-				data[p++] = b;
+				data[p++] = r;//(byte) 255;
+				data[p++] = g;//(byte) 255;
+				data[p++] = b;//(byte) 255;
 			}
 			g += 5;
 			display.send(data);
