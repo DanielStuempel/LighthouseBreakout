@@ -53,21 +53,29 @@ public class Display extends JFrame {
 	
 	public void run() {
 		long
-		 startTime = System.nanoTime(),
-		 lastFrame = startTime;
+//		 startTime = System.nanoTime(),
+		 lastFrame = 0;
+		
 		while (true) {
-			while (20_000_000 - (System.nanoTime() - lastFrame) > 1_000_000) {
-				if (!args.contains("rescalable") && getWidth() != getHeight()) {
-					setSize(getInnerWidth(), getInnerWidth());
-				}
-				sleep(1);
+//			System.out.println(System.currentTimeMillis());
+			long wait = 20_000_000 - System.nanoTime() % 20_000_000;
+			System.out.println(wait);
+			sleep(wait);
+			
+			if (!args.contains("rescalable") && getWidth() != getHeight()) {
+				setSize(getInnerWidth(), getInnerWidth());
 			}
-			System.out.println(System.nanoTime() - lastFrame);
-			double fps = 1_000_000_000d / (System.nanoTime() - lastFrame);
-			lastFrame = System.nanoTime();
+			
+			long time = System.nanoTime();
+			double fps = 1_000_000_000d / (time - lastFrame);
+			lastFrame = time;
+			
+//			System.out.println(fps);
+			
 			if (!state_changed)
 				continue;
 			state_changed = false;
+			
 			for (int p = 0, x = 0; x < size.width; x++) {
 				for (int y = 0; y < size.height; y++) {
 					Color c = new Color(
@@ -119,9 +127,15 @@ public class Display extends JFrame {
 		state_changed = true;
 	}
 	
-	private void sleep(long millis) {
+//	private void sleep(long  millis) {
+//		try {
+//			Thread.sleep(millis);
+//		} catch (Exception e) { }
+//	}
+	
+	private void sleep(long nanos) {
 		try {
-			Thread.sleep(millis);
+			Thread.sleep((long) Math.floor(nanos / 1_000_000d), (int) (nanos % 1_000_000));
 		} catch (Exception e) { }
 	}
 	

@@ -13,7 +13,7 @@ public class DisplayThread extends Thread {
 		start(args.split("\\s"));
 	}
 	
-	public void start(String[] args) {
+	public void start(String... args) {
 		this.args = args;
 		start();
 	}
