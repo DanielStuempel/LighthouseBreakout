@@ -42,8 +42,11 @@ public class Engine implements Runnable {
 			data[p++] = 0;
 			data[p] = 0;
 			
-			//random direction when hitting ground for testing
-			if (ball.pos.y == level.size.height - 1) ball.vel.x = (int) (Math.random() * 2) < 1 ? -1 : 1;
+			//random direction/velocity when hitting ground for testing
+			if (ball.pos.y == level.size.height - 1) {
+				ball.pos.x = (int) (Math.random() * level.size.width);
+				ball.vel.x = (int) (Math.random() * 2) < 1 ? -1 : 1;
+			}
 			
 			//move ball
 			ball.pos.x += ball.pos.x > 0 && ball.pos.x < level.size.width - 1
