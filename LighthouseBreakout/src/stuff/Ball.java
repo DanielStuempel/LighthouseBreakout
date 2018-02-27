@@ -4,7 +4,7 @@ import java.awt.Point;
 
 public class Ball {
 	public Point pos;
-	public Point vel = new Point(0, 1);
+	public Point vel;
 
 	public Ball() {
 		this(13, 13);
@@ -16,6 +16,7 @@ public class Ball {
 
 	public Ball(Point pos) {
 		this.pos = pos;
+		vel = new Point();
 	}
 	
 	@Deprecated

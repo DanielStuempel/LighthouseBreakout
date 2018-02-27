@@ -2,6 +2,7 @@ package stuff;
 
 public class Brick {
 	private int type;
+	private boolean isDestroyed;
 	
 	public Brick(int type) {
 		this.type = type;
@@ -11,7 +12,16 @@ public class Brick {
 		return this.type;
 	}
 	
-	public Brick hit() {
-		return type == 1 ? null : new Brick(type - 1);
+	public void hit() {
+		if (--type < 1)
+			destroy();
+	}
+	
+	public void destroy() {
+		isDestroyed = true;
+	}
+	
+	public boolean isDestroyed() {
+		return isDestroyed;
 	}
 }

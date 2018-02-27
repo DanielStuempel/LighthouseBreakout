@@ -24,19 +24,18 @@ public class Engine implements Runnable {
 	
 	public void main(int ticks) {
 		Brick[][] m = level.getMap();
+		ball.vel.y = 1;
 		do {
 			//TODO: improve
 			Main.sleep(1000 / tickRate);
 			
-			Brick b = m[ball.pos.x][ball.pos.y];
-//			System.out.println(b == null ? null : b.getType());
-			if (b != null)
-				m[ball.pos.x][ball.pos.y] = b.hit();
-			
-			for (int q = 0; q < data.length;) {
-				Brick c = m[q / 3 % level.size.width][q / 3 / level.size.width];
-				//draw block
-				data[q++] = data[q++] = data[q++] = (byte) (c == null ? 0 : 100 + c.getType() * 10);
+			for (int q = 0, x = 0; x < level.size.width; x++) {
+				for (int y = 0; y < level.size.height; y++) {
+					if (m[x][y].isDestroyed())
+						m[x][y] = null;
+					//draw block
+					data[q++] = data[q++] = data[q++] = (byte) (m[x][y] == null ? 0 : 100 + m[x][y].getType() * 10);
+				}
 			}
 			
 			//draw ball
@@ -45,10 +44,17 @@ public class Engine implements Runnable {
 			data[p++] = 0;
 			data[p] = 0;
 			
-			//move ball
-			ball.pos.x += ball.pos.x > 0 && ball.pos.x < level.size.width - 1 ? ball.vel.x : (ball.vel.x *= -1);
-			ball.pos.y += ball.pos.y > 0 && ball.pos.y < level.size.height - 1 ? ball.vel.y : (ball.vel.y *= -1);
+			//random direction when hitting ground for testing
+			if (ball.pos.y == level.size.height - 1) ball.vel.x = (int) (Math.random() * 3) - 1;
 			
+			//move ball
+			ball.pos.x += ball.pos.x > 0 && ball.pos.x < level.size.width - 1
+					&& m[ball.pos.x + ball.vel.x][ball.pos.y] == null ? ball.vel.x
+							: m[ball.pos.x - ball.vel.x][ball.pos.y] == null ? ball.vel.x *= -1 : 0;
+			ball.pos.y += ball.pos.y > 0 && ball.pos.y < level.size.height - 1
+					&& m[ball.pos.x][ball.pos.y + ball.vel.y] == null ? ball.vel.y
+							: m[ball.pos.x][ball.pos.y - ball.vel.y] == null ? ball.vel.y *= -1 : 0;
+
 		} while (ticks == -1 || --ticks > 0);
 	}
 }

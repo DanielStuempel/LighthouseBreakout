@@ -8,7 +8,7 @@ public class Main {
 	public static void main(String[] args) {
 		Style.theme = Style.Theme.DARK;
 		byte[] data = new byte[length];
-		Level level = Level.buildLevel(2);
+		Level level = Level.buildLevel(1);
 		
 		Display display = new Display("raster", "resizable", "fps");
 		Thread displayThread = new Thread(display, "displayThread");

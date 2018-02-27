@@ -35,7 +35,7 @@ public class Level {
 					continue;
 
 				for (int x = 0; x < l.size.width; x++)
-					l.map[x][y] = new Brick(map[y][x]);
+					l.map[x][y] = map[y][x] == 0 ? null : new Brick(map[y][x]);
 			}
 		return l;
 	}
