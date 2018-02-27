@@ -90,7 +90,7 @@ public class Display extends JFrame implements Runnable {
 				}
 			}
 			if (args.contains("fps")) {
-				g.setColor(Color.WHITE);
+				g.setColor(Color.WHITE);	
 				g.drawString(
 						"fps:" + fps,
 						offset.width,

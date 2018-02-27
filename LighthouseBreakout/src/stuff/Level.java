@@ -8,7 +8,13 @@ public class Level {
 	}
 	
 	public Level(int i) {
-		int[][] map = Maps.TEST.getMap();
+		int[][] map;
+		if (i == 1) {
+			map = Maps.CAU.getMap();
+		} 
+		else {
+			map = Maps.TEST.getMap();
+		}
 		for (int x = 0; x < 28; x++) {
 			for (int y = 0; y < 14; y++) {
 				this.map[x][y] = new Brick(map[y][x]);

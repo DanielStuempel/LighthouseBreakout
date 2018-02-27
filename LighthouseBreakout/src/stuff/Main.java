@@ -11,7 +11,7 @@ public class Main {
 		displayThread.start();
 		
 		int p = 0;
-		Level l = new Level();
+		Level l = new Level(0);
 		Brick[][] m = l.getMap();
 		
 		while(true) {
