@@ -18,12 +18,7 @@ public class Ball {
 		this.pos = pos;
 	}
 	public void move() {
-		this.vel.x = this.pos.x+this.vel.x > 13 ? -this.vel.x : this.vel.x;
-		this.vel.x = this.pos.x+this.vel.x < 0  ? -this.vel.x : this.vel.x;
-		this.vel.y = this.pos.y+this.vel.y > 27 ? -this.vel.y : this.vel.y;
-		this.vel.y = this.pos.y+this.vel.y < 0  ? -this.vel.y : this.vel.y;
-		
-		this.pos.x += (int)this.vel.x;
-		this.pos.y += (int)this.vel.y;
+		pos.x += pos.x > 0 && pos.x < 13 ? vel.x : (vel.x *= -1);
+		pos.y += pos.y > 0 && pos.y < 27 ? vel.y : (vel.y *= -1);
 	}
 }

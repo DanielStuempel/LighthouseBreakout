@@ -4,9 +4,9 @@ public class Main {
 	static int length = 28 * 14 * 3;
 	
 	public static void main(String[] args) {
-		
 		Style.theme = Style.Theme.DARK;
 		byte[] data = new byte[length];
+		
 		Display display = new Display("raster", "resizable", "fps");
 		Thread displayThread = new Thread(display);
 		displayThread.start();

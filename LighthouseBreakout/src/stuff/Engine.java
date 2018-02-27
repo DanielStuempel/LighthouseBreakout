@@ -8,13 +8,15 @@ public class Engine implements Runnable {
 	}
 	@Override
 	public void run() {
+		int p;
 		Ball ball = new Ball();
-		int p = 0;
 		Level l = new Level(2);
 		Brick[][] m = l.getMap();
 		
 		while(true) {
 			Main.sleep(20);
+
+			p = ball.pos.x * 28 + ball.pos.y;
 			
 			m[p % 28][p / 28].hit();
 			
@@ -27,10 +29,7 @@ public class Engine implements Runnable {
 			data[p * 3 + 1] = 0;
 			data[p * 3 + 2] = 0;
 			
-			p = ball.pos.x * 28 + ball.pos.y;
 			ball.move();
-			
 		}
-		
 	}
 }

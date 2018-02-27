@@ -15,7 +15,7 @@ public class Style {
 		public Color background;
 		
 		private Theme(Theme parent) {
-			
+			background = new Color(0, 0, 0);
 		}
 	}
 }
