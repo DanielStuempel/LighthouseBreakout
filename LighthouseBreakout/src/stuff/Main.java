@@ -10,19 +10,27 @@ public class Main {
 		Thread displayThread = new Thread(display);
 		displayThread.start();
 		
-		byte r, g, b;
-		r = g = b = 0;
-		b = -127;
+		int p = 0;
+		Level l = new Level();
+		Brick[][] m = l.getMap();
 		
 		while(true) {
 			sleep(20);
-			byte[] data = new byte[length];
-			for (int p = 0; p < length;) {
-				data[p++] = r;//(byte) 255;
-				data[p++] = g;//(byte) 255;
-				data[p++] = b;//(byte) 255;
+			byte[] data = new byte[28 * 14 * 3];
+			
+			m[p % 28][p / 28].hit();
+			
+			for (int q = 0; q < data.length; q++) {
+				int t = m[q / 3 % 28][q / 3 / 28].getType();
+				data[q] = (byte) (t == 0 ? 0 : 100 + t * 10);
 			}
-			g += 5;
+			
+			data[p * 3] = -1;
+			data[p * 3 + 1] = 0;
+			data[p * 3 + 2] = 0;
+			
+			p = (int) (Math.random() * 28 * 14);
+
 			display.send(data);
 		}
 	}

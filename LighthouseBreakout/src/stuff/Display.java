@@ -12,7 +12,11 @@ public class Display extends JFrame implements Runnable {
 	private int frameTime = 20_000_000;
 	
 	private Dimension size = new Dimension(28, 14);
-	private Dimension scale = new Dimension (20, 40);
+	private Dimension scale = new Dimension (15, 40);
+	private Dimension wSize = new Dimension(
+			size.width * scale.width,
+			size.height * scale.height);
+	private Dimension lSize = wSize.getSize();
 	
 	private volatile byte[] state = new byte[size.width * size.height * 3];
 	
@@ -38,7 +42,7 @@ public class Display extends JFrame implements Runnable {
 	
 	public void init() {
 		//TODO: make size a parameter
-		setSize(size.width * scale.width, size.height * scale.height);
+		setSize(wSize);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setBackground(Style.theme.background);
 		setVisible(true);
@@ -47,7 +51,6 @@ public class Display extends JFrame implements Runnable {
 		g = getGraphics();
 		if (!args.contains("resizable"))
 			setResizable(false);
-		setSize(insets.right + getWidth() + insets.left, insets.top + getHeight() + insets.bottom);
 	}
 	
 	public void main() {
@@ -55,25 +58,29 @@ public class Display extends JFrame implements Runnable {
 		while (true) {
 			//TODO: fix inconsistent frame rates due to imprecise nanoTime
 			long wait = frameTime - System.nanoTime() % frameTime;
-			System.out.println(wait);
+//			System.out.println(wait);
 			sleep(wait);
 			
-			if (!args.contains("rescalable") && getWidth() != getHeight()) {
-				setSize(getInnerWidth(), getInnerWidth());
+			if (!args.contains("rescalable")) {
+				if (getWidth() != getHeight() * wSize.height / wSize.width) {
+					setSize(
+							getInnerHeight() * wSize.height / wSize.width,
+							getInnerHeight());
+				}
 			}
 			
 			long time = System.nanoTime();
 			double fps = 1_000_000_000d / (time - lastFrame);
 			lastFrame = time;
 			
-			System.out.println(fps);
+//			System.out.println(fps);
 			
 			if (!state_changed)
 				continue;
 			state_changed = false;
 			
-			for (int p = 0, x = 0; x < size.width; x++) {
-				for (int y = 0; y < size.height; y++) {
+			for (int p = 0, y = 0; y < size.height; y++) {
+				for (int x = 0; x < size.width; x++) {
 					Color c = new Color(
 							state[p++] & 0xff,
 							state[p++] & 0xff,
@@ -83,8 +90,11 @@ public class Display extends JFrame implements Runnable {
 				}
 			}
 			if (args.contains("fps")) {
-				g.setColor(Color.BLACK);
-				g.drawString(String.valueOf(fps) + "fps", offset.width, offset.height + getInnerHeight());
+				g.setColor(Color.WHITE);
+				g.drawString(
+						"fps:" + fps,
+						offset.width,
+						offset.height + getInnerHeight());
 			}
 			validate();
 		}
@@ -125,7 +135,9 @@ public class Display extends JFrame implements Runnable {
 	
 	private void sleep(long nanos) {
 		try {
-			Thread.sleep((long) Math.floor(nanos / 1_000_000d), (int) (nanos % 1_000_000));
+			Thread.sleep(
+					(long) Math.floor(nanos / 1_000_000d),
+					(int) (nanos % 1_000_000));
 		} catch (Exception e) { }
 	}
 	

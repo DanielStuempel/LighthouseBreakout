@@ -1,29 +1,22 @@
 package stuff;
 
 public class Level {
-
-	public static int[][][] map = new int[1][28][14];
+	private Brick[][] map = new Brick[28][14];
 	
-//	public Brick[][] level = new Brick[28][14];
-//
-//	Level(int i) {
-//		buildLevel(i);
-//	}
-//
-//	Level() {
-//		
-//	}
+	public Level() {
+		this(0);
+	}
 	
-
-	public static Brick[][] buildLevel(int i) {
-		Brick[][] level = new Brick[28][14];
+	public Level(int i) {
+		int[][] map = Maps.TEST.getMap();
 		for (int x = 0; x < 28; x++) {
 			for (int y = 0; y < 14; y++) {
-				level[x][y] = new Brick(map[i][x][y]);
+				this.map[x][y] = new Brick(map[y][x]);
 			}
 		}
-		return level;
 	}
-			
-			
+	
+	public Brick[][] getMap() {
+		return map;
+	}
 }
