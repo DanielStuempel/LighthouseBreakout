@@ -28,9 +28,9 @@ public class Engine implements Runnable {
 		do {
 			//TODO: improve
 			Main.sleep(1000 / tickRate);
-			
-			for (int q = 0, x = 0; x < level.size.width; x++) {
-				for (int y = 0; y < level.size.height; y++) {
+
+			for (int  q = 0, y = 0; y < level.size.height; y++) {
+				for (int x = 0; x < level.size.width; x++) {
 					//draw block
 					data[q++] = data[q++] = data[q++] = (byte) (m[x][y] == null ? 0 : 100 + m[x][y].getType() * 10);
 				}
@@ -43,7 +43,7 @@ public class Engine implements Runnable {
 			data[p] = 0;
 			
 			//random direction when hitting ground for testing
-			if (ball.pos.y == level.size.height - 1) ball.vel.x = (int) (Math.random() * 3) - 1;
+			if (ball.pos.y == level.size.height - 1) ball.vel.x = (int) (Math.random() * 2) < 1 ? -1 : 1;
 			
 			//move ball
 			ball.pos.x += ball.pos.x > 0 && ball.pos.x < level.size.width - 1
