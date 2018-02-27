@@ -1,13 +1,14 @@
 package stuff;
 
+import java.awt.Dimension;
+
 public class Level {
-	private Brick[][] map = new Brick[28][14];
+	public Dimension size = new Dimension(28, 14);
+	private Brick[][] map;
 	
-	public Level() {
-		this(0);
-	}
-	
-	public Level(int i) {
+	public static Level buildLevel(int i) {
+		Level l = new Level();
+		l.map = new Brick[l.size.width][l.size.height];
 		int[][] map;
 		switch (i) {
 		case 1:
@@ -23,11 +24,20 @@ public class Level {
 			map = Maps.TEST.getMap();
 		}
 		
-		for (int x = 0; x < 28; x++) {
-			for (int y = 0; y < 14; y++) {
-				this.map[x][y] = new Brick(map[y][x]);
+		//don't draw invalid map
+		if (map.length < l.size.height)
+			map = null;
+		
+		else
+			for (int y = 0; y < l.size.height; y++) {
+				// don't draw too short rows
+				if (map[y].length < l.size.width)
+					continue;
+
+				for (int x = 0; x < l.size.width; x++)
+					l.map[x][y] = new Brick(map[y][x]);
 			}
-		}
+		return l;
 	}
 	
 	public Brick[][] getMap() {
