@@ -1,29 +1,29 @@
 package stuff;
 
+import java.awt.Point;
+
 public class Ball {
-	//x ,y pos start at index 0
-	private static int[] pos = {10,0};
-	private static double[] speed = {1,1};
-	
-	public static int getPos() {
-		move();
-		int posInt = pos[0]*28+pos[1] ;
-		return posInt;
+	public Point pos;
+	public Point vel = new Point(-1, 0);
+
+	public Ball() {
+		this(0, 13);
 	}
-	public static double[] getSpeed() {
-		return speed;
+
+	public Ball(int x, int y) {
+		this(new Point(x, y));
 	}
-	public static void setSpeed(double[] newSpeed) {
-		speed = newSpeed;
+
+	public Ball(Point pos) {
+		this.pos = pos;
 	}
-	public static void move() {
-		speed[0] = pos[0]+speed[0] > 13 ? speed[0] = -speed[0] : speed[0];
-		speed[0] = pos[0]+speed[0] < 0  ? speed[0] = -speed[0] : speed[0];
-		speed[1] = pos[1]+speed[1] > 27 ? speed[1] = -speed[1] : speed[1];
-		speed[1] = pos[1]+speed[1] < 0 ? speed[1] = -speed[1] : speed[1];
+	public void move() {
+		this.vel.x = this.pos.x+this.vel.x > 13 ? -this.vel.x : this.vel.x;
+		this.vel.x = this.pos.x+this.vel.x < 0  ? -this.vel.x : this.vel.x;
+		this.vel.y = this.pos.y+this.vel.y > 27 ? -this.vel.y : this.vel.y;
+		this.vel.y = this.pos.y+this.vel.y < 0  ? -this.vel.y : this.vel.y;
 		
-		pos[0] += (int)speed[0];
-		pos[1] += (int)speed[1];
-		
+		this.pos.x += (int)this.vel.x;
+		this.pos.y += (int)this.vel.y;
 	}
 }
