@@ -16,7 +16,6 @@ public class Display extends JFrame implements Runnable {
 	private Dimension wSize = new Dimension(
 			size.width * scale.width,
 			size.height * scale.height);
-	private Dimension lSize = wSize.getSize();
 	
 	private volatile byte[] state = new byte[size.width * size.height * 3];
 	
