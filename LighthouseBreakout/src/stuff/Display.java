@@ -16,7 +16,6 @@ public class Display extends JFrame implements Runnable {
 	private Dimension wSize = new Dimension(
 			size.width * scale.width,
 			size.height * scale.height);
-	private Dimension lSize = wSize.getSize();
 	
 	private volatile byte[] state = new byte[size.width * size.height * 3];
 	
@@ -92,7 +91,7 @@ public class Display extends JFrame implements Runnable {
 			if (args.contains("fps")) {
 				g.setColor(Color.WHITE);	
 				g.drawString(
-						"fps:" + fps,
+						"fps:" + (int) fps,
 						offset.width,
 						offset.height + getInnerHeight());
 			}
