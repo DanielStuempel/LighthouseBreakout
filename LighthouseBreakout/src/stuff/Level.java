@@ -12,6 +12,9 @@ public class Level {
 		if (i == 1) {
 			map = Maps.CAU.getMap();
 		} 
+		else if (i == 2) {
+			map = Maps.FULL.getMap();
+		}
 		else {
 			map = Maps.TEST.getMap();
 		}

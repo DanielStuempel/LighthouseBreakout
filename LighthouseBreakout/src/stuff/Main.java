@@ -11,7 +11,7 @@ public class Main {
 		displayThread.start();
 		
 		int p = 0;
-		Level l = new Level(0);
+		Level l = new Level(2);
 		Brick[][] m = l.getMap();
 		
 		while(true) {
@@ -29,8 +29,10 @@ public class Main {
 			data[p * 3 + 1] = 0;
 			data[p * 3 + 2] = 0;
 			
-			p = (int) (Math.random() * 28 * 14);
-
+			//p = (int) (Math.random() * 28 * 14);
+			p = Ball.getPos();
+			
+			//System.out.println(p);
 			display.send(data);
 		}
 	}
