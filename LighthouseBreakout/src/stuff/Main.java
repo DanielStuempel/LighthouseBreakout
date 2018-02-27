@@ -6,9 +6,9 @@ public class Main {
 	public static void main(String[] args) {
 		Style.theme = Style.Theme.DARK;
 		
-		Display display = new Display();
-		DisplayThread displayThread = new DisplayThread(display);
-		displayThread.start("raster resizable fps");
+		Display display = new Display("raster", "resizable", "fps");
+		Thread displayThread = new Thread(display);
+		displayThread.start();
 		
 		byte r, g, b;
 		r = g = b = 0;
