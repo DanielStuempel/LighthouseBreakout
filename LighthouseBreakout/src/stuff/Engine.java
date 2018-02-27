@@ -31,8 +31,6 @@ public class Engine implements Runnable {
 			
 			for (int q = 0, x = 0; x < level.size.width; x++) {
 				for (int y = 0; y < level.size.height; y++) {
-					if (m[x][y].isDestroyed())
-						m[x][y] = null;
 					//draw block
 					data[q++] = data[q++] = data[q++] = (byte) (m[x][y] == null ? 0 : 100 + m[x][y].getType() * 10);
 				}
