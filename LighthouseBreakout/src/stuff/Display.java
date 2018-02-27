@@ -8,7 +8,9 @@ import java.util.HashSet;
 
 import javax.swing.JFrame;
 
-public class Display extends JFrame {
+public class Display extends JFrame implements Runnable {
+	private int frameTime = 20_000_000;
+	
 	private Dimension size = new Dimension(28, 14);
 	private Dimension scale = new Dimension (20, 40);
 	
@@ -23,18 +25,15 @@ public class Display extends JFrame {
 	Insets insets;
 	Dimension offset;
 	
-	public Display() {
+	public Display(String... args) {
 		super();
-	}
-	
-	public void start(String[] args) {
 		parseArguments(args);
-		init();
-		run();
 	}
 	
-	public void main() {
-		
+	@Override
+	public void run() {
+		init();
+		main();
 	}
 	
 	public void init() {
@@ -51,15 +50,12 @@ public class Display extends JFrame {
 		setSize(insets.right + getWidth() + insets.left, insets.top + getHeight() + insets.bottom);
 	}
 	
-	public void run() {
-		long
-//		 startTime = System.nanoTime(),
-		 lastFrame = 0;
-		
+	public void main() {
+		long lastFrame = 0;
 		while (true) {
-//			System.out.println(System.currentTimeMillis());
-			long wait = 20_000_000 - System.nanoTime() % 20_000_000;
-//			System.out.println(wait);
+			//TODO: fix inconsistent frame rates due to imprecise nanoTime
+			long wait = frameTime - System.nanoTime() % frameTime;
+			System.out.println(wait);
 			sleep(wait);
 			
 			if (!args.contains("rescalable") && getWidth() != getHeight()) {
@@ -126,12 +122,6 @@ public class Display extends JFrame {
 		this.state = data.clone();
 		state_changed = true;
 	}
-	
-//	private void sleep(long  millis) {
-//		try {
-//			Thread.sleep(millis);
-//		} catch (Exception e) { }
-//	}
 	
 	private void sleep(long nanos) {
 		try {
