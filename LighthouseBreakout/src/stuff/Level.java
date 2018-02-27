@@ -9,15 +9,20 @@ public class Level {
 	
 	public Level(int i) {
 		int[][] map;
-		if (i == 1) {
+		switch (i) {
+		case 1:
 			map = Maps.CAU.getMap();
-		} 
-		else if (i == 2) {
+			break;
+		case 2:
 			map = Maps.FULL.getMap();
-		}
-		else {
+			break;
+		case 3:
+			map = Maps.TEST.getMap();
+			break;
+		default:
 			map = Maps.TEST.getMap();
 		}
+		
 		for (int x = 0; x < 28; x++) {
 			for (int y = 0; y < 14; y++) {
 				this.map[x][y] = new Brick(map[y][x]);

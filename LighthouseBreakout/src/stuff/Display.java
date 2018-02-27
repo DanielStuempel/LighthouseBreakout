@@ -36,7 +36,7 @@ public class Display extends JFrame implements Runnable {
 	@Override
 	public void run() {
 		init();
-		main();
+		main(true);
 	}
 	
 	public void init() {
@@ -52,9 +52,9 @@ public class Display extends JFrame implements Runnable {
 			setResizable(false);
 	}
 	
-	public void main() {
+	public void main(boolean loop) {
 		long lastFrame = 0;
-		while (true) {
+		do {
 			//TODO: fix inconsistent frame rates due to imprecise nanoTime
 			long wait = frameTime - System.nanoTime() % frameTime;
 //			System.out.println(wait);
@@ -96,7 +96,7 @@ public class Display extends JFrame implements Runnable {
 						offset.height + getInnerHeight());
 			}
 			validate();
-		}
+		} while (loop);
 	}
 	
 	private void parseArguments(String[] args) {
