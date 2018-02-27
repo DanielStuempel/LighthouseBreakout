@@ -1,35 +1,54 @@
 package stuff;
 
 public class Engine implements Runnable {
-	private byte[] data;
+	private int tickRate = 10;
 	
-	public Engine(byte[] data) {
+	private byte[] data;
+	Level level;
+	Ball ball;
+	
+	public Engine(Level level, byte[] data) {
+		this.level = level;
 		this.data = data;
 	}
+	
 	@Override
 	public void run() {
-		int p;
-		Ball ball = new Ball();
-		Level l = new Level(2);
-		Brick[][] m = l.getMap();
-		
-		while(true) {
-			Main.sleep(20);
-
-			p = ball.pos.x * 28 + ball.pos.y;
+		init();
+		main(-1);
+	}
+	
+	public void init() {
+		ball = new Ball();
+	}
+	
+	public void main(int ticks) {
+		Brick[][] m = level.getMap();
+		do {
+			//TODO: improve
+			Main.sleep(1000 / tickRate);
 			
-			m[p % 28][p / 28].hit();
+			Brick b = m[ball.pos.x][ball.pos.y];
+//			System.out.println(b == null ? null : b.getType());
+			if (b != null)
+				m[ball.pos.x][ball.pos.y] = b.hit();
 			
-			for (int q = 0; q < data.length; q++) {
-				int t = m[q / 3 % 28][q / 3 / 28].getType();
-				data[q] = (byte) (t == 0 ? 0 : 100 + t * 10);
+			for (int q = 0; q < data.length;) {
+				Brick c = m[q / 3 % level.size.width][q / 3 / level.size.width];
+				//draw block
+				data[q++] = data[q++] = data[q++] = (byte) (c == null ? 0 : 100 + c.getType() * 10);
 			}
 			
-			data[p * 3] = -1;
-			data[p * 3 + 1] = 0;
-			data[p * 3 + 2] = 0;
+			//draw ball
+			int p = (ball.pos.x + ball.pos.y * 28 ) * 3;
+			data[p++] = -1;
+			data[p++] = 0;
+			data[p] = 0;
 			
-			ball.move();
-		}
+			//move ball
+			ball.pos.x += ball.pos.x > 0 && ball.pos.x < level.size.width - 1 ? ball.vel.x : (ball.vel.x *= -1);
+			ball.pos.y += ball.pos.y > 0 && ball.pos.y < level.size.height - 1 ? ball.vel.y : (ball.vel.y *= -1);
+			
+		} while (ticks == -1 || --ticks > 0);
 	}
 }

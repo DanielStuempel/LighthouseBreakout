@@ -1,22 +1,26 @@
 package stuff;
 
 public class Main {
-	static int length = 28 * 14 * 3;
+	private static int frameRate = 50;
+	
+	private static int length = 28 * 14 * 3;
 	
 	public static void main(String[] args) {
 		Style.theme = Style.Theme.DARK;
 		byte[] data = new byte[length];
+		Level level = Level.buildLevel(2);
 		
 		Display display = new Display("raster", "resizable", "fps");
-		Thread displayThread = new Thread(display);
+		Thread displayThread = new Thread(display, "displayThread");
 		displayThread.start();
 		
-		Engine engine = new Engine(data);
-		Thread engineThread = new Thread(engine);
-		engineThread.start();
+		Engine engine = new Engine(level, data);
+		Thread gameEngineThread = new Thread(engine, "gameEngineThread");
+		gameEngineThread.start();
 		
 		while(true) {
-			sleep(20);
+			//TODO: improve
+			sleep(1000 / frameRate);
 			display.send(data);
 		}
 	}

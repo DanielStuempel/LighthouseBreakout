@@ -11,7 +11,7 @@ public class Brick {
 		return this.type;
 	}
 	
-	public void hit() {
-		if (type > 0) type--;
+	public Brick hit() {
+		return type == 1 ? null : new Brick(type - 1);
 	}
 }
