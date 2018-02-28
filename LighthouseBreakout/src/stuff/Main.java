@@ -1,11 +1,16 @@
 package stuff;
 
+import java.util.Timer;
+
 import javax.swing.JFrame;
 
 public class Main {
 	private static int frameRate = 50;
 	
 	private static int length = 28 * 14 * 3;
+	
+	//TODO: maybe use separate timers as it's calls appear to be blocking
+	public static Timer systemTimer = new Timer(true);
 	
 	public static void main(String[] args) {
 		Style.theme = Style.Theme.DARK;

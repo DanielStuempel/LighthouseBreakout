@@ -5,10 +5,8 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.util.HashSet;
-import java.util.TimerTask;
 
 import javax.swing.JPanel;
-import java.util.Timer;
 
 public class Display extends JPanel implements Runnable {
 	private Dimension size = new Dimension(28, 14);
@@ -18,8 +16,9 @@ public class Display extends JPanel implements Runnable {
 	
 	private volatile boolean state_changed;
 	
-	HashSet<String> args = new HashSet<String>();
-	private double fps = 0;
+	private HashSet<String> args = new HashSet<String>();
+	
+	private TickTimer frameTimer;
 	
 	public Display(String... args) {
 		super();
@@ -29,24 +28,21 @@ public class Display extends JPanel implements Runnable {
 	@Override
 	public void run() {
 		init();
+		frameTimer = new TickTimer() {
+			@Override
+			public void tick() {
+				main();
+			}
+		};
+		Main.systemTimer.schedule(frameTimer, 0, 20);
 	}
 	
 	public void init() {
 		setPreferredSize(new Dimension(size.width * scale.width, size.height * scale.height));
 		setBackground(Style.theme.background);
-		
-		TimerTask task = new TimerTask() {
-			@Override
-			public void run() {
-				tick();
-			}
-		};
-		
-		Timer t = new Timer(true);
-		t.schedule(task, 0, 20);
 	}
 	
-	public void tick() {
+	public void main() {
 		if (!state_changed)
 			return;
 			state_changed = false;
@@ -73,7 +69,7 @@ public class Display extends JPanel implements Runnable {
 		if (args.contains("fps")) {
 			g.setColor(Color.WHITE);
 			g.drawString(
-					"fps:" + fps,
+					"fps:" + (int) frameTimer.getCurrentFPS(),
 					0,
 					getHeight());
 		}
