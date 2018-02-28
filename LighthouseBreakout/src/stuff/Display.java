@@ -5,28 +5,21 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.util.HashSet;
+import java.util.TimerTask;
 
 import javax.swing.JPanel;
+import java.util.Timer;
 
 public class Display extends JPanel implements Runnable {
-	private int frameTime = 20_000_000;
-	
 	private Dimension size = new Dimension(28, 14);
 	private Dimension scale = new Dimension (30, 50);
 	
-	private volatile byte[] data = new byte[size.width * size.height * 3];
 	private volatile byte[] state = new byte[size.width * size.height * 3];
 	
 	private volatile boolean state_changed;
 	
 	HashSet<String> args = new HashSet<String>();
-	
 	private double fps = 0;
-	
-//	Graphics g;
-	
-//	Insets insets;
-//	Dimension offset;
 	
 	public Display(String... args) {
 		super();
@@ -36,48 +29,28 @@ public class Display extends JPanel implements Runnable {
 	@Override
 	public void run() {
 		init();
-		main(-1);
 	}
 	
 	public void init() {
 		setPreferredSize(new Dimension(size.width * scale.width, size.height * scale.height));
 		setBackground(Style.theme.background);
+		
+		TimerTask task = new TimerTask() {
+			@Override
+			public void run() {
+				tick();
+			}
+		};
+		
+		Timer t = new Timer(true);
+		t.schedule(task, 0, 20);
 	}
 	
-	public void main(int frames) {
-		long
-		 startTime = System.nanoTime(),
-		 lastFrame = 0,
-		 frameCount = 0;
-		do {
-			//TODO: fix inconsistent frame rates due to imprecise nanoTime
-//			long wait = frameTime - System.nanoTime() % frameTime;
-//			System.out.println(wait);
-//			sleep(wait);
-			
-			while (frameCount * frameTime > System.nanoTime() - startTime) {
-//				//TODO: other stuff to do while display is waiting
-//				if (!args.contains("rescalable")) {
-//					if (getWidth() != getHeight() * wSize.height / wSize.width) {
-//						setSize(getInnerHeight() * wSize.height / wSize.width, getInnerHeight());
-//					}
-//				}
-			}
-			frameCount++;
-			
-			long time = System.nanoTime();
-			fps = 1_000_000_000d / (time - lastFrame);
-			lastFrame = time;
-			
-			if (!state_changed)
-				continue;
+	public void tick() {
+		if (!state_changed)
+			return;
 			state_changed = false;
-			
-			//TODO: improve
-			state = data.clone();
-			
 			repaint();
-		} while (frames == -1 || --frames > 0);
 	}
 	
 	private void parseArguments(String[] args) {
@@ -129,18 +102,9 @@ public class Display extends JPanel implements Runnable {
 	
 	public void send(byte[] data) {
 		//TODO: validation
-		if (this.data.length != data.length)
+		if (state.length != data.length)
 			throw new IllegalArgumentException();
-		this.data = data.clone();
+		state = data.clone();
 		state_changed = true;
-	}
-	
-	@SuppressWarnings("unused")
-	private void sleep(long nanos) {
-		try {
-			Thread.sleep(
-					(long) Math.floor(nanos / 1_000_000d),
-					(int) (nanos % 1_000_000));
-		} catch (Exception e) { }
 	}
 }
