@@ -23,7 +23,6 @@ public class Engine implements Runnable {
 	}
 	
 	public void main(int ticks) {
-		Brick[][] m = level.getMap();
 		ball.vel.x = ball.vel.y = 1;
 		do {
 			//TODO: improve
@@ -32,7 +31,8 @@ public class Engine implements Runnable {
 			for (int  q = 0, y = 0; y < level.size.height; y++) {
 				for (int x = 0; x < level.size.width; x++) {
 					//draw block
-					data[q++] = data[q++] = data[q++] = (byte) (m[x][y] == null ? 0 : 100 + m[x][y].getType() * 10);
+					Brick b = level.get(x, y);
+					data[q++] = data[q++] = data[q++] = (byte) (b == null ? 0 : 100 + b.getType() * 10);
 				}
 			}
 			
@@ -46,13 +46,13 @@ public class Engine implements Runnable {
 			if (ball.pos.y == level.size.height - 1 || ball.pos.y == 0)
 				ball.pos.x = (int) (Math.random() * (level.size.width - 2)) + 1;
 			
-			//move ball
+			//move ball 
 			ball.pos.x += ball.pos.x > 0 && ball.pos.x < level.size.width - 1
-					&& m[ball.pos.x + ball.vel.x][ball.pos.y] == null ? ball.vel.x
-							: m[ball.pos.x - ball.vel.x][ball.pos.y] == null ? ball.vel.x *= -1 : 0;
+					&& level.get(ball.pos.x + ball.vel.x, ball.pos.y) == null ? ball.vel.x
+							: level.get(ball.pos.x - ball.vel.x, ball.pos.y) == null ? ball.vel.x *= -1 : 0;
 			ball.pos.y += ball.pos.y > 0 && ball.pos.y < level.size.height - 1
-					&& m[ball.pos.x][ball.pos.y + ball.vel.y] == null ? ball.vel.y
-							: m[ball.pos.x][ball.pos.y - ball.vel.y] == null ? ball.vel.y *= -1 : 0;
+					&& level.get(ball.pos.x, ball.pos.y + ball.vel.y) == null ? ball.vel.y
+							: level.get(ball.pos.x, ball.pos.y - ball.vel.y) == null ? ball.vel.y *= -1 : 0;
 
 		} while (ticks == -1 || --ticks > 0);
 	}

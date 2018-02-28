@@ -4,43 +4,43 @@ import java.awt.Dimension;
 
 public class Level {
 	public Dimension size = new Dimension(28, 14);
-	private Brick[][] map;
+	private Brick[][] state;
+	private int[][] map;
 	
 	public static Level buildLevel(int i) {
 		Level l = new Level();
-		l.map = new Brick[l.size.width][l.size.height];
-		int[][] map;
+		l.state = new Brick[l.size.width][l.size.height];
 		switch (i) {
 		case 1:
-			map = Maps.CAU.getMap();
+			l.map = Maps.CAU.getMap();
 			break;
 		case 2:
-			map = Maps.FULL.getMap();
+			l.map = Maps.FULL.getMap();
 			break;
 		case 3:
-			map = Maps.TEST.getMap();
+			l.map = Maps.TEST.getMap();
 			break;
 		default:
-			map = Maps.TEST.getMap();
+			l.map = Maps.TEST.getMap();
 		}
 		
 		//don't draw invalid map
-		if (map.length < l.size.height)
-			map = null;
+		if (l.map.length < l.size.height)
+			l.map = null;
 		
 		else
 			for (int y = 0; y < l.size.height; y++) {
 				// don't draw too short rows
-				if (map[y].length < l.size.width)
+				if (l.map[y].length < l.size.width)
 					continue;
 
 				for (int x = 0; x < l.size.width; x++)
-					l.map[x][y] = map[y][x] == 0 ? null : new Brick(map[y][x]);
+					l.state[x][y] = l.map[y][x] == 0 ? null : new Brick(l.map[y][x]);
 			}
 		return l;
 	}
 	
-	public Brick[][] getMap() {
-		return map;
+	public Brick get(int x, int y) {
+		return state[x][y] == null ? null : state[x][y].isDestroyed() ? state[x][y] = null : state[x][y];
 	}
 }
