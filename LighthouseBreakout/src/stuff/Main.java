@@ -10,7 +10,7 @@ public class Main {
 	public static void main(String[] args) {
 		Style.theme = Style.Theme.DARK;
 		byte[] data = new byte[length];
-		Level level = Level.buildLevel(0);
+		Level level = Level.buildLevel(1);
 		
 		Display display = new Display("raster", "resizable", "fps");
 		Thread displayThread = new Thread(display, "displayThread");
@@ -23,8 +23,8 @@ public class Main {
 		JFrame frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(display.getSize());
-		System.out.println(display.getSize());
-		System.out.println(frame.getSize());
+		//System.out.println(display.getSize());
+		//System.out.println(frame.getSize());
 		frame.setVisible(true);
 		frame.add(display);
 		frame.setSize(display.getPreferredSize());
