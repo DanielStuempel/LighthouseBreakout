@@ -3,30 +3,30 @@ package stuff;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Insets;
+import java.awt.Point;
 import java.util.HashSet;
 
-import javax.swing.JFrame;
+import javax.swing.JPanel;
 
-public class Display extends JFrame implements Runnable {
+public class Display extends JPanel implements Runnable {
 	private int frameTime = 20_000_000;
 	
 	private Dimension size = new Dimension(28, 14);
-	private Dimension scale = new Dimension (15, 40);
-	private Dimension wSize = new Dimension(
-			size.width * scale.width,
-			size.height * scale.height);
+	private Dimension scale = new Dimension (30, 50);
 	
+	private volatile byte[] data = new byte[size.width * size.height * 3];
 	private volatile byte[] state = new byte[size.width * size.height * 3];
 	
 	private volatile boolean state_changed;
 	
 	HashSet<String> args = new HashSet<String>();
 	
-	Graphics g;
+	private double fps = 0;
 	
-	Insets insets;
-	Dimension offset;
+//	Graphics g;
+	
+//	Insets insets;
+//	Dimension offset;
 	
 	public Display(String... args) {
 		super();
@@ -40,62 +40,43 @@ public class Display extends JFrame implements Runnable {
 	}
 	
 	public void init() {
-		//TODO: make size a parameter
-		setSize(wSize);
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setPreferredSize(new Dimension(size.width * scale.width, size.height * scale.height));
 		setBackground(Style.theme.background);
-		setVisible(true);
-		insets = getInsets();
-		offset = new Dimension(insets.right, insets.top);
-		g = getGraphics();
-		if (!args.contains("resizable"))
-			setResizable(false);
 	}
 	
 	public void main(int frames) {
-		long lastFrame = 0;
+		long
+		 startTime = System.nanoTime(),
+		 lastFrame = 0,
+		 frameCount = 0;
 		do {
 			//TODO: fix inconsistent frame rates due to imprecise nanoTime
-			long wait = frameTime - System.nanoTime() % frameTime;
+//			long wait = frameTime - System.nanoTime() % frameTime;
 //			System.out.println(wait);
-			sleep(wait);
+//			sleep(wait);
 			
-			if (!args.contains("rescalable")) {
-				if (getWidth() != getHeight() * wSize.height / wSize.width) {
-					setSize(
-							getInnerHeight() * wSize.height / wSize.width,
-							getInnerHeight());
-				}
+			while (frameCount * frameTime > System.nanoTime() - startTime) {
+//				//TODO: other stuff to do while display is waiting
+//				if (!args.contains("rescalable")) {
+//					if (getWidth() != getHeight() * wSize.height / wSize.width) {
+//						setSize(getInnerHeight() * wSize.height / wSize.width, getInnerHeight());
+//					}
+//				}
 			}
+			frameCount++;
 			
 			long time = System.nanoTime();
-			double fps = 1_000_000_000d / (time - lastFrame);
+			fps = 1_000_000_000d / (time - lastFrame);
 			lastFrame = time;
-			
-//			System.out.println(fps);
 			
 			if (!state_changed)
 				continue;
 			state_changed = false;
 			
-			for (int p = 0, y = 0; y < size.height; y++) {
-				for (int x = 0; x < size.width; x++) {
-					Color c = new Color(
-							state[p++] & 0xff,
-							state[p++] & 0xff,
-							state[p++] & 0xff);
-					//TODO: only draw changes
-					drawRect(x, y, c);
-				}
-			}
-			if (args.contains("fps")) {
-				g.setColor(Color.WHITE);	
-				g.drawString(
-						"fps:" + (int) fps,
-						offset.width,
-						offset.height + getInnerHeight());
-			}
-			validate();
+			//TODO: improve
+			state = data.clone();
+			
+			repaint();
 		} while (frames == -1 || --frames > 0);
 	}
 	
@@ -104,21 +85,43 @@ public class Display extends JFrame implements Runnable {
 			this.args.add(s);
 	}
 	
-	private void drawRect(int x, int y, Color c) {
+	@Override
+	public void paintComponent(Graphics g) {
+		for (int p = 0, y = 0; y < size.height; y++) {
+			for (int x = 0; x < size.width; x++) {
+				Color c = new Color(
+						state[p++] & 0xff,
+						state[p++] & 0xff,
+						state[p++] & 0xff);
+				//TODO: only draw changes
+				drawRect(g, x, y, c);
+			}
+		}
+		if (args.contains("fps")) {
+			g.setColor(Color.WHITE);
+			g.drawString(
+					"fps:" + fps,
+					0,
+					getHeight());
+		}
+	}
+	
+	private void drawRect(Graphics g, int x, int y, Color c) {
 		double
-		 width = getInnerWidth() / size.getWidth(),
-		 height = getInnerHeight() / size.getHeight();
+		 width = getWidth() / size.getWidth(),
+		 height = getHeight() / size.getHeight();
+		Point offset = getLocation();
 		g.setColor(c);
 		g.fillRect(
-				offset.width + (int) (x * width),
-				offset.height + (int) (y * height),
+				offset.x + (int) (x * width),
+				offset.y + (int) (y * height),
 				(int) width + 1,
 				(int) height + 1);
 		if (args.contains("raster")) {
 			g.setColor(Style.theme.background);
 			g.drawRect(
-					offset.width + (int) (x * width),
-					offset.height + (int) (y * height),
+					offset.x + (int) (x * width),
+					offset.y + (int) (y * height),
 					(int) width + 1,
 					(int) height + 1);
 		}
@@ -126,25 +129,18 @@ public class Display extends JFrame implements Runnable {
 	
 	public void send(byte[] data) {
 		//TODO: validation
-		if (data.length != state.length)
+		if (this.data.length != data.length)
 			throw new IllegalArgumentException();
-		this.state = data.clone();
+		this.data = data.clone();
 		state_changed = true;
 	}
 	
+	@SuppressWarnings("unused")
 	private void sleep(long nanos) {
 		try {
 			Thread.sleep(
 					(long) Math.floor(nanos / 1_000_000d),
 					(int) (nanos % 1_000_000));
 		} catch (Exception e) { }
-	}
-	
-	private int getInnerWidth() {
-		return getWidth() - insets.right - insets.left;
-	}
-	
-	private int getInnerHeight() {
-		return getHeight() - insets.top - insets.bottom;
 	}
 }
