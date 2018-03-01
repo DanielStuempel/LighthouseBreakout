@@ -3,16 +3,16 @@ package stuff;
 import java.util.Arrays;
 
 public enum Maps {
-	TEST(), CAU(),FULL();
+	TEST(), CAU(), FULL();
 	
 	public int[][] getMap() {
 		switch (this) {
 		case TEST:
 			int[][] a1 = new int[14][28];
 			int[] b1 = new int[28];
-			for (int i = 0; i < 10; i++) {
-				Arrays.fill(b1, 10 - i);
-				a1[i] = Arrays.copyOf(b1, 28);
+			for (int i = 0; i < 3; i++) {
+				Arrays.fill(b1, 3 - i);
+				a1[i*2] = Arrays.copyOf(b1, 28);
 			}
 			return a1;
 		case CAU:

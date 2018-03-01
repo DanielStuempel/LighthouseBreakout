@@ -8,10 +8,12 @@ public class Engine implements Runnable {
 //	private TickTimer gameTickTimer;
 	
 	Level level;
+	Paddel paddel;
 	Ball ball;
 
-	public Engine(Level level, Ball ball, String... args) {
+	public Engine(Level level, Paddel paddel, Ball ball, String... args) {
 		this.level = level;
+		this.paddel = paddel;
 		this.ball = ball;
 	}
 	
@@ -41,6 +43,10 @@ public class Engine implements Runnable {
 //			ball.pos.x = (int) (Math.random() * (level.size.width - 2)) + 1;
 //			ball.vel.x = (int) (Math.random() * 3) - 1;
 //		}
+		
+		//TODO: improve
+		if (paddel.pos + paddel.vel >= 0 && paddel.pos + paddel.size + paddel.vel <= level.size.width)
+			paddel.pos += paddel.vel;
 
 		Point newPos = ball.pos.getLocation();
 		Point curPos = ball.pos.getLocation();
@@ -58,14 +64,14 @@ public class Engine implements Runnable {
 			newPos.x = curPos.x + (dist.x > 0 ? dir.x : 0);
 			newPos.y = curPos.y + (dist.y > 0 ? dir.y : 0);
 			if (dist.x > dist.y) {
-				if (newPos.x < 0 || newPos.x >= level.size.width || newPos.y >= 0 && newPos.y < level.size.height && level.get(newPos.x, curPos.y).hit() | level.get(curPos.x, newPos.y).hit())
+				if (newPos.x < 0 || newPos.x >= level.size.width || newPos.y >= 0 && newPos.y < level.size.height - 1 && level.get(newPos.x, curPos.y).hit() | level.get(curPos.x, newPos.y).hit())
 					dir.x = -dir.x;
 				else {
 					dist.x--;
 					curPos.x += dir.x;
 				}
 			} else if (dist.x < dist.y) {
-				if (newPos.y < 0 || newPos.y >= level.size.height || newPos.x >= 0 && newPos.x < level.size.width && (level.get(curPos.x, newPos.y).hit() | level.get(newPos.x, newPos.y).hit()))
+				if (newPos.y < 0 || newPos.y >= level.size.height - 1 || newPos.x >= 0 && newPos.x < level.size.width && (level.get(curPos.x, newPos.y).hit() | level.get(newPos.x, newPos.y).hit()))
 					dir.y *= -1;
 				else {
 					dist.y--;
@@ -74,7 +80,7 @@ public class Engine implements Runnable {
 			} else {
 				if (newPos.x < 0 || newPos.x >= level.size.width)
 					dir.x *= -1;
-				else if (newPos.y < 0 || newPos.y >= level.size.height)
+				else if (newPos.y < 0 || newPos.y >= level.size.height -1)
 					dir.y *= -1;
 				else if ((x = level.get(newPos.x, curPos.y).hit()) | (y = level.get(curPos.x, newPos.y).hit()) | level.get(newPos.x, newPos.y).hit())
 					if (x && !y)

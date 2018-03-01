@@ -7,22 +7,10 @@ public class Level {
 	private Brick[][] state;
 	private int[][] map;
 	
-	public static Level buildLevel(int i) {
+	public static Level buildLevel(Maps m) {
 		Level l = new Level();
 		l.state = new Brick[l.size.width][l.size.height];
-		switch (i) {
-		case 1:
-			l.map = Maps.CAU.getMap();
-			break;
-		case 2:
-			l.map = Maps.FULL.getMap();
-			break;
-		case 3:
-			l.map = Maps.TEST.getMap();
-			break;
-		default:
-			l.map = Maps.TEST.getMap();
-		}
+		l.map = m.getMap();
 		
 		//don't draw invalid map
 		if (l.map.length < l.size.height)

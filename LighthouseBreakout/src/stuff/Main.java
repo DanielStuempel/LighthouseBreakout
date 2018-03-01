@@ -1,6 +1,8 @@
 package stuff;
 
 import java.awt.Color;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.Timer;
 
 import javax.swing.JFrame;
@@ -12,16 +14,20 @@ public class Main {
 	public static void main(String[] args) {
 		Style.loadTheme(Style.Theme.COLORFUL);
 		
+		final int KeyCodePaddelLeft = KeyEvent.VK_LEFT;
+		final int KeyCodePaddelRight = KeyEvent.VK_RIGHT;
+		
 		byte[] data = new byte[28 * 14 * 3];
 		
-		Level level = Level.buildLevel(1);
-		Ball ball = new Ball();
+		Level level = Level.buildLevel(Maps.TEST);
+		Paddel paddel = new Paddel(11, 6);
+		Ball ball = new Ball(13, 13);
 		
 		Display display = new Display("raster");
 		Thread displayThread = new Thread(display, "displayThread");
 		displayThread.start();
 		
-		Engine engine = new Engine(level, ball);
+		Engine engine = new Engine(level, paddel, ball);
 		Thread gameEngineThread = new Thread(engine, "gameEngineThread");
 		gameEngineThread.start();
 		
@@ -52,6 +58,35 @@ public class Main {
 		window.add(display);
 		window.setVisible(true);
 		
+		window.addKeyListener(new KeyListener() {
+			@Override
+			public void keyPressed(KeyEvent arg0) {
+				switch (arg0.getKeyCode()) {
+				case KeyCodePaddelLeft:
+					paddel.vel = -1;
+					break;
+				case KeyCodePaddelRight:
+					paddel.vel = 1;
+					break;
+				}
+			}
+
+			@Override
+			public void keyReleased(KeyEvent arg0) {
+				switch (arg0.getKeyCode()) {
+				case KeyCodePaddelLeft:
+					if (paddel.vel == -1) paddel.vel = 0;
+					break;
+				case KeyCodePaddelRight:
+					if (paddel.vel == 1) paddel.vel = 0;
+					break;
+				}
+			}
+
+			@Override
+			public void keyTyped(KeyEvent arg0) { }
+		});
+		
 		JLabel frameRateDisplay = new JLabel();
 		frameRateDisplay.setForeground(Color.WHITE);
 		
@@ -71,11 +106,19 @@ public class Main {
 				}
 			}
 
-			// draw ball
+			//draw ball
 			int p = (ball.pos.x + ball.pos.y * 28) * 3;
 			data[p++] = (byte) Style.ballColor.getRed();
 			data[p++] = (byte) Style.ballColor.getGreen();
 			data[p] = (byte) Style.ballColor.getBlue();
+			
+			//draw paddel
+			p = ((level.size.height - 1) * level.size.width + paddel.pos) * 3;
+			for (int i = 0; i < paddel.size; i++) {
+				data[p++] = -1;
+				data[p++] = -1;
+				data[p++] = -1;
+			}
 
 			display.send(data);
 			
