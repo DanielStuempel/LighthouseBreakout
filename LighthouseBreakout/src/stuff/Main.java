@@ -42,9 +42,9 @@ public class Main {
 					Brick b = level.get(x, y);
 					//Color Brick
 					//data[q++] = data[q++] = data[q++] = (byte) (b == null ? 0 : 100 + b.getType() * 10);
-					data[q++] = (byte) (b == null ? 0 : Style.theme.BrickStyle[b.getType()][0]);
-					data[q++] = (byte) (b == null ? 0 : Style.theme.BrickStyle[b.getType()][1]);
-					data[q++] = (byte) (b == null ? 0 : Style.theme.BrickStyle[b.getType()][2]);
+					data[q++] = (byte) (b == null ? 0 : Style.theme.brickStyle[b.getType()][0]);
+					data[q++] = (byte) (b == null ? 0 : Style.theme.brickStyle[b.getType()][1]);
+					data[q++] = (byte) (b == null ? 0 : Style.theme.brickStyle[b.getType()][2]);
 
 				}
 			}

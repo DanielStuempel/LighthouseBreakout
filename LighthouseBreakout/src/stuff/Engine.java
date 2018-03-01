@@ -36,11 +36,11 @@ public class Engine implements Runnable {
 		// TODO: improve
 		// TODO: don't output in engine thread
 		
-		 //random position when hitting ground for testing
-		 if (ball.pos.y == level.size.height - 1 || ball.pos.y == 0) {
-			 ball.pos.x = (int) (Math.random() * (level.size.width - 2)) + 1;
-			 ball.vel.x = (int) (Math.random() * 3) - 1;
-		 }
+		// random position when hitting ground for testing
+		if (ball.pos.y == level.size.height - 1 || ball.pos.y == 0) {
+			ball.pos.x = (int) (Math.random() * (level.size.width - 2)) + 1;
+			ball.vel.x = (int) (Math.random() * 3) - 1;
+		}
 
 		Point newPos = ball.pos.getLocation();
 		Point curPos = ball.pos.getLocation();
