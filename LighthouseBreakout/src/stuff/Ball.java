@@ -7,7 +7,7 @@ public class Ball {
 	public Point vel;
 
 	public Ball() {
-		this(1, 12);
+		this(0, 0);
 	}
 
 	public Ball(int x, int y) {

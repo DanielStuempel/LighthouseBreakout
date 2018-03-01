@@ -3,7 +3,6 @@ package stuff;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Point;
 import java.util.HashSet;
 
 import javax.swing.JPanel;
@@ -18,8 +17,6 @@ public class Display extends JPanel implements Runnable {
 	
 	private HashSet<String> args = new HashSet<String>();
 	
-	private TickTimer frameTimer;
-	
 	public Display(String... args) {
 		super();
 		parseArguments(args);
@@ -28,21 +25,22 @@ public class Display extends JPanel implements Runnable {
 	@Override
 	public void run() {
 		init();
-		frameTimer = new TickTimer() {
-			@Override
-			public void tick() {
+		while(true)
+			try {
 				main();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+				break;
 			}
-		};
-		Main.systemTimer.schedule(frameTimer, 0, 20);
 	}
 	
 	public void init() {
 		setPreferredSize(new Dimension(size.width * scale.width, size.height * scale.height));
-		setBackground(Style.theme.background);
+		setBackground(Style.background);
 	}
 	
-	public void main() {
+	public synchronized void main() throws InterruptedException {
+		this.wait();
 		if (!state_changed)
 			return;
 			state_changed = false;
@@ -56,22 +54,15 @@ public class Display extends JPanel implements Runnable {
 	
 	@Override
 	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
 		for (int p = 0, y = 0; y < size.height; y++) {
 			for (int x = 0; x < size.width; x++) {
 				Color c = new Color(
 						state[p++] & 0xff,
 						state[p++] & 0xff,
 						state[p++] & 0xff);
-				//TODO: only draw changes
 				drawRect(g, x, y, c);
 			}
-		}
-		if (args.contains("fps")) {
-			g.setColor(Color.WHITE);
-			g.drawString(
-					"fps:" + (int) frameTimer.getCurrentFPS(),
-					0,
-					getHeight());
 		}
 	}
 	
@@ -79,18 +70,17 @@ public class Display extends JPanel implements Runnable {
 		double
 		 width = getWidth() / size.getWidth(),
 		 height = getHeight() / size.getHeight();
-		Point offset = getLocation();
 		g.setColor(c);
 		g.fillRect(
-				offset.x + (int) (x * width),
-				offset.y + (int) (y * height),
+				(int) (x * width),
+				(int) (y * height),
 				(int) width + 1,
 				(int) height + 1);
 		if (args.contains("raster")) {
-			g.setColor(Style.theme.background);
+			g.setColor(Style.background);
 			g.drawRect(
-					offset.x + (int) (x * width),
-					offset.y + (int) (y * height),
+					(int) (x * width),
+					(int) (y * height),
 					(int) width + 1,
 					(int) height + 1);
 		}

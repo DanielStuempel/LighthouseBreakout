@@ -1,35 +1,58 @@
 package stuff;
 
 import java.awt.Color;
+import java.util.Arrays;
 
 public class Style {
-	public static Theme theme = Theme.DEFAULT;
-
+	
+	public static Color background;
+	public static Color ballColor;
+	public static Color[] brickColor = new Color[4];
+	
 	public static enum Theme {
-		ROOT(null), DARK(ROOT), LIGHT(ROOT);
-
-		public static final Theme DEFAULT = DARK;
-
-		public Color background;
-		public byte[][] brickStyle = new byte[10][3];
-		public Color ballColor;
+		DEFAULT(null),
+		DARK(DEFAULT),
+		LIGHT(DEFAULT),
+		COLORFUL(DEFAULT);
 		
+		private Theme parent;
+
 		private Theme(Theme parent) {
-			background = new Color(0, 0, 0);
-			
-			brickStyle[1][0] = 0;
-			brickStyle[1][1] = -1;
-			brickStyle[1][2] = 0;
-			
-			brickStyle[2][0] = -1;
-			brickStyle[2][1] = -1;
-			brickStyle[2][2] = 0;
-			
-			brickStyle[3][0] = -1;
-			brickStyle[3][1] = 0;
-			brickStyle[3][2] = 0;
-			
-			ballColor = new Color(255, 0, 255);
+			this.parent = parent;
 		}
+		
+		private Theme getParent() {
+			return parent;
+		}
+	}
+	
+	public static void loadTheme(Theme t) {
+		//TODO: improve
+		if (t == null)
+			return;
+		loadTheme(t.getParent());
+		switch (t) {
+		case DEFAULT:
+			background = Color.BLACK;
+			ballColor = Color.RED;
+			Arrays.fill(brickColor, Color.WHITE);
+			break;
+		case DARK:
+			Arrays.fill(brickColor, Color.GRAY);
+			break;
+		case LIGHT:
+			background = Color.GRAY;
+			break;
+		case COLORFUL:
+			background = Color.BLACK;
+			ballColor = Color.MAGENTA;
+			brickColor[1] = Color.GREEN;
+			brickColor[2] = Color.YELLOW;
+			brickColor[3] = Color.RED;
+			break;
+		default:
+			break;
+		}
+		brickColor[0] = background;
 	}
 }
