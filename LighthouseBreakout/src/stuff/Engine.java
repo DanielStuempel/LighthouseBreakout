@@ -41,15 +41,20 @@ public class Engine implements Runnable {
 			for (int x = 0; x < level.size.width; x++) {
 				// draw block
 				Brick b = level.get(x, y);
-				data[q++] = data[q++] = data[q++] = (byte) (b == null ? 0 : 100 + b.getType() * 10);
+				//Color Brick
+				//data[q++] = data[q++] = data[q++] = (byte) (b == null ? 0 : 100 + b.getType() * 10);
+				data[q++] = (byte) (b == null ? 0 : Style.theme.BrickStyle[b.getType()][0]);
+				data[q++] = (byte) (b == null ? 0 : Style.theme.BrickStyle[b.getType()][1]);
+				data[q++] = (byte) (b == null ? 0 : Style.theme.BrickStyle[b.getType()][2]);
+
 			}
 		}
 
 		// draw ball
 		int p = (ball.pos.x + ball.pos.y * 28) * 3;
-		data[p++] = -1;
-		data[p++] = 0;
-		data[p] = 0;
+		data[p++] = Style.theme.BallStyle[0];
+		data[p++] = Style.theme.BallStyle[1];
+		data[p] = Style.theme.BallStyle[2];
 
 		// random position when hitting ground for testing
 		// if (ball.pos.y == level.size.height - 1 || ball.pos.y == 0)
