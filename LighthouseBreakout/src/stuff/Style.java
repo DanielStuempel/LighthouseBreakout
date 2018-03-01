@@ -12,7 +12,7 @@ public class Style {
 
 		public Color background;
 		public byte[][] BrickStyle = new byte[10][3];
-		public byte[] BallStyle = new byte[3];
+		public Color ballColor;
 		
 		private Theme(Theme parent) {
 			background = new Color(0, 0, 0);
@@ -29,10 +29,7 @@ public class Style {
 			BrickStyle[3][1] = 0;
 			BrickStyle[3][2] = 0;
 			
-			
-			BallStyle[0] = -1;
-			BallStyle[1] = 0;
-			BallStyle[2] = -1;
+			ballColor = new Color(255, 0, 255);
 		}
 	}
 }

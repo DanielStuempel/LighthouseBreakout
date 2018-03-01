@@ -35,12 +35,12 @@ public class Level {
 					continue;
 
 				for (int x = 0; x < l.size.width; x++)
-					l.state[x][y] = l.map[y][x] == 0 ? null : new Brick(l.map[y][x]);
+					l.state[x][y] =  new Brick(l.map[y][x]);
 			}
 		return l;
 	}
 	
 	public Brick get(int x, int y) {
-		return state[x][y] == null ? null : state[x][y].isDestroyed() ? state[x][y] = null : state[x][y];
+		return state[x][y];
 	}
 }

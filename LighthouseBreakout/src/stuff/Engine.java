@@ -7,13 +7,12 @@ public class Engine implements Runnable {
 
 	private TickTimer gameTickTimer;
 	
-	private byte[] data;
 	Level level;
 	Ball ball;
 
-	public Engine(Level level, byte[] data) {
+	public Engine(Level level, Ball ball) {
 		this.level = level;
-		this.data = data;
+		this.ball = ball;
 	}
 
 	@Override
@@ -29,36 +28,19 @@ public class Engine implements Runnable {
 	}
 
 	public void init() {
-		ball = new Ball(1, 12);
-		ball.vel.x = -1;
-		ball.vel.y = 2;
+		ball.vel.x = 0;
+		ball.vel.y = 1;
 	}
 
 	public void main() {
 		// TODO: improve
 		// TODO: don't output in engine thread
-		for (int q = 0, y = 0; y < level.size.height; y++) {
-			for (int x = 0; x < level.size.width; x++) {
-				// draw block
-				Brick b = level.get(x, y);
-				//Color Brick
-				//data[q++] = data[q++] = data[q++] = (byte) (b == null ? 0 : 100 + b.getType() * 10);
-				data[q++] = (byte) (b == null ? 0 : Style.theme.BrickStyle[b.getType()][0]);
-				data[q++] = (byte) (b == null ? 0 : Style.theme.BrickStyle[b.getType()][1]);
-				data[q++] = (byte) (b == null ? 0 : Style.theme.BrickStyle[b.getType()][2]);
-
-			}
-		}
-
-		// draw ball
-		int p = (ball.pos.x + ball.pos.y * 28) * 3;
-		data[p++] = Style.theme.BallStyle[0];
-		data[p++] = Style.theme.BallStyle[1];
-		data[p] = Style.theme.BallStyle[2];
-
-		// random position when hitting ground for testing
-		// if (ball.pos.y == level.size.height - 1 || ball.pos.y == 0)
-		// ball.pos.x = (int) (Math.random() * (level.size.width - 2)) + 1;
+		
+		 //random position when hitting ground for testing
+		 if (ball.pos.y == level.size.height - 1 || ball.pos.y == 0) {
+			 ball.pos.x = (int) (Math.random() * (level.size.width - 2)) + 1;
+			 ball.vel.x = (int) (Math.random() * 3) - 1;
+		 }
 
 		Point newPos = ball.pos.getLocation();
 		Point curPos = ball.pos.getLocation();
@@ -66,89 +48,38 @@ public class Engine implements Runnable {
 		// distance the ball is to travel in each direction
 		Point dist = new Point(Math.abs(ball.vel.x), Math.abs(ball.vel.y));
 
-		// hold either one or negative one depending on balls direction of motion
-		Point dir = new Point(ball.vel.x / dist.x, ball.vel.y / dist.y);
-
-		Brick a, b, c;
+		// balls direction: -1, 0, 1
+		Point dir = new Point(
+				dist.x == 0 ? ball.vel.x : ball.vel.x / dist.x,
+				dist.y == 0 ? ball.vel.y : ball.vel.y / dist.y);
 
 		//TODO: brick might get hit twice and not be recognized as broken
 		//TODO: improve... a lot.
 		//TODO: implement helper functions
-		for (boolean collision = false; dist.x > 0 || dist.y > 0; collision = false) {
-//			System.out.println("testing pos " + curPos);
-//			System.out.println("left to go: " + dist);
+		//TODO: paddel
+		while (dist.x > 0 || dist.y > 0) {
 			newPos.x = curPos.x + (dist.x > 0 ? dir.x : 0);
 			newPos.y = curPos.y + (dist.y > 0 ? dir.y : 0);
 			if (dist.x > dist.y) {
-				if (newPos.x < 0 || newPos.x >= level.size.width) {
-					collision = true;
-				} else if (newPos.y >= 0 && newPos.y < level.size.height) {
-					a = level.get(newPos.x, curPos.y);
-					b = level.get(newPos.x, newPos.y);
-					if (a != null) {
-						a.hit();
-						collision = true;
-					}
-					if (b != null) {
-						b.hit();
-						collision = true;
-					}
-				}
-				if (collision) {
+				if (newPos.x < 0 || newPos.x >= level.size.width || newPos.y >= 0 && newPos.y < level.size.height && level.get(newPos.x, curPos.y).hit() | level.get(curPos.x, newPos.y).hit())
 					dir.x = -dir.x;
-				} else {
+				else {
 					dist.x--;
 					curPos.x += dir.x;
 				}
 			} else if (dist.x < dist.y) {
-				if (newPos.y < 0 || newPos.y >= level.size.height) {
-					// TODO: paddel
-					collision = true;
-				} else if (newPos.x >= 0 && newPos.x < level.size.width) {
-					a = level.get(curPos.x, newPos.y);
-					b = level.get(newPos.x, newPos.y);
-					if (a != null) {
-						a.hit();
-						collision = true;
-					}
-					if (b != null) {
-						b.hit();
-						collision = true;
-					}
-				}
-				if (collision) {
+				if (newPos.y < 0 || newPos.y >= level.size.height || newPos.x >= 0 && newPos.x < level.size.width && (level.get(curPos.x, newPos.y).hit() | level.get(newPos.x, newPos.y).hit()))
 					dir.y *= -1;
-				} else {
+				else {
 					dist.y--;
 					curPos.y += dir.y;
 				}
 			} else {
-				if (newPos.x < 0 || newPos.x >= level.size.width) {
-					//TODO: maybe use flag to not change at all
-					dir.y *= -1;
-					collision = true;
-				} else if (newPos.y < 0 || newPos.y >= level.size.height) {
-					//TODO: paddel
+				if (newPos.x < 0 || newPos.x >= level.size.width)
 					dir.x *= -1;
-					collision = true;
-				} else {
-					a = level.get(newPos.x, curPos.y);
-					b = level.get(curPos.x, newPos.y);
-					c = level.get(newPos.x, newPos.y);
-					if (a != null) {
-						a.hit();
-						collision = true;
-					}
-					if (b != null) {
-						b.hit();
-						collision = true;
-					}
-					if (c != null) {
-						c.hit();
-						collision = true;
-					}
-				}
-				if (collision) {
+				else if (newPos.y < 0 || newPos.y >= level.size.height)
+					dir.y *= -1;
+				else if (level.get(newPos.x, curPos.y).hit() | level.get(curPos.x, newPos.y).hit() | level.get(newPos.x, newPos.y).hit()) {
 					dir.x *= -1;
 					dir.y *= -1;
 				} else {
@@ -170,40 +101,11 @@ public class Engine implements Runnable {
 		if (ball.vel.y * dir.y < 0)
 			ball.vel.y *= -1;
 
-		/*
-		 * boolean changedX = false; boolean changedY = false;
-		 * 
-		 * 
-		 * if (ball.pos.x + ball.vel.x > 27) { ball.vel.x *= -1; changedX = true; } if
-		 * (ball.pos.x + ball.vel.x < 0) { ball.vel.x *= -1; changedX = true; } if
-		 * (ball.pos.y + ball.vel.y < 0) { ball.vel.y *= -1; changedY = true; } if
-		 * (ball.pos.y + ball.vel.y > 13) { ball.vel.y *= -1; changedY = true; }
-		 * 
-		 * Brick checkX = level.get(ball.pos.x + ball.vel.x, ball.pos.y); Brick checkY =
-		 * level.get(ball.pos.x, ball.pos.y + ball.vel.y); Brick checkXY =
-		 * level.get(ball.pos.x + ball.vel.x, ball.pos.y + ball.vel.y);
-		 * 
-		 * ball.pos.x += ball.vel.x; ball.pos.y += ball.vel.y;
-		 * 
-		 * if (checkX != null) { checkX.hit(); if (!changedX) ball.vel.x *= -1; changedX
-		 * = true; } if (checkY != null) { checkY.hit(); if (!changedY) ball.vel.y *=
-		 * -1; changedY = true; } if (checkXY != null) { checkXY.hit(); if (!changedX)
-		 * ball.vel.x *= -1; if (!changedY) ball.vel.y *= -1; }
-		 */
-
-		// ball.pos.x += ball.pos.x > 0 && ball.pos.x < 13 ? ball.vel.x : (ball.vel.x *=
-		// -1);
-		// ball.pos.y += ball.pos.y > 0 && ball.pos.y < 27 ? ball.vel.y : (ball.vel.y *=
-		// -1);
-
-		// ball.pos.x += ball.pos.x > 0 && ball.pos.x < level.size.width - 1
-		// && level.get(ball.pos.x + ball.vel.x, ball.pos.y) == null ? ball.vel.x
-		// : level.get(ball.pos.x - ball.vel.x, ball.pos.y) == null ? ball.vel.x *= -1 :
-		// 0;
-		// ball.pos.y += ball.pos.y > 0 && ball.pos.y < level.size.height - 1
-		// && level.get(ball.pos.x, ball.pos.y + ball.vel.y) == null ? ball.vel.y
-		// : level.get(ball.pos.x, ball.pos.y - ball.vel.y) == null ? ball.vel.y *= -1 :
-		// 0;
-		//
+//		ball.pos.x += ball.pos.x > 0 && ball.pos.x < level.size.width - 1
+//				&& level.get(ball.pos.x + ball.vel.x, ball.pos.y) == null ? ball.vel.x
+//						: level.get(ball.pos.x - ball.vel.x, ball.pos.y) == null ? ball.vel.x *= -1 : 0;
+//		ball.pos.y += ball.pos.y > 0 && ball.pos.y < level.size.height - 1
+//				&& level.get(ball.pos.x, ball.pos.y + ball.vel.y) == null ? ball.vel.y
+//						: level.get(ball.pos.x, ball.pos.y - ball.vel.y) == null ? ball.vel.y *= -1 : 0;
 	}
 }

@@ -16,20 +16,19 @@ public class Main {
 		Style.theme = Style.Theme.DARK;
 		byte[] data = new byte[length];
 		Level level = Level.buildLevel(1);
+		Ball ball = new Ball(13, 12);
 		
-		Display display = new Display("raster", "resizable", "fps");
+		Display display = new Display("raster", "fps");
 		Thread displayThread = new Thread(display, "displayThread");
 		displayThread.start();
 		
-		Engine engine = new Engine(level, data);
+		Engine engine = new Engine(level, ball);
 		Thread gameEngineThread = new Thread(engine, "gameEngineThread");
 		gameEngineThread.start();
 		
 		JFrame frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setSize(display.getSize());
-		//System.out.println(display.getSize());
-		//System.out.println(frame.getSize());
 		frame.setVisible(true);
 		frame.add(display);
 		frame.setSize(display.getPreferredSize());
@@ -37,6 +36,25 @@ public class Main {
 		while(true) {
 			//TODO: improve
 			sleep(1000 / frameRate);
+			for (int q = 0, y = 0; y < level.size.height; y++) {
+				for (int x = 0; x < level.size.width; x++) {
+					// draw block
+					Brick b = level.get(x, y);
+					//Color Brick
+					//data[q++] = data[q++] = data[q++] = (byte) (b == null ? 0 : 100 + b.getType() * 10);
+					data[q++] = (byte) (b == null ? 0 : Style.theme.BrickStyle[b.getType()][0]);
+					data[q++] = (byte) (b == null ? 0 : Style.theme.BrickStyle[b.getType()][1]);
+					data[q++] = (byte) (b == null ? 0 : Style.theme.BrickStyle[b.getType()][2]);
+
+				}
+			}
+
+			// draw ball
+			int p = (ball.pos.x + ball.pos.y * 28) * 3;
+			data[p++] = (byte) Style.theme.ballColor.getRed();
+			data[p++] = (byte) Style.theme.ballColor.getGreen();
+			data[p] = (byte) Style.theme.ballColor.getBlue();
+
 //			display.setSize(frame.getSize());
 			display.send(data);
 		}
