@@ -12,7 +12,7 @@ public class Engine implements Runnable {
 	Paddel paddel;
 	Ball ball;
 
-	public Engine(Level level, Paddel paddel, Ball ball, LinkedList<Animations> eventList,String... args) {
+	public Engine(Level level, Paddel paddel, Ball ball, LinkedList<Animation> eventList,String... args) {
 		this.level = level;
 		this.paddel = paddel;
 		this.ball = ball;

@@ -15,7 +15,7 @@ public class Main {
 	public static void main(String[] args) {
 		Style.loadTheme(Style.Theme.COLORFUL);
 		
-		LinkedList<Animations> eventList = null;
+		LinkedList<Animation> eventList = null;
 		final int KeyCodePaddelLeft = KeyEvent.VK_LEFT;
 		final int KeyCodePaddelRight = KeyEvent.VK_RIGHT;
 		
