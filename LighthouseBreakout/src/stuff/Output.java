@@ -10,7 +10,7 @@ public class Output implements Runnable {
 	private Level level;
 	private Paddel paddel;
 	private Ball ball;
-	public static LinkedList<Animation> eventList;
+	private LinkedList<Animation> eventList;
 	
 	public Output(Display display, byte[] data, Level level, Paddel paddel, Ball ball, LinkedList<Animation> eventList) {
 		this.display = display;
