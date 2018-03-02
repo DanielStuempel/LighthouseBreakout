@@ -2,8 +2,11 @@ package stuff;
 
 import java.util.Arrays;
 
-public enum Maps {
-	TEST(), CAU(), FULL();
+public enum Map {
+	TEST(),
+	CAU(),
+	FULL(),
+	EMPTY();
 	
 	public int[][] getMap() {
 		switch (this) {
@@ -32,6 +35,8 @@ public enum Maps {
 					{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
 					{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
 			};
+		case EMPTY:
+			return new int[14][28];
 		case FULL:
 			return new int[][]{
 					{3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3},

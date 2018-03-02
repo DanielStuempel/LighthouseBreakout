@@ -7,7 +7,7 @@ public class Level {
 	private Brick[][] state;
 	private int[][] map;
 	
-	public static Level buildLevel(Maps m) {
+	public static Level buildLevel(Map m) {
 		Level l = new Level();
 		l.state = new Brick[l.size.width][l.size.height];
 		l.map = m.getMap();
