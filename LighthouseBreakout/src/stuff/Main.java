@@ -21,7 +21,7 @@ public class Main {
 		
 		byte[] data = new byte[28 * 14 * 3];
 		
-		Level level = Level.buildLevel(Maps.TEST);
+		Level level = Level.buildLevel(Map.EMPTY);
 		Paddel paddel = new Paddel(11, 6);
 		Ball ball = new Ball(13, 13);
 		

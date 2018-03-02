@@ -73,28 +73,29 @@ public class Engine implements Runnable {
 		
 		boolean x, y;
 		while (dist.x > 0 || dist.y > 0) {
+			wait();
 			newPos.x = curPos.x + (dist.x > 0 ? dir.x : 0);
 			newPos.y = curPos.y + (dist.y > 0 ? dir.y : 0);
 			if (dist.x > dist.y) {
-				if (newPos.x < 0 || newPos.x >= level.size.width || newPos.y >= 0 && newPos.y < level.size.height - 1 && level.get(newPos.x, curPos.y).hit() | level.get(curPos.x, newPos.y).hit())
+				if (testWall(newPos.x) && testBrick(newPos.x, curPos.y) | testBrick(curPos.x, newPos.y))
 					dir.x = -dir.x;
 				else {
 					dist.x--;
 					curPos.x += dir.x;
 				}
 			} else if (dist.x < dist.y) {
-				if (newPos.y < 0 || newPos.y >= level.size.height - 1 || newPos.x >= 0 && newPos.x < level.size.width && (level.get(curPos.x, newPos.y).hit() | level.get(newPos.x, newPos.y).hit()))
+				if (testGround(newPos.y) || testCeiling(newPos.y) && (testBrick(curPos.x, newPos.y) | testBrick(newPos.x, newPos.y)))
 					dir.y *= -1;
 				else {
 					dist.y--;
 					curPos.y += dir.y;
 				}
 			} else {
-				if (newPos.x < 0 || newPos.x >= level.size.width)
+				if (testWall(newPos.x))
 					dir.x *= -1;
-				else if (newPos.y < 0 || newPos.y >= level.size.height -1)
+				else if (testGround(newPos.y) || testCeiling(newPos.y))
 					dir.y *= -1;
-				else if ((x = level.get(newPos.x, curPos.y).hit()) | (y = level.get(curPos.x, newPos.y).hit()) | level.get(newPos.x, newPos.y).hit())
+				else if ((x = testBrick(newPos.x, curPos.y)) | (y = testBrick(curPos.x, newPos.y)) | testBrick(newPos.x, newPos.y))
 					if (x && !y)
 						dir.x *= -1;
 					else if (y && !x)
@@ -121,12 +122,25 @@ public class Engine implements Runnable {
 			ball.vel.x *= -1;
 		if (ball.vel.y * dir.y < 0)
 			ball.vel.y *= -1;
+	}
 
-//		ball.pos.x += ball.pos.x > 0 && ball.pos.x < level.size.width - 1
-//				&& level.get(ball.pos.x + ball.vel.x, ball.pos.y) == null ? ball.vel.x
-//						: level.get(ball.pos.x - ball.vel.x, ball.pos.y) == null ? ball.vel.x *= -1 : 0;
-//		ball.pos.y += ball.pos.y > 0 && ball.pos.y < level.size.height - 1
-//				&& level.get(ball.pos.x, ball.pos.y + ball.vel.y) == null ? ball.vel.y
-//						: level.get(ball.pos.x, ball.pos.y - ball.vel.y) == null ? ball.vel.y *= -1 : 0;
+	private boolean testBrick(int x, int y) {
+		boolean hit = level.get(x, y).hit();
+		//TODO: animations and stuff
+		return hit;
+	}
+	
+	private boolean testWall(int x) {
+		boolean hit = x < 0 || x >= level.size.width;
+		return hit;
+	}
+	
+	private boolean testCeiling(int y) {
+		return y < 0;
+	}
+	
+	public boolean testGround(int y) {
+		//TODO: paddel
+		return y >= level.size.height - 1;
 	}
 }
