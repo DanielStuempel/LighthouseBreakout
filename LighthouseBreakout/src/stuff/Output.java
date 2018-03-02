@@ -1,7 +1,6 @@
 package stuff;
 
 import java.awt.Color;
-import java.awt.Point;
 import java.util.LinkedList;
 
 public class Output implements Runnable {
@@ -48,13 +47,11 @@ public class Output implements Runnable {
 
 	private synchronized void main() throws InterruptedException {
 		wait();
+		
 		for (int q = 0, y = 0; y < level.size.height; y++) {
 			for (int x = 0; x < level.size.width; x++) {
-				// draw block
+				// draw brick
 				Color c = Style.brickColor[level.get(x, y).getType()];
-				// Color Brick
-				// data[q++] = data[q++] = data[q++] = (byte) (b == null ? 0 : 100 + b.getType()
-				// * 10);
 				data[q++] = (byte) c.getRed();
 				data[q++] = (byte) c.getGreen();
 				data[q++] = (byte) c.getBlue();
@@ -62,10 +59,8 @@ public class Output implements Runnable {
 			}
 		}
 
-		// animation
+		//animations
 		Color[][] c = null;
-		Animation tail = new Animation(new Point (ball.pos), Color.MAGENTA, Animation.Type.TAIL);
-		eventList.add(tail);
 		for (int a = 0; a < eventList.size(); a++) {
 			c = eventList.get(a).next();
 			if (c == null) {
@@ -79,10 +74,9 @@ public class Output implements Runnable {
 						q += 3;
 						continue;
 					}
-					data[q++] = (byte) (c[x][y].getRed() / 1.5);
-					data[q++] = (byte) (c[x][y].getGreen() / 1.5);
-					data[q++] = (byte) (c[x][y].getBlue() / 1.5);
-
+					data[q++] = (byte) (c[x][y].getRed());
+					data[q++] = (byte) (c[x][y].getGreen());
+					data[q++] = (byte) (c[x][y].getBlue());
 				}
 			}
 		}

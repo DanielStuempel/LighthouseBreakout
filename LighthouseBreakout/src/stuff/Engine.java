@@ -1,5 +1,6 @@
 package stuff;
 
+import java.awt.Color;
 import java.awt.Point;
 import java.util.LinkedList;
 
@@ -51,13 +52,15 @@ public class Engine implements Runnable {
 	public synchronized void main() throws InterruptedException {
 		this.wait();
 		
+		Animation tail = new Animation(new Point (ball.pos), Color.MAGENTA, Animation.Type.TAIL);
+		eventList.add(tail);
+		
 		//random position when hitting ground for testing
 //		if (ball.pos.y == level.size.height - 1 || ball.pos.y == 0) {
 //			ball.pos.x = (int) (Math.random() * (level.size.width - 2)) + 1;
 //			ball.vel.x = (int) (Math.random() * 3) - 1;
 //		}
 		
-		//TODO: improve
 		if (paddel.pos + paddel.vel >= 0 && paddel.pos + paddel.size + paddel.vel <= level.size.width)
 			paddel.pos += paddel.vel;
 
@@ -69,8 +72,8 @@ public class Engine implements Runnable {
 
 		// balls direction: -1, 0, 1
 		Point dir = new Point(
-				dist.x == 0 ? ball.vel.x : ball.vel.x / dist.x,
-				dist.y == 0 ? ball.vel.y : ball.vel.y / dist.y);
+				dist.x == 0 ? 0 : ball.vel.x / dist.x,
+				dist.y == 0 ? 0 : ball.vel.y / dist.y);
 		
 		boolean x, y;
 		while (dist.x > 0 || dist.y > 0) {
@@ -123,7 +126,11 @@ public class Engine implements Runnable {
 		if (ball.vel.y * dir.y < 0)
 			ball.vel.y *= -1;
 	}
-
+	
+	private boolean testOnField(int x, int y) {
+		return x >= 0 && y >= 0 && x < level.size.width && y < level.size.width - 1;
+	}
+	
 	private boolean testBrick(int x, int y) {
 		boolean hit = level.get(x, y).hit();
 		if (hit) {
@@ -141,6 +148,10 @@ public class Engine implements Runnable {
 	
 	private boolean testCeiling(int y) {
 		return y < 0;
+	}
+	
+	private boolean testGround(int y) {
+		return y >= level.size.height - 1;
 	}
 	
 	private boolean testGround(int y, int x) {

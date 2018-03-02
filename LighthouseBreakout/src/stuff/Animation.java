@@ -5,43 +5,40 @@ import java.awt.Point;
 import java.util.Iterator;
 
 public class Animation implements Iterator<Color[][]> {
-
-	public int progress;
-	public Point point;
-	public Color color = Color.WHITE;
+	private int frame;
+	private Point origin;
+	private Color color;
 	private Type type;
 
 	public static enum Type {
 		TAIL(3), EXPLOSION(4);
 
-		private int length;
+		private int frameCount;
 
 		private Type(int l) {
-			length = l;
+			frameCount = l;
 		}
 
-		private int getLength() {
-			return length;
+		private int getFrameCount() {
+			return frameCount;
 		}
 	}
 
 	public Animation(Point origin, Color c, Type type) {
 		this.type = type;
-		this.point = origin;
-		this.color = c;
-		this.progress = 0;
+		this.origin = origin;
+		this.color = new Color((int) (c.getRed() / 1.5), (int) (c.getGreen() / 1.5), (int) (c.getBlue() / 1.5));
 	}
 
 	@Override
 	public boolean hasNext() {
-		return progress < type.getLength();
+		return frame < type.getFrameCount();
 	}
 
 	@Override
 	public Color[][] next() {
-		if (!hasNext()) {
+		if (!hasNext())
 			return null;
-		}
 		switch (type) {
 		case EXPLOSION:
 			return explosionStage();
@@ -54,20 +51,27 @@ public class Animation implements Iterator<Color[][]> {
 
 	private Color[][] tailStage() {
 		Color[][] tail = new Color[28][14];
-		if (progress == 0) tail[point.x][point.y] = color;
-		if (progress == 1) tail[point.x][point.y] = color;
-		if (progress == 2) tail[point.x][point.y] = color;
-		progress++;
+		switch (frame++) {
+		case 0:
+			tail[origin.x][origin.y] = color;
+			break;
+		case 1:
+			tail[origin.x][origin.y] = color;
+			break;
+		case 2:
+			tail[origin.x][origin.y] = color;
+			break;
+		}
 		return tail;
 	}
 
 	private Color[][] explosionStage() {
 		Color[][] explosion = new Color[28][14];
-		if (progress <= 1) {
+		if (frame++ <= 1) {
 			for (int x = 0; x < 28; x++) {
 				for (int y = 0; y < 14; y++) {
-					if (((point.x - 1 == x || point.x + 1 == x) && point.y == y)
-							|| ((point.y - 1 == y || point.y + 1 == y) && point.x == x)) {
+					if (((origin.x - 1 == x || origin.x + 1 == x) && origin.y == y)
+							|| ((origin.y - 1 == y || origin.y + 1 == y) && origin.x == x)) {
 						explosion[x][y] = color;
 					}
 				}
@@ -75,13 +79,12 @@ public class Animation implements Iterator<Color[][]> {
 		} else {
 			for (int x = 0; x < 28; x++) {
 				for (int y = 0; y < 14; y++) {
-					if (((point.x - 1 == x || point.x + 1 == x) && (point.y -1 == y || point.y +1 == y))){
+					if (((origin.x - 1 == x || origin.x + 1 == x) && (origin.y - 1 == y || origin.y + 1 == y))) {
 						explosion[x][y] = color;
 					}
 				}
 			}
 		}
-		progress++;
 		return explosion;
 	}
 }
