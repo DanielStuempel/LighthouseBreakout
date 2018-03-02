@@ -22,13 +22,12 @@ public class Engine implements Runnable {
 	public void run() {
 		init();
 		
-		while (true)
-			try {
+		try {
+			while (true)
 				main();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-				break;
-			}
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void init() {

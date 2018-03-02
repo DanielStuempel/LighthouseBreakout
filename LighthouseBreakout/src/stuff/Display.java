@@ -27,13 +27,12 @@ public class Display extends JPanel implements Runnable {
 	@Override
 	public void run() {
 		init();
-		while(true)
-			try {
+		try {
+			while (true)
 				main();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-				break;
-			}
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public void init() {
