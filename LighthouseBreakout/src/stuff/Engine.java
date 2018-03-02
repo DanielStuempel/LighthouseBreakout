@@ -124,7 +124,11 @@ public class Engine implements Runnable {
 
 	private boolean testBrick(int x, int y) {
 		boolean hit = level.get(x, y).hit();
-		//TODO: animations and stuff
+		if (hit) {
+			Brick b = level.get(x, y);
+			Animation expl = new Animation(new Point(x,y), Style.brickColor[b.getType()], Animation.Type.EXPLOSION);
+			Output.eventList.add(expl);
+		}
 		return hit;
 	}
 	

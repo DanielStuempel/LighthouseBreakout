@@ -12,7 +12,7 @@ public class Animation implements Iterator<Color[][]> {
 	private Type type;
 
 	public static enum Type {
-		TEST(5), EXPLOSION(101);
+		TEST(5), EXPLOSION(2);
 
 		private int length;
 
@@ -54,7 +54,7 @@ public class Animation implements Iterator<Color[][]> {
 
 	private Color[][] explosionStage() {
 		Color[][] explosion = new Color[28][14];
-		if (progress < 50) {
+		if (progress == 0) {
 			for (int x = 0; x < 28; x++) {
 				for (int y = 0; y < 14; y++) {
 					if (((point.x - 1 == x || point.x + 1 == x) && point.y == y)
@@ -72,9 +72,6 @@ public class Animation implements Iterator<Color[][]> {
 				}
 			}
 		}
-
-		if (progress >= 100)
-			progress = 0;
 		progress++;
 		return explosion;
 	}

@@ -10,7 +10,7 @@ public class Output implements Runnable {
 	private Level level;
 	private Paddel paddel;
 	private Ball ball;
-	private LinkedList<Animation> eventList;
+	public static LinkedList<Animation> eventList;
 	
 	public Output(Display display, byte[] data, Level level, Paddel paddel, Ball ball, LinkedList<Animation> eventList) {
 		this.display = display;
@@ -61,13 +61,12 @@ public class Output implements Runnable {
 		}
 		
 		//animation
-		Animation expl = new Animation(new Point(ball.pos), Color.WHITE, Animation.Type.EXPLOSION);
-		eventList.add(expl);
-		
 		Color[][] c = null;
+		try {
 		for (Animation a : eventList) {
 			c = a.next();
 			if (c == null) {
+				eventList.remove(a);
 				continue;
 			}
 			for (int q = 0, y = 0; y < level.size.height; y++) {
@@ -83,7 +82,9 @@ public class Output implements Runnable {
 
 				}
 			}
-			eventList.removeFirst();
+		}
+		}catch(Exception e) {
+			System.out.println("got another one");
 		}
 
 		//draw ball
