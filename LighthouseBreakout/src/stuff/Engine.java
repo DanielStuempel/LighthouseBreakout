@@ -1,6 +1,7 @@
 package stuff;
 
 import java.awt.Point;
+import java.util.LinkedList;
 
 public class Engine implements Runnable {
 //	private int tickRate = 100;	//100
@@ -11,7 +12,7 @@ public class Engine implements Runnable {
 	Paddel paddel;
 	Ball ball;
 
-	public Engine(Level level, Paddel paddel, Ball ball, String... args) {
+	public Engine(Level level, Paddel paddel, Ball ball, LinkedList<Animations> eventList,String... args) {
 		this.level = level;
 		this.paddel = paddel;
 		this.ball = ball;

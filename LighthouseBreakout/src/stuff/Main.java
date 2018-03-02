@@ -3,6 +3,7 @@ package stuff;
 import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.LinkedList;
 import java.util.Timer;
 
 import javax.swing.JFrame;
@@ -14,6 +15,7 @@ public class Main {
 	public static void main(String[] args) {
 		Style.loadTheme(Style.Theme.COLORFUL);
 		
+		LinkedList<Animations> eventList = null;
 		final int KeyCodePaddelLeft = KeyEvent.VK_LEFT;
 		final int KeyCodePaddelRight = KeyEvent.VK_RIGHT;
 		
@@ -27,7 +29,7 @@ public class Main {
 		Thread displayThread = new Thread(display, "displayThread");
 		displayThread.start();
 		
-		Engine engine = new Engine(level, paddel, ball);
+		Engine engine = new Engine(level, paddel, ball, eventList);
 		Thread gameEngineThread = new Thread(engine, "gameEngineThread");
 		gameEngineThread.start();
 		
