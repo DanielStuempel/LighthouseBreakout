@@ -11,7 +11,7 @@ public class Engine implements Runnable {
 	Level level;
 	Paddel paddel;
 	Ball ball;
-	LinkedList<Animation> eventList = new LinkedList<>();
+	LinkedList<Animation> eventList;
 
 	public Engine(Level level, Paddel paddel, Ball ball, LinkedList<Animation> eventList, String... args) {
 		this.level = level;
