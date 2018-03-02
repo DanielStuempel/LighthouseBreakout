@@ -11,8 +11,9 @@ public class Output implements Runnable {
 	private Paddel paddel;
 	private Ball ball;
 	private LinkedList<Animation> eventList;
-	
-	public Output(Display display, byte[] data, Level level, Paddel paddel, Ball ball, LinkedList<Animation> eventList) {
+
+	public Output(Display display, byte[] data, Level level, Paddel paddel, Ball ball,
+			LinkedList<Animation> eventList) {
 		this.display = display;
 		this.data = data;
 		this.level = level;
@@ -20,7 +21,7 @@ public class Output implements Runnable {
 		this.ball = ball;
 		this.eventList = eventList;
 	}
-	
+
 	@Override
 	public void run() {
 		init();
@@ -31,7 +32,7 @@ public class Output implements Runnable {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void init() {
 		Output o = this;
 		TickTimer outputTimer = new TickTimer() {
@@ -44,24 +45,27 @@ public class Output implements Runnable {
 		};
 		Main.timer.schedule(outputTimer, 0, 100);
 	}
-	
+
 	private synchronized void main() throws InterruptedException {
 		wait();
 		for (int q = 0, y = 0; y < level.size.height; y++) {
 			for (int x = 0; x < level.size.width; x++) {
 				// draw block
 				Color c = Style.brickColor[level.get(x, y).getType()];
-				//Color Brick
-				//data[q++] = data[q++] = data[q++] = (byte) (b == null ? 0 : 100 + b.getType() * 10);
+				// Color Brick
+				// data[q++] = data[q++] = data[q++] = (byte) (b == null ? 0 : 100 + b.getType()
+				// * 10);
 				data[q++] = (byte) c.getRed();
 				data[q++] = (byte) c.getGreen();
 				data[q++] = (byte) c.getBlue();
 
 			}
 		}
-		
-		//animation
+
+		// animation
 		Color[][] c = null;
+		Animation tail = new Animation(new Point (ball.pos), Color.MAGENTA, Animation.Type.TAIL);
+		eventList.add(tail);
 		for (int a = 0; a < eventList.size(); a++) {
 			c = eventList.get(a).next();
 			if (c == null) {
@@ -75,21 +79,21 @@ public class Output implements Runnable {
 						q += 3;
 						continue;
 					}
-					data[q++] = (byte) (c[x][y].getRed()/1.5);
-					data[q++] = (byte) (c[x][y].getGreen()/1.5);
-					data[q++] = (byte) (c[x][y].getBlue()/1.5);
+					data[q++] = (byte) (c[x][y].getRed() / 1.5);
+					data[q++] = (byte) (c[x][y].getGreen() / 1.5);
+					data[q++] = (byte) (c[x][y].getBlue() / 1.5);
 
 				}
 			}
 		}
 
-		//draw ball
+		// draw ball
 		int p = (ball.pos.x + ball.pos.y * 28) * 3;
 		data[p++] = (byte) Style.ballColor.getRed();
 		data[p++] = (byte) Style.ballColor.getGreen();
 		data[p] = (byte) Style.ballColor.getBlue();
-		
-		//draw paddel
+
+		// draw paddel
 		p = ((level.size.height - 1) * level.size.width + paddel.pos) * 3;
 		for (int i = 0; i < paddel.size; i++) {
 			data[p++] = -1;
