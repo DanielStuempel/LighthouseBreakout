@@ -1,6 +1,7 @@
 package stuff;
 
 import java.awt.Color;
+import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.LinkedList;
@@ -15,7 +16,11 @@ public class Main {
 	public static void main(String[] args) {
 		Style.loadTheme(Style.Theme.COLORFUL);
 		
-		LinkedList<Animation> eventList = null;
+		LinkedList<Animation> eventList = new LinkedList<>();
+		Animation expl = new Animation(new Point(12,12), Color.WHITE, Animation.Type.EXPLOSION);
+		eventList.add(expl);
+		System.out.println(eventList.size());
+		
 		final int KeyCodePaddelLeft = KeyEvent.VK_LEFT;
 		final int KeyCodePaddelRight = KeyEvent.VK_RIGHT;
 		

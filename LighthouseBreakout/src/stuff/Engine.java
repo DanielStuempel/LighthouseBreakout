@@ -73,7 +73,6 @@ public class Engine implements Runnable {
 		
 		boolean x, y;
 		while (dist.x > 0 || dist.y > 0) {
-			wait();
 			newPos.x = curPos.x + (dist.x > 0 ? dir.x : 0);
 			newPos.y = curPos.y + (dist.y > 0 ? dir.y : 0);
 			if (dist.x > dist.y) {
