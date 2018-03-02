@@ -62,9 +62,8 @@ public class Output implements Runnable {
 		
 		//animation
 		Color[][] c = null;
-		try {
-		for (Animation a : eventList) {
-			c = a.next();
+		for (int a = 0; a < eventList.size(); a++) {
+			c = eventList.get(a).next();
 			if (c == null) {
 				eventList.remove(a);
 				continue;
@@ -76,15 +75,12 @@ public class Output implements Runnable {
 						q += 3;
 						continue;
 					}
-					data[q++] = (byte) c[x][y].getRed();
-					data[q++] = (byte) c[x][y].getGreen();
-					data[q++] = (byte) c[x][y].getBlue();
+					data[q++] = (byte) (c[x][y].getRed()/1.5);
+					data[q++] = (byte) (c[x][y].getGreen()/1.5);
+					data[q++] = (byte) (c[x][y].getBlue()/1.5);
 
 				}
 			}
-		}
-		}catch(Exception e) {
-			System.out.println("got another one");
 		}
 
 		//draw ball
