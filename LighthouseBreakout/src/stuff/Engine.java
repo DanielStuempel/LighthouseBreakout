@@ -12,7 +12,7 @@ public class Engine implements Runnable {
 	Paddel paddel;
 	Ball ball;
 
-	public Engine(Level level, Paddel paddel, Ball ball, LinkedList<Animation> eventList,String... args) {
+	public Engine(Level level, Paddel paddel, Ball ball, LinkedList<Animation> eventList, String... args) {
 		this.level = level;
 		this.paddel = paddel;
 		this.ball = ball;
@@ -49,7 +49,7 @@ public class Engine implements Runnable {
 	public synchronized void main() throws InterruptedException {
 		this.wait();
 		
-		// random position when hitting ground for testing
+		//random position when hitting ground for testing
 //		if (ball.pos.y == level.size.height - 1 || ball.pos.y == 0) {
 //			ball.pos.x = (int) (Math.random() * (level.size.width - 2)) + 1;
 //			ball.vel.x = (int) (Math.random() * 3) - 1;
@@ -75,14 +75,14 @@ public class Engine implements Runnable {
 			newPos.x = curPos.x + (dist.x > 0 ? dir.x : 0);
 			newPos.y = curPos.y + (dist.y > 0 ? dir.y : 0);
 			if (dist.x > dist.y) {
-				if (testWall(newPos.x) && testBrick(newPos.x, curPos.y) | testBrick(curPos.x, newPos.y))
+				if (testWall(newPos.x) || !testCeiling(newPos.y) && !testGround(newPos.y, newPos.x) && testBrick(newPos.x, curPos.y) | testBrick(curPos.x, newPos.y))
 					dir.x = -dir.x;
 				else {
 					dist.x--;
 					curPos.x += dir.x;
 				}
 			} else if (dist.x < dist.y) {
-				if (testGround(newPos.y) || testCeiling(newPos.y) && (testBrick(curPos.x, newPos.y) | testBrick(newPos.x, newPos.y)))
+				if (testGround(newPos.y, newPos.x) || testCeiling(newPos.y) || !testWall(newPos.x) && (testBrick(curPos.x, newPos.y) | testBrick(newPos.x, newPos.y)))
 					dir.y *= -1;
 				else {
 					dist.y--;
@@ -91,7 +91,7 @@ public class Engine implements Runnable {
 			} else {
 				if (testWall(newPos.x))
 					dir.x *= -1;
-				else if (testGround(newPos.y) || testCeiling(newPos.y))
+				else if (testGround(newPos.y, newPos.x) || testCeiling(newPos.y))
 					dir.y *= -1;
 				else if ((x = testBrick(newPos.x, curPos.y)) | (y = testBrick(curPos.x, newPos.y)) | testBrick(newPos.x, newPos.y))
 					if (x && !y)
@@ -137,8 +137,17 @@ public class Engine implements Runnable {
 		return y < 0;
 	}
 	
-	public boolean testGround(int y) {
-		//TODO: paddel
-		return y >= level.size.height - 1;
+	private boolean testGround(int y, int x) {
+		boolean hit = y >= level.size.height - 1;
+		if (hit) {
+			if (!testPaddel(x)) {
+				System.out.println("n00b");
+			}
+		}
+		return hit;
+	}
+	
+	private boolean testPaddel(int x) {
+		return x >= paddel.pos && x <= paddel.pos + paddel.size;
 	}
 }

@@ -24,7 +24,7 @@ public class Main {
 		
 		Level level = Level.buildLevel(Map.CAU);
 		Paddel paddel = new Paddel(11, 6);
-		Ball ball = new Ball(13, 13);
+		Ball ball = new Ball(13, 11);
 		
 		Display display = new Display("raster", "fps");
 		Thread displayThread = new Thread(display, "displayThread");
@@ -75,38 +75,7 @@ public class Main {
 			public void keyTyped(KeyEvent arg0) { }
 		});
 		
+		//main thread becomes output thread
 		output.run();
-//		while(true) {
-			//TODO: improve
-//			sleep(20);
-//			for (int q = 0, y = 0; y < level.size.height; y++) {
-//				for (int x = 0; x < level.size.width; x++) {
-//					// draw block
-//					Color c = Style.brickColor[level.get(x, y).getType()];
-//					//Color Brick
-//					//data[q++] = data[q++] = data[q++] = (byte) (b == null ? 0 : 100 + b.getType() * 10);
-//					data[q++] = (byte) c.getRed();
-//					data[q++] = (byte) c.getGreen();
-//					data[q++] = (byte) c.getBlue();
-//
-//				}
-//			}
-//
-//			//draw ball
-//			int p = (ball.pos.x + ball.pos.y * 28) * 3;
-//			data[p++] = (byte) Style.ballColor.getRed();
-//			data[p++] = (byte) Style.ballColor.getGreen();
-//			data[p] = (byte) Style.ballColor.getBlue();
-//			
-//			//draw paddel
-//			p = ((level.size.height - 1) * level.size.width + paddel.pos) * 3;
-//			for (int i = 0; i < paddel.size; i++) {
-//				data[p++] = -1;
-//				data[p++] = -1;
-//				data[p++] = -1;
-//			}
-//
-//			display.send(data);
-//		}
 	}
 }
