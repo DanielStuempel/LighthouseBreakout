@@ -33,6 +33,17 @@ public class Engine implements Runnable {
 	public void init() {
 		ball.vel.x = 1;
 		ball.vel.y = 1;
+		
+		Engine e = this;
+		TickTimer gameTickTimer = new TickTimer() {
+			@Override
+			public void tick() {
+				synchronized (e) {
+					e.notify();
+				}
+			}
+		};
+		Main.timer.schedule(gameTickTimer, 0, 100);
 	}
 
 	public synchronized void main() throws InterruptedException {

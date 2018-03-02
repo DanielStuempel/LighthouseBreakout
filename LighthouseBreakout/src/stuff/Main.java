@@ -9,7 +9,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 public class Main {
-	private static Timer timer = new Timer();
+	public static Timer timer = new Timer();
 
 	public static void main(String[] args) {
 		Style.loadTheme(Style.Theme.COLORFUL);
@@ -23,33 +23,13 @@ public class Main {
 		Paddel paddel = new Paddel(11, 6);
 		Ball ball = new Ball(13, 13);
 		
-		Display display = new Display("raster");
+		Display display = new Display("raster", "fps");
 		Thread displayThread = new Thread(display, "displayThread");
 		displayThread.start();
 		
 		Engine engine = new Engine(level, paddel, ball);
 		Thread gameEngineThread = new Thread(engine, "gameEngineThread");
 		gameEngineThread.start();
-		
-		TickTimer frameRateTimer = new TickTimer() {
-			@Override
-			public void tick() {
-				synchronized (display) {
-					display.notify();
-				}
-			}
-		};
-		timer.schedule(frameRateTimer, 0, 20);
-		
-		TickTimer gameTickTimer = new TickTimer() {
-			@Override
-			public void tick() {
-				synchronized (engine) {
-					engine.notify();
-				}
-			}
-		};
-		timer.schedule(gameTickTimer, 0, 100);
 		
 		JFrame window = new JFrame();
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -121,12 +101,6 @@ public class Main {
 			}
 
 			display.send(data);
-			
-			window.getGraphics().drawString("fps:" + frameRateTimer.getCurrentFPS(), 0, window.getHeight());
-			
-			frameRateDisplay.setText("fps:" + frameRateTimer.getCurrentFPS());
-			
-//			System.out.println(frameRateTimer.getCurrentFPS());
 		}
 	}
 	

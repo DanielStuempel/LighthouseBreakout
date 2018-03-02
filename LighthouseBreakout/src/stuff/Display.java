@@ -17,6 +17,8 @@ public class Display extends JPanel implements Runnable {
 	
 	private HashSet<String> args = new HashSet<String>();
 	
+	TickTimer frameRateTimer;
+	
 	public Display(String... args) {
 		super();
 		parseArguments(args);
@@ -37,6 +39,18 @@ public class Display extends JPanel implements Runnable {
 	public void init() {
 		setPreferredSize(new Dimension(size.width * scale.width, size.height * scale.height));
 		setBackground(Style.background);
+		
+		Display d = this;
+		
+		frameRateTimer = new TickTimer() {
+			@Override
+			public void tick() {
+				synchronized (d) {
+					d.notify();
+				}
+			}
+		};
+		Main.timer.schedule(frameRateTimer, 0, 20);
 	}
 	
 	public synchronized void main() throws InterruptedException {
@@ -63,6 +77,10 @@ public class Display extends JPanel implements Runnable {
 						state[p++] & 0xff);
 				drawRect(g, x, y, c);
 			}
+		}
+		if (args.contains("fps")) {
+			g.setColor(Color.WHITE);
+			g.drawString("fps:" + frameRateTimer.getCurrentFPS(), 0, getHeight());
 		}
 	}
 	
