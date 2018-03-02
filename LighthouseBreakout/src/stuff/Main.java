@@ -16,11 +16,7 @@ public class Main {
 	public static void main(String[] args) {
 		Style.loadTheme(Style.Theme.COLORFUL);
 		
-		LinkedList<Animation> eventList = new LinkedList<>();
-		Animation expl = new Animation(new Point(12,12), Color.WHITE, Animation.Type.EXPLOSION);
-		eventList.add(expl);
-		System.out.println(eventList.size());
-		
+		LinkedList<Animation> eventList = new LinkedList<>();		
 		final int KeyCodePaddelLeft = KeyEvent.VK_LEFT;
 		final int KeyCodePaddelRight = KeyEvent.VK_RIGHT;
 		
@@ -34,7 +30,7 @@ public class Main {
 		Thread displayThread = new Thread(display, "displayThread");
 		displayThread.start();
 		
-		Output output = new Output(display, data, level, paddel, ball);
+		Output output = new Output(display, data, level, paddel, ball, eventList);
 		
 		Engine engine = new Engine(level, paddel, ball, eventList);
 		Thread gameEngineThread = new Thread(engine, "gameEngineThread");

@@ -1,6 +1,8 @@
 package stuff;
 
 import java.awt.Color;
+import java.awt.Point;
+import java.util.LinkedList;
 
 public class Output implements Runnable {
 	private Display display;
@@ -8,13 +10,15 @@ public class Output implements Runnable {
 	private Level level;
 	private Paddel paddel;
 	private Ball ball;
+	private LinkedList<Animation> eventList;
 	
-	public Output(Display display, byte[] data, Level level, Paddel paddel, Ball ball) {
+	public Output(Display display, byte[] data, Level level, Paddel paddel, Ball ball, LinkedList<Animation> eventList) {
 		this.display = display;
 		this.data = data;
 		this.level = level;
 		this.paddel = paddel;
 		this.ball = ball;
+		this.eventList = eventList;
 	}
 	
 	@Override
@@ -54,6 +58,32 @@ public class Output implements Runnable {
 				data[q++] = (byte) c.getBlue();
 
 			}
+		}
+		
+		//animation
+		Animation expl = new Animation(new Point(ball.pos), Color.WHITE, Animation.Type.EXPLOSION);
+		eventList.add(expl);
+		
+		Color[][] c = null;
+		for (Animation a : eventList) {
+			c = a.next();
+			if (c == null) {
+				continue;
+			}
+			for (int q = 0, y = 0; y < level.size.height; y++) {
+				for (int x = 0; x < level.size.width; x++) {
+					// draw block
+					if (c[x][y] == null) {
+						q += 3;
+						continue;
+					}
+					data[q++] = (byte) c[x][y].getRed();
+					data[q++] = (byte) c[x][y].getGreen();
+					data[q++] = (byte) c[x][y].getBlue();
+
+				}
+			}
+			eventList.removeFirst();
 		}
 
 		//draw ball
