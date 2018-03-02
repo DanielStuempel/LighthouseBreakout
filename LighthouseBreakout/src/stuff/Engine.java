@@ -11,11 +11,13 @@ public class Engine implements Runnable {
 	Level level;
 	Paddel paddel;
 	Ball ball;
+	LinkedList<Animation> eventList = new LinkedList<>();
 
 	public Engine(Level level, Paddel paddel, Ball ball, LinkedList<Animation> eventList, String... args) {
 		this.level = level;
 		this.paddel = paddel;
 		this.ball = ball;
+		this.eventList = eventList;
 	}
 	
 	@Override
@@ -127,7 +129,7 @@ public class Engine implements Runnable {
 		if (hit) {
 			Brick b = level.get(x, y);
 			Animation expl = new Animation(new Point(x,y), Style.brickColor[b.getType()+1], Animation.Type.EXPLOSION);
-			Output.eventList.add(expl);
+			eventList.add(expl);
 		}
 		return hit;
 	}
