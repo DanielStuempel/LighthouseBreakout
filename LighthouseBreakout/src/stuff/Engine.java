@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Point;
 import java.util.LinkedList;
 
+@Deprecated
 public class Engine implements Runnable {
 	Level level;
 	Paddel paddel;
