@@ -3,7 +3,6 @@ package stuff;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.util.HashSet;
 
 import javax.swing.JPanel;
 
@@ -15,13 +14,10 @@ public class Display extends JPanel implements Runnable {
 	
 	private volatile boolean state_changed;
 	
-	private HashSet<String> args = new HashSet<String>();
-	
 	TickTimer frameRateTimer;
 	
-	public Display(String... args) {
+	public Display() {
 		super();
-		parseArguments(args);
 	}
 	
 	@Override
@@ -49,7 +45,7 @@ public class Display extends JPanel implements Runnable {
 				}
 			}
 		};
-		Main.timer.schedule(frameRateTimer, 0, 20);
+		Main.timer.schedule(frameRateTimer, 0, Settings.FRAME_TICK_MS);
 	}
 	
 	public synchronized void main() throws InterruptedException {
@@ -58,11 +54,6 @@ public class Display extends JPanel implements Runnable {
 			return;
 			state_changed = false;
 			repaint();
-	}
-	
-	private void parseArguments(String[] args) {
-		for (String s : args)
-			this.args.add(s);
 	}
 	
 	@Override
@@ -77,7 +68,7 @@ public class Display extends JPanel implements Runnable {
 				drawRect(g, x, y, c);
 			}
 		}
-		if (args.contains("fps")) {
+		if (Settings.SHOW_FPS_ON_DISPLAY) {
 			g.setColor(Color.WHITE);
 			g.drawString("fps:" + frameRateTimer.getCurrentFPS(), 0, getHeight());
 		}
@@ -93,7 +84,7 @@ public class Display extends JPanel implements Runnable {
 				(int) (y * height),
 				(int) width + 1,
 				(int) height + 1);
-		if (args.contains("raster")) {
+		if (Settings.SHOW_RASTER_ON_DISPLAY) {
 			g.setColor(Style.background);
 			g.drawRect(
 					(int) (x * width),
@@ -104,7 +95,6 @@ public class Display extends JPanel implements Runnable {
 	}
 	
 	public void send(byte[] data) {
-		//TODO: validation
 		if (state.length != data.length)
 			throw new IllegalArgumentException();
 		state = data.clone();

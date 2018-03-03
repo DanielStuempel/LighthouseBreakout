@@ -3,6 +3,7 @@ package stuff;
 import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Timer;
 
@@ -11,8 +12,12 @@ import javax.swing.JLabel;
 
 public class Main {
 	public static Timer timer = new Timer();
-
+	
+	private static HashSet<String> args = new HashSet<String>();
+	
 	public static void main(String[] args) {
+		parseArguments(args);
+		
 		Style.loadTheme(Style.Theme.COLORFUL);
 		
 		LinkedList<Animation> eventList = new LinkedList<>();		
@@ -25,7 +30,7 @@ public class Main {
 		Paddel paddel = new Paddel(10, 8);
 		Ball ball = new Ball(13, 11);
 		
-		Display display = new Display("raster", "fps");
+		Display display = new Display();
 		Thread displayThread = new Thread(display, "displayThread");
 		displayThread.start();
 		
@@ -76,5 +81,11 @@ public class Main {
 		
 		//main thread becomes output thread
 		output.run();
+	}
+	
+
+	private static void parseArguments(String[] args) {
+		for (String s : args)
+			Main.args.add(s);
 	}
 }
