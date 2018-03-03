@@ -45,7 +45,7 @@ public class Display extends JPanel implements Runnable {
 				}
 			}
 		};
-		Main.timer.schedule(frameRateTimer, 0, Settings.FRAME_TICK_MS);
+		Main.systemTimer.schedule(frameRateTimer, 0, Settings.FRAME_TICK_MS);
 	}
 	
 	public synchronized void main() throws InterruptedException {

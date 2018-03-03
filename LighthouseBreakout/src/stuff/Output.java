@@ -42,7 +42,7 @@ public class Output implements Runnable {
 				}
 			}
 		};
-		Main.timer.schedule(outputTimer, 0, 100);
+		Main.systemTimer.schedule(outputTimer, 0, 100);
 	}
 
 	private synchronized void main() throws InterruptedException {

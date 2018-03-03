@@ -43,7 +43,7 @@ public class Engine implements Runnable {
 				}
 			}
 		};
-		Main.timer.schedule(gameTickTimer, 0, 100);
+		Main.systemTimer.schedule(gameTickTimer, 0, 100);
 	}
 
 	public synchronized void main() throws InterruptedException {

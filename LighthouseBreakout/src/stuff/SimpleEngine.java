@@ -42,7 +42,7 @@ public class SimpleEngine implements Runnable {
 				}
 			}
 		};
-		Main.timer.schedule(gameTickTimer, 0, Settings.GAME_TICK__MS);
+		Main.systemTimer.schedule(gameTickTimer, 0, Settings.GAME_TICK__MS);
 	}
 
 	public synchronized void main() throws InterruptedException {

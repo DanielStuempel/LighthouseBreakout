@@ -1,16 +1,30 @@
 package stuff;
 
-public class Settings {
-	//display settings
-	public static int FRAME_TICK_MS = 20;
-	public static boolean SHOW_FPS_ON_DISPLAY = true;
-	public static boolean SHOW_RASTER_ON_DISPLAY = true;
-	
-	//game engine settings
-	public static int GAME_TICK__MS = 100;
-	
-	//animation settings
-	public static boolean DO_ANIMATIONS = true;
-	public static boolean PLAYER_INVINCEBLE = false;
-	public static boolean BRICK_COLLISION = true;
+import java.awt.event.KeyEvent;
+
+class Settings {
+	// display settings
+	static int FRAME_TICK_MS = 20;
+	static boolean SHOW_FPS_ON_DISPLAY = true;
+	static boolean SHOW_RASTER_ON_DISPLAY = true;
+
+	// game engine settings
+	static int GAME_TICK__MS = 80;
+
+	// animation settings
+	static boolean DO_ANIMATIONS = true;
+	static boolean PLAYER_INVINCEBLE = false;
+	static boolean BRICK_COLLISION = true;
+
+	// window settings
+	static enum Keys {
+		PADDEL_LEFT(KeyEvent.VK_LEFT),
+		PADDEL_RIGHT(KeyEvent.VK_RIGHT);
+
+		int keyCode;
+
+		Keys(int keyCode) {
+			this.keyCode = keyCode;
+		}
+	}
 }
