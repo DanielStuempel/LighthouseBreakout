@@ -21,8 +21,8 @@ public class Main {
 		
 		byte[] data = new byte[28 * 14 * 3];
 		
-		Level level = Level.buildLevel(Map.CAU);
-		Paddel paddel = new Paddel(11, 6);
+		Level level = new Level(Map.CAU);
+		Paddel paddel = new Paddel(10, 8);
 		Ball ball = new Ball(13, 11);
 		
 		Display display = new Display("raster", "fps");
@@ -31,7 +31,7 @@ public class Main {
 		
 		Output output = new Output(display, data, level, paddel, ball, eventList);
 		
-		Engine engine = new Engine(level, paddel, ball, eventList);
+		SimpleEngine engine = new SimpleEngine(level, paddel, ball, eventList);
 		Thread gameEngineThread = new Thread(engine, "gameEngineThread");
 		gameEngineThread.start();
 		

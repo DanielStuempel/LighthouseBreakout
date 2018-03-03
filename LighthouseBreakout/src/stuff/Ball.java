@@ -14,5 +14,4 @@ public class Ball {
 		this.pos = pos;
 		vel = new Point();
 	}
-
 }
