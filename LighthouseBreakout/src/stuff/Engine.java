@@ -5,10 +5,6 @@ import java.awt.Point;
 import java.util.LinkedList;
 
 public class Engine implements Runnable {
-//	private int tickRate = 100;	//100
-
-//	private TickTimer gameTickTimer;
-	
 	Level level;
 	Paddel paddel;
 	Ball ball;
@@ -56,10 +52,10 @@ public class Engine implements Runnable {
 		eventList.add(tail);
 		
 		//random position when hitting ground for testing
-//		if (ball.pos.y == level.size.height - 1 || ball.pos.y == 0) {
+		if (ball.pos.y == level.size.height - 2 || ball.pos.y == 0) {
 //			ball.pos.x = (int) (Math.random() * (level.size.width - 2)) + 1;
-//			ball.vel.x = (int) (Math.random() * 3) - 1;
-//		}
+			ball.vel.x = (int) (Math.random() * 3) - 1;
+		}
 		
 		if (paddel.pos + paddel.vel >= 0 && paddel.pos + paddel.size + paddel.vel <= level.size.width)
 			paddel.pos += paddel.vel;
@@ -76,6 +72,7 @@ public class Engine implements Runnable {
 				dist.y == 0 ? 0 : ball.vel.y / dist.y);
 		
 		boolean x, y;
+		
 		while (dist.x > 0 || dist.y > 0) {
 			newPos.x = curPos.x + (dist.x > 0 ? dir.x : 0);
 			newPos.y = curPos.y + (dist.y > 0 ? dir.y : 0);
@@ -96,7 +93,10 @@ public class Engine implements Runnable {
 			} else {
 				if (testWall(newPos.x))
 					dir.x *= -1;
-				else if (testGround(newPos.y, newPos.x) || testCeiling(newPos.y))
+				else if (testGround(newPos.y, newPos.x)) {
+					dir.y *= -1;
+				
+				} else if (testCeiling(newPos.y))
 					dir.y *= -1;
 				else if ((x = testBrick(newPos.x, curPos.y)) | (y = testBrick(curPos.x, newPos.y)) | testBrick(newPos.x, newPos.y))
 					if (x && !y)
@@ -127,10 +127,6 @@ public class Engine implements Runnable {
 			ball.vel.y *= -1;
 	}
 	
-	private boolean testOnField(int x, int y) {
-		return x >= 0 && y >= 0 && x < level.size.width && y < level.size.width - 1;
-	}
-	
 	private boolean testBrick(int x, int y) {
 		boolean hit = level.get(x, y).hit();
 		if (hit) {
@@ -148,10 +144,6 @@ public class Engine implements Runnable {
 	
 	private boolean testCeiling(int y) {
 		return y < 0;
-	}
-	
-	private boolean testGround(int y) {
-		return y >= level.size.height - 1;
 	}
 	
 	private boolean testGround(int y, int x) {
