@@ -47,6 +47,8 @@ public class Main {
 					paddel.vel = -1;
 				else if (keyCode == Settings.Keys.PADDEL_RIGHT.keyCode)
 					paddel.vel = 1;
+				else if (keyCode == Settings.Keys.SWITCH_FPS_DISPLAY.keyCode)
+					Settings.SHOW_FPS_ON_DISPLAY ^= true;
 			}
 
 			@Override

@@ -19,7 +19,8 @@ class Settings {
 	// window settings
 	static enum Keys {
 		PADDEL_LEFT(KeyEvent.VK_LEFT),
-		PADDEL_RIGHT(KeyEvent.VK_RIGHT);
+		PADDEL_RIGHT(KeyEvent.VK_RIGHT),
+		SWITCH_FPS_DISPLAY(KeyEvent.VK_F1);
 
 		int keyCode;
 
