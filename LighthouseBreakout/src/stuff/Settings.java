@@ -9,7 +9,7 @@ class Settings {
 	static boolean SHOW_RASTER_ON_DISPLAY = true;
 
 	// game engine settings
-	static int GAME_TICK__MS = 80;
+	static int GAME_TICK__MS = 120;
 
 	// animation settings
 	static boolean DO_ANIMATIONS = true;
