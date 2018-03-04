@@ -23,7 +23,7 @@ public class Menu extends JPanel {
 
 
 	Menu() {
-		this.m = this;
+		Menu.m = this;
 
 		setBackground(Style.background);
 		setBorder(BorderFactory.createLineBorder(Style.border, 7));
@@ -76,7 +76,15 @@ public class Menu extends JPanel {
 	private void clicked(JButton b){
 		switch(b.getText()){
 		case "START":
+			System.out.println("start");
+			Settings.MENU_VIEW = false;
 			Settings.GAME_RUNNING = true;
+			break;
+		case "OPTIONS":
+			System.out.println("options");
+			break;
+		case "STYLE":
+			System.out.println("style");
 			break;
 		}
 	}

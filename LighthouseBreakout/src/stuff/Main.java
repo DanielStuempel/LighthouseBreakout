@@ -12,6 +12,7 @@ public class Main {
 	public static Timer systemTimer = new Timer();
 
 	private static HashSet<String> args = new HashSet<String>();
+	public static JFrame window = new MainWindow();
 
 	public static void main(String[] args) {
 		parseArguments(args);
@@ -22,7 +23,7 @@ public class Main {
 
 		byte[] data = new byte[28 * 14 * 3];
 
-		Level level = new Level(Map.CAU);
+		Level level = new Level(Map.FINAL);
 		SimplePaddel paddel = new SimplePaddel(10, 8);
 		SimpleBall ball = new SimpleBall(13, 11);
 
@@ -35,15 +36,11 @@ public class Main {
 		gameEngineThread.start();
 
 		Output output = new Output(display, data, level, paddel, ball, eventList);
-		JFrame window = new MainWindow();
-
-		Menu menu = new Menu();
 
 		window.setSize(display.getPreferredSize());
 
 		window.add(display);
-
-		System.out.println(window.getComponentCount());
+		window.setLocationRelativeTo(null);
 
 		window.addKeyListener(new KeyListener() {
 			@Override
@@ -57,6 +54,10 @@ public class Main {
 					Settings.SHOW_FPS_ON_DISPLAY ^= true;
 				else if (keyCode == Settings.Keys.SWITCH_GAME_RUNNING.keyCode)
 					Settings.GAME_RUNNING ^= true;
+				else if (keyCode == Settings.Keys.SWTICH_GAME_MENU.keyCode){
+					Settings.MENU_VIEW ^= true;
+					Settings.GAME_RUNNING ^= true;
+				}
 
 			}
 
