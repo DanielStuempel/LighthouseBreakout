@@ -15,12 +15,14 @@ class Settings {
 	static boolean DO_ANIMATIONS = true;
 	static boolean PLAYER_INVINCEBLE = false;
 	static boolean BRICK_COLLISION = true;
+	static boolean GAME_RUNNING = false;
 
 	// window settings
 	static enum Keys {
 		PADDEL_LEFT(KeyEvent.VK_LEFT),
 		PADDEL_RIGHT(KeyEvent.VK_RIGHT),
-		SWITCH_FPS_DISPLAY(KeyEvent.VK_F1);
+		SWITCH_FPS_DISPLAY(KeyEvent.VK_F1),
+		SWITCH_GAME_RUNNING(KeyEvent.VK_P);
 
 		int keyCode;
 
