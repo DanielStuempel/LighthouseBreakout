@@ -28,4 +28,7 @@ class Settings {
 			this.keyCode = keyCode;
 		}
 	}
+	
+	// other settings
+	public static final boolean CONNECT_TO_LIGHTHOUSE = false;
 }

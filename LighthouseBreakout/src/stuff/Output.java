@@ -8,7 +8,6 @@ import de.cau.infprogoo.lighthouse.LighthouseDisplay;
 import tokens.NoToken;
 
 public class Output implements Runnable {
-	private final boolean CONNECT = false;
 	private Display display;
 	private byte[] data;
 	private Level level;
@@ -40,7 +39,7 @@ public class Output implements Runnable {
 	}
 
 	public void init() {
-		if (CONNECT) {
+		if (Settings.CONNECT_TO_LIGHTHOUSE) {
 			lighthouseDisplay = new LighthouseDisplay(NoToken.USER, NoToken.TOKEN);
 			try {
 				lighthouseDisplay.connect();
@@ -111,7 +110,7 @@ public class Output implements Runnable {
 		}
 
 		display.send(data);
-		if (CONNECT) {
+		if (Settings.CONNECT_TO_LIGHTHOUSE) {
 			if (lighthouseDisplay.isConnected())
 				try {
 					lighthouseDisplay.send(data);
