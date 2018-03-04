@@ -8,13 +8,14 @@ import de.cau.infprogoo.lighthouse.LighthouseDisplay;
 import tokens.NoToken;
 
 public class Output implements Runnable {
+	private final boolean CONNECT = false;
 	private Display display;
 	private byte[] data;
 	private Level level;
 	private SimplePaddel paddel;
 	private SimpleBall ball;
 	private LinkedList<Animation> eventList;
-	
+
 	private LighthouseDisplay lighthouseDisplay;
 
 	public Output(Display display, byte[] data, Level level, SimplePaddel paddel, SimpleBall ball,
@@ -39,13 +40,14 @@ public class Output implements Runnable {
 	}
 
 	public void init() {
-		lighthouseDisplay = new LighthouseDisplay(NoToken.USER, NoToken.TOKEN);
-		try {
-			lighthouseDisplay.connect();
-		} catch (Exception e) {
-			e.printStackTrace();
+		if (CONNECT) {
+			lighthouseDisplay = new LighthouseDisplay(NoToken.USER, NoToken.TOKEN);
+			try {
+				lighthouseDisplay.connect();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
-		
 		Output o = this;
 		TickTimer outputTimer = new TickTimer() {
 			@Override
@@ -60,7 +62,7 @@ public class Output implements Runnable {
 
 	private synchronized void main() throws InterruptedException {
 		wait();
-		
+
 		for (int q = 0, y = 0; y < level.size.height; y++) {
 			for (int x = 0; x < level.size.width; x++) {
 				// draw brick
@@ -72,7 +74,7 @@ public class Output implements Runnable {
 			}
 		}
 
-		//animations
+		// animations
 		Color[][] c = null;
 		for (int a = 0; a < eventList.size(); a++) {
 			c = eventList.get(a).next();
@@ -109,12 +111,13 @@ public class Output implements Runnable {
 		}
 
 		display.send(data);
-
-		if (lighthouseDisplay.isConnected())
-			try {
-				lighthouseDisplay.send(data);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+		if (CONNECT) {
+			if (lighthouseDisplay.isConnected())
+				try {
+					lighthouseDisplay.send(data);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+		}
 	}
 }
