@@ -1,7 +1,11 @@
 package stuff;
 
 import java.awt.Color;
+import java.io.IOException;
 import java.util.LinkedList;
+
+import de.cau.infprogoo.lighthouse.LighthouseDisplay;
+import tokens.NoToken;
 
 public class Output implements Runnable {
 	private Display display;
@@ -10,6 +14,8 @@ public class Output implements Runnable {
 	private Paddel paddel;
 	private Ball ball;
 	private LinkedList<Animation> eventList;
+	
+	private LighthouseDisplay lighthouseDisplay;
 
 	public Output(Display display, byte[] data, Level level, Paddel paddel, Ball ball,
 			LinkedList<Animation> eventList) {
@@ -33,6 +39,13 @@ public class Output implements Runnable {
 	}
 
 	public void init() {
+		lighthouseDisplay = new LighthouseDisplay(NoToken.USER, NoToken.TOKEN);
+		try {
+			lighthouseDisplay.connect();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 		Output o = this;
 		TickTimer outputTimer = new TickTimer() {
 			@Override
@@ -96,5 +109,12 @@ public class Output implements Runnable {
 		}
 
 		display.send(data);
+
+		if (lighthouseDisplay.isConnected())
+			try {
+				lighthouseDisplay.send(data);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 	}
 }
