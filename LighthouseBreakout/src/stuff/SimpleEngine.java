@@ -51,7 +51,7 @@ public class SimpleEngine implements Runnable {
 	}
 
 	public synchronized void main() throws InterruptedException {
-		this.wait();
+		wait();
 
 		Animation tail = new Animation(new Point(ball.pos), Color.MAGENTA, Animation.Type.TAIL);
 		eventList.add(tail);

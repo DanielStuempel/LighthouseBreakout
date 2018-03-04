@@ -4,13 +4,13 @@ import java.awt.Color;
 import java.awt.Point;
 import java.util.LinkedList;
 
-public class Engine implements Runnable {
+public class OldEngine implements Runnable {
 	Level level;
 	SimplePaddel paddel;
 	SimpleBall ball;
 	LinkedList<Animation> eventList;
 
-	public Engine(Level level, SimplePaddel paddel, SimpleBall ball, LinkedList<Animation> eventList, String... args) {
+	public OldEngine(Level level, SimplePaddel paddel, SimpleBall ball, LinkedList<Animation> eventList, String... args) {
 		this.level = level;
 		this.paddel = paddel;
 		this.ball = ball;
@@ -33,7 +33,7 @@ public class Engine implements Runnable {
 		ball.vel.x = 1;
 		ball.vel.y = 2;
 		
-		Engine e = this;
+		OldEngine e = this;
 		TickTimer gameTickTimer = new TickTimer() {
 			@Override
 			public void tick() {
