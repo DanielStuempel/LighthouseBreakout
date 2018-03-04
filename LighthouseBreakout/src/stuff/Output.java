@@ -14,6 +14,7 @@ public class Output implements Runnable {
 	private SimplePaddel paddel;
 	private SimpleBall ball;
 	private LinkedList<Animation> eventList;
+	private LinkedList <Integer> remove = new LinkedList<>();
 
 	private LighthouseDisplay lighthouseDisplay;
 
@@ -72,13 +73,17 @@ public class Output implements Runnable {
 
 			}
 		}
+		for (Integer a : remove){
+			eventList.remove(a);
+		}
+		remove.clear();
 
 		// animations
 		Color[][] c = null;
 		for (int a = 0; a < eventList.size(); a++) {
 			c = eventList.get(a).next();
 			if (c == null) {
-				eventList.remove(a);
+				remove.add(a);
 				continue;
 			}
 			for (int q = 0, y = 0; y < level.size.height; y++) {
