@@ -1,5 +1,8 @@
 package stuff;
 
+import java.awt.Dimension;
+import java.awt.Point;
+
 public class Vector2f {
 	private float x, y;
 	
@@ -8,7 +11,19 @@ public class Vector2f {
 		this.y = y;
 	}
 	
-
+	public Vector2f(Vector2f vec) {
+		this.x = vec.x;
+		this.y = vec.y;
+	}
+	
+	public Vector2f(Dimension d) {
+		this((float) d.getWidth(), (float) d.getHeight());
+	}
+	
+	public Vector2f(Point p) {
+		this((float) p.getX(), (float) p.getY());
+	}
+	
 	public float length() {
 		return (float) Math.sqrt(x * x + y * y);
 	}
@@ -25,7 +40,7 @@ public class Vector2f {
 		return new Vector2f(x / length, y / length);
 	}
 	
-	public Vector2f rotate(float angle) {
+	public Vector2f rotateDegrees(float angle) {
 		double rad = Math.toRadians(angle);
 		double sin = Math.sin(rad);
 		double cos = Math.cos(rad);
@@ -33,8 +48,15 @@ public class Vector2f {
 		return new Vector2f((float) (x * cos - y * sin), (float) (x * sin - y * cos));
 	}
 	
+	public Vector2f rotate(float rad) {
+		double sin = Math.sin(rad);
+		double cos = Math.cos(rad);
+
+		return new Vector2f((float) (x * cos - y * sin), (float) (x * sin - y * cos));
+	}
+	
 	public float angle(Vector2f vec) {
-		return dot(vec) / ((length() * vec.length()));
+		return (float) Math.acos(dot(vec) / (length() * vec.length()));
 	}
 	
 	public Vector2f add(Vector2f vec) {
@@ -73,8 +95,16 @@ public class Vector2f {
 		return x;
 	}
 	
+	public void setX(float x) {
+		this.x = x;
+	}
+	
 	public float getY() {
 		return y;
+	}
+	
+	public void setY(float y) {
+		this.y = y;
 	}
 	
 	@Override
