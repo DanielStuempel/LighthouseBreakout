@@ -7,11 +7,11 @@ import java.util.LinkedList;
 @Deprecated
 public class Engine implements Runnable {
 	Level level;
-	Paddel paddel;
-	Ball ball;
+	SimplePaddel paddel;
+	SimpleBall ball;
 	LinkedList<Animation> eventList;
 
-	public Engine(Level level, Paddel paddel, Ball ball, LinkedList<Animation> eventList, String... args) {
+	public Engine(Level level, SimplePaddel paddel, SimpleBall ball, LinkedList<Animation> eventList, String... args) {
 		this.level = level;
 		this.paddel = paddel;
 		this.ball = ball;

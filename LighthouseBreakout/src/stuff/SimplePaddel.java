@@ -1,11 +1,11 @@
 package stuff;
 
-public class Paddel {
+public class SimplePaddel {
 	public int pos;
 	public int vel;
 	public int size;
 
-	public Paddel(int y, int w) {
+	public SimplePaddel(int y, int w) {
 		pos = y;
 		size = w;
 	}

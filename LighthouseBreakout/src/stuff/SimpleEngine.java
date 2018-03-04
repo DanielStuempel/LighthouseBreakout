@@ -6,11 +6,11 @@ import java.util.LinkedList;
 
 public class SimpleEngine implements Runnable {
 	Level level;
-	Paddel paddel;
-	Ball ball;
+	SimplePaddel paddel;
+	SimpleBall ball;
 	LinkedList<Animation> eventList;
 
-	public SimpleEngine(Level level, Paddel paddel, Ball ball, LinkedList<Animation> eventList, String... args) {
+	public SimpleEngine(Level level, SimplePaddel paddel, SimpleBall ball, LinkedList<Animation> eventList, String... args) {
 		this.level = level;
 		this.paddel = paddel;
 		this.ball = ball;

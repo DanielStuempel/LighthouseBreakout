@@ -23,8 +23,8 @@ public class Main {
 		byte[] data = new byte[28 * 14 * 3];
 		
 		Level level = new Level(Map.CAU);
-		Paddel paddel = new Paddel(10, 8);
-		Ball ball = new Ball(13, 11);
+		SimplePaddel paddel = new SimplePaddel(10, 8);
+		SimpleBall ball = new SimpleBall(13, 11);
 		
 		Display display = new Display();
 		Thread displayThread = new Thread(display, "displayThread");

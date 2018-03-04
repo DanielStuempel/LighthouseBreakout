@@ -11,13 +11,13 @@ public class Output implements Runnable {
 	private Display display;
 	private byte[] data;
 	private Level level;
-	private Paddel paddel;
-	private Ball ball;
+	private SimplePaddel paddel;
+	private SimpleBall ball;
 	private LinkedList<Animation> eventList;
 	
 	private LighthouseDisplay lighthouseDisplay;
 
-	public Output(Display display, byte[] data, Level level, Paddel paddel, Ball ball,
+	public Output(Display display, byte[] data, Level level, SimplePaddel paddel, SimpleBall ball,
 			LinkedList<Animation> eventList) {
 		this.display = display;
 		this.data = data;
