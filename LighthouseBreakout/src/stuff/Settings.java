@@ -15,16 +15,16 @@ class Settings {
 	static boolean DO_ANIMATIONS = true;
 	static boolean PLAYER_INVINCEBLE = false;
 	static boolean BRICK_COLLISION = true;
-	static boolean GAME_RUNNING = true;
-	static boolean MENU_VIEW = false;
+	static boolean GAME_RUNNING = false;
+	static boolean MENU_VIEW = true;
 
 	// window settings
 	static enum Keys {
 		PADDEL_LEFT(KeyEvent.VK_LEFT),
 		PADDEL_RIGHT(KeyEvent.VK_RIGHT),
 		SWITCH_FPS_DISPLAY(KeyEvent.VK_F1),
-		SWITCH_GAME_RUNNING(KeyEvent.VK_P),
-		SWTICH_GAME_MENU(KeyEvent.VK_ESCAPE);
+		PAUSE_GAME(KeyEvent.VK_P),
+		SHOW_MENU(KeyEvent.VK_ESCAPE);
 
 		int keyCode;
 

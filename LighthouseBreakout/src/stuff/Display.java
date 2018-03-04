@@ -13,7 +13,6 @@ public class Display extends JPanel implements Runnable {
 	private volatile byte[] state = new byte[size.width * size.height * 3];
 	
 	private volatile boolean state_changed;
-	private Menu menu = new Menu();
 	TickTimer frameRateTimer;
 	
 	public Display() {
@@ -49,22 +48,6 @@ public class Display extends JPanel implements Runnable {
 	}
 	
 	public synchronized void main() throws InterruptedException {
-		
-		//////////////////////////////////
-		if (Settings.MENU_VIEW && getComponentCount() < 1){
-			menu.setBounds(0,0,this.getWidth(),this.getHeight());
-			menu.setVisible(true);
-			add(menu);
-			repaint();
-			
-		} else if (!Settings.MENU_VIEW && getComponentCount() > 0) {
-			remove(menu);
-			repaint();
-			Main.window.requestFocusInWindow();	
-		}
-		
-		///////////////////////////////////
-		
 		this.wait();
 		if (!state_changed)
 			return;
