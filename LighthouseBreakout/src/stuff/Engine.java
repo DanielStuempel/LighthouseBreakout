@@ -6,8 +6,14 @@ public class Engine implements Runnable {
 	private Paddel pad;
 	private Ball ball;
 
+	private Display display;
+	
 	public Engine() {
 		
+	}
+	
+	public Engine(Display display) {
+		this.display = display;
 	}
 	
 	@Override
@@ -23,23 +29,26 @@ public class Engine implements Runnable {
 	}
 
 	private void init() {
-		pad = new Paddel(11, 13, 6);
-		ball = new Ball(14, 7);
+		pad = new Paddel(0, 13, 27);
+		ball = new Ball(0, 0);
+		
+		ball.setVelocity(1f, 1f);
 		
 		Engine e = this;
 		TickTimer gameTickTimer = new TickTimer() {
 			@Override
 			public void tick() {
 				synchronized (e) {
-					//pause function
-					if (Settings.GAME_RUNNING) e.notify();
+					e.notify();
 				}
 			}
 		};
-		Main.systemTimer.schedule(gameTickTimer, 0, Settings.GAME_TICK__MS);
+		Main.systemTimer.schedule(gameTickTimer, 0, 200);
 	}
 	
 	private synchronized void main() throws InterruptedException {
+		wait();
+		
 		pad.move();
 		if (pad.getPosition().getX() < 0) {
 			pad.setPosition(0);
@@ -52,29 +61,60 @@ public class Engine implements Runnable {
 		ball.move();
 		Vector2f pos = ball.getPosition();
 		Vector2f vel = ball.getVelocity();
-		float angle = vel.angle(pad.getVelocity());
-		if (pos.getX() < 0) {
+		Vector2f newPos = pos.add(vel);
+//		System.out.println(pos + ":" + vel);
+		float angle = vel.angle(new Vector2f(1, 0));
+//		System.out.println(angle);
+		
+		if (newPos.getX() < 0) {
 			ball.setPosition(0, pos.getY());
-			ball.setVelocity(vel.getX(), -vel.getY());
-		} else if (pos.getX() > 27) {
-			ball.setPosition(27, pos.getY());
-			ball.setVelocity(vel.getX(), -vel.getY());
-		} else if (pos.getY() < 0) {
-			ball.setPosition(pos.getX(), 0);
 			ball.setVelocity(-vel.getX(), vel.getY());
-		} else if (pos.getY() > 13) {
-			if (pos.getX() >= pad.getPosition().getX() && pos.getX() < pad.getPosition().getX()) {
-				ball.setPosition(pos.getX(), 13);
-				ball.setVelocity(vel.rotate((float) (Math.PI - 2 * angle)));
+		} else if (newPos.getX() > 27) {
+			ball.setPosition(27, pos.getY());
+			ball.setVelocity(-vel.getX(), vel.getY());
+		}
+		if (newPos.getY() < 0) {
+			ball.setPosition(pos.getX(), 0);
+			ball.setVelocity(vel.getX(), -vel.getY());
+		} else if (newPos.getY() > 13) {
+			if (newPos.getX() >= pad.getPosition().getX() && newPos.getX() < pad.getPosition().getX() + pad.getSize().getX() - 1) {
+				ball.setPosition(newPos.getX(), 12);
+				ball.setVelocity(vel.rotate((float) (Math.PI + 2 * angle)));
 			} else {
 				//loose
+				ball.setPosition(0, 0);
 			}
 		}
+		
+		byte[] data = new byte[28 * 14 * 3];
+		
+		int p = Math.round(ball.getPosition().getX() + ball.getPosition().getY() * 28) * 3;
+		data[p++] = (byte) Style.ballColor.getRed();
+		data[p++] = (byte) Style.ballColor.getGreen();
+		data[p] = (byte) Style.ballColor.getBlue();
+
+		// draw paddel
+		p = (int) (pad.getPosition().getX() + pad.getPosition().getY() * 28) * 3;
+		for (int i = 0; i < pad.getSize().getX(); i++) {
+			data[p++] = -1;
+			data[p++] = -1;
+			data[p++] = -1;
+		}
+		
+		display.send(data);
 	}
 	
 	//TODO:
 	public void changePaddelVelocity() {
 		
+	}
+	
+	public Ball getPosition() {
+		return ball;
+	}
+	
+	public Paddel getPaddel() {
+		return pad;
 	}
 
 	public void pause() {

@@ -29,7 +29,7 @@ public class Vector2f {
 	}
 	
 	public float dot(Vector2f vec) {
-		return x * vec.x + y + vec.x;
+		return x * vec.x + y * vec.y;
 	}
 	
 	public Vector2f normalize() {
@@ -41,18 +41,13 @@ public class Vector2f {
 	}
 	
 	public Vector2f rotateDegrees(float angle) {
-		double rad = Math.toRadians(angle);
-		double sin = Math.sin(rad);
-		double cos = Math.cos(rad);
-
-		return new Vector2f((float) (x * cos - y * sin), (float) (x * sin - y * cos));
+		return rotate((float) Math.toRadians(angle));
 	}
 	
 	public Vector2f rotate(float rad) {
 		double sin = Math.sin(rad);
 		double cos = Math.cos(rad);
-
-		return new Vector2f((float) (x * cos - y * sin), (float) (x * sin - y * cos));
+		return new Vector2f((float) (x * cos - y * sin), (float) (x * sin + y * cos));
 	}
 	
 	public float angle(Vector2f vec) {

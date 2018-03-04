@@ -1,7 +1,7 @@
 package stuff;
 
 public class Ball extends Entity {
-	public Ball(int x, int y) {
+	public Ball(float x, float y) {
 		setPosition(x, y);
 		setSize(1, 1);
 	}
