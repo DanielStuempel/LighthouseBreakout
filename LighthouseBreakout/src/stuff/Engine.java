@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Point;
 import java.util.LinkedList;
 
-@Deprecated
 public class Engine implements Runnable {
 	Level level;
 	SimplePaddel paddel;
@@ -32,7 +31,7 @@ public class Engine implements Runnable {
 
 	public void init() {
 		ball.vel.x = 1;
-		ball.vel.y = 1;
+		ball.vel.y = 2;
 		
 		Engine e = this;
 		TickTimer gameTickTimer = new TickTimer() {
