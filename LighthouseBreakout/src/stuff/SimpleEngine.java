@@ -57,7 +57,9 @@ public class SimpleEngine implements Runnable {
 		
 		Point newPos = new Point(ball.pos.x + ball.vel.x, ball.pos.y + ball.vel.y);
 		
-		boolean x, y;
+		boolean x, y, z;
+		int hitCount = 0;
+		
 		while (true) {
 		newPos = new Point(ball.pos.x + ball.vel.x, ball.pos.y + ball.vel.y);
 		//test walls
@@ -82,11 +84,15 @@ public class SimpleEngine implements Runnable {
 			ball.vel.y *= -1;
 		
 		else if (newPos.x == ball.pos.x && hitBrick(ball.pos.x, newPos.y)) {
-			hitBrick(ball.pos.x - 1, newPos.y);
-			hitBrick(ball.pos.x + 1, newPos.y);
+			hitCount = 1;
+			if (hitBrick(ball.pos.x - 1, newPos.y)) hitCount++;
+			if (hitBrick(ball.pos.x + 1, newPos.y)) hitCount++;
 			ball.vel.y *= -1;
 			
-		} else if ((x = hitBrick(newPos.x, ball.pos.y)) | (y = hitBrick(ball.pos.x, newPos.y)) | hitBrick(newPos.x, newPos.y))
+		} else if ((x = hitBrick(newPos.x, ball.pos.y)) | (y = hitBrick(ball.pos.x, newPos.y)) | (z = hitBrick(newPos.x, newPos.y))) {
+			if (x) hitCount++;
+			if (y) hitCount++;
+			if (z) hitCount++;
 			if (x && !y)
 				ball.vel.x *= -1;
 			else if (y && !x)
@@ -95,21 +101,23 @@ public class SimpleEngine implements Runnable {
 				ball.vel.x *= -1;
 				ball.vel.y *= -1;
 			}
-		else
+		} else
 			break;
 
-		}ball.pos.x+=ball.vel.x;ball.pos.y+=ball.vel.y;
-
+		}
+		ball.pos.x += ball.vel.x;
+		ball.pos.y += ball.vel.y;
+		
+		//hitCount
+		//eventList.add(new Animation(new Point(x,y), Style.brickColor[type], Animation.Type.EXPLOSION));
 	}
 	
 	private boolean hitBrick(int x, int y) {
 		if (x < 0 || y < 0 || x >= level.size.width || y >= level.size.height - 1)
 			return false;
 		Brick b = level.get(x, y);
-		int type = b.getType();
-		if (type == 0) return false;
+		if (b.getType() == 0) return false;
 		b.hit();
-		eventList.add(new Animation(new Point(x,y), Style.brickColor[type], Animation.Type.EXPLOSION));
 		return true;
 	}
 }
