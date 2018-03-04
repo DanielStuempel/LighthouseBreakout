@@ -24,7 +24,7 @@ public class SimpleEngine implements Runnable {
 
 		try {
 			while (true) {
-					main();
+				main();
 			}
 		} catch (InterruptedException e) {
 			e.printStackTrace();
@@ -40,8 +40,10 @@ public class SimpleEngine implements Runnable {
 			@Override
 			public void tick() {
 				synchronized (e) {
-					//pause function
-					if (Settings.GAME_RUNNING) e.notify();
+					// pause function
+					if (Settings.GAME_RUNNING) {
+						e.notify();
+					}
 				}
 			}
 		};

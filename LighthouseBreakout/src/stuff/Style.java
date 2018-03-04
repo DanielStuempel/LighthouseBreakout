@@ -8,6 +8,9 @@ public class Style {
 	public static Color background;
 	public static Color ballColor;
 	public static Color[] brickColor = new Color[4];
+	public static Color menuButton;
+	public static Color menuButtonOn;
+	public static Color border;
 	
 	public static enum Theme {
 		DEFAULT(null),
@@ -49,6 +52,9 @@ public class Style {
 			brickColor[1] = Color.GREEN;
 			brickColor[2] = Color.YELLOW;
 			brickColor[3] = Color.RED;
+			menuButton = Color.RED;
+			menuButtonOn = Color.WHITE;
+			border = Color.RED;
 			break;
 		default:
 			break;
