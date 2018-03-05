@@ -9,7 +9,7 @@ class Settings {
 	static boolean SHOW_RASTER_ON_DISPLAY = true;
 
 	// game engine settings
-	static int GAME_TICK__MS = 120;
+	static int GAME_TICK__MS = 13;
 
 	// animation settings
 	static boolean DO_ANIMATIONS = true;
@@ -17,6 +17,7 @@ class Settings {
 	static boolean BRICK_COLLISION = true;
 	static boolean GAME_RUNNING = false;
 	static boolean MENU_VIEW = true;
+	static boolean HAX_ON = false;
 
 	// window settings
 	static enum Keys {
@@ -24,7 +25,8 @@ class Settings {
 		PADDEL_RIGHT(KeyEvent.VK_RIGHT),
 		SWITCH_FPS_DISPLAY(KeyEvent.VK_F1),
 		PAUSE_GAME(KeyEvent.VK_P),
-		SHOW_MENU(KeyEvent.VK_ESCAPE);
+		SHOW_MENU(KeyEvent.VK_ESCAPE),
+		HAX_SWITCH(KeyEvent.VK_C);
 
 		int keyCode;
 

@@ -32,7 +32,7 @@ public class SimpleEngine implements Runnable {
 	}
 
 	public void init() {
-		ball.vel.x = 0;
+		ball.vel.x = 1;
 		ball.vel.y = 1;
 
 		SimpleEngine e = this;
@@ -75,14 +75,14 @@ public class SimpleEngine implements Runnable {
 			else if (newPos.y >= level.size.height - 1) {
 				if (newPos.x < paddel.pos || newPos.x > paddel.pos + paddel.size) {
 					ball.pos.x = 13;
-					ball.pos.y = 5;
-					ball.vel.x = 0;
+					ball.pos.y = 12;
+					ball.vel.x = 1;
 					ball.vel.y = 1;
 					paddel.pos = 11;
 					level.reset();
 					return;
-				} else if (ball.vel.x != paddel.vel)
-					ball.vel.x += paddel.vel;
+				} else if (paddel.vel != 0)
+					ball.vel.x = paddel.vel;
 				ball.vel.y *= -1;
 				// test ceiling
 			} else if (newPos.y < 0)
