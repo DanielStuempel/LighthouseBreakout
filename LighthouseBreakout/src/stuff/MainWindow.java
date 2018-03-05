@@ -37,6 +37,9 @@ public class MainWindow extends JFrame {
 				else if (keyCode == Settings.Keys.SHOW_MENU.keyCode) {
 					switchView();
 				}
+				else if (keyCode == Settings.Keys.HAX_SWITCH.keyCode) {
+					Settings.HAX_ON ^= true;
+				}
 			}
 
 			@Override
