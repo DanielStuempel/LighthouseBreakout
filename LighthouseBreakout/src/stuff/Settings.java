@@ -20,7 +20,7 @@ class Settings {
 	static boolean BRICK_COLLISION = true;
 	static boolean GAME_RUNNING = false;
 	static boolean MENU_VIEW = true;
-	static boolean HAX_ON = true;
+	static boolean HAX_ON = false;
 	static boolean OPTIONS_MENU = false;
 
 	// window settings
@@ -40,5 +40,5 @@ class Settings {
 	}
 	
 	// other settings
-	public static final boolean CONNECT_TO_LIGHTHOUSE = true;
+	public static final boolean CONNECT_TO_LIGHTHOUSE = false;
 }
