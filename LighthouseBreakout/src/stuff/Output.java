@@ -19,6 +19,8 @@ public class Output implements Runnable {
 	private LinkedList<Integer> remove = new LinkedList<>();
 
 	private LighthouseDisplay lighthouseDisplay;
+	
+	TickTimer outputTimer;
 
 	public Output(Display display, byte[] data, Level level, SimplePaddel paddel, SimpleBall ball,
 			LinkedList<Animation> eventList) {
@@ -51,7 +53,7 @@ public class Output implements Runnable {
 			}
 		}
 		Output o = this;
-		TickTimer outputTimer = new TickTimer() {
+		outputTimer = new TickTimer() {
 			@Override
 			public void tick() {
 				synchronized (o) {
@@ -59,11 +61,12 @@ public class Output implements Runnable {
 				}
 			}
 		};
-		Main.systemTimer.schedule(outputTimer, 0, 100);
+		Main.systemTimer.schedule(outputTimer, 0, 100);//Settings.GAME_TICK__MS);
 	}
 
 	private synchronized void main() throws InterruptedException {
 		wait();
+		
 
 		for (int q = 0, y = 0; y < level.size.height; y++) {
 			for (int x = 0; x < level.size.width; x++) {
@@ -76,17 +79,18 @@ public class Output implements Runnable {
 			}
 		}
 		// animations
-		for (Integer a : remove) {
-			eventList.remove(a.intValue());
-			System.out.println(eventList.size());
-		}
-		remove.clear();
-		
+//		for (int x = remove.size()-1; x >= 0; x--) {
+//			eventList.remove(x);
+//			System.out.println(eventList.size());
+//		}
+//		remove.clear();		
 		Color[][] c = null;
 		for (int a = 0; a < eventList.size(); a++) {
 			c = eventList.get(a).next();
 			if (c == null) {
-				remove.add(a);
+//				remove.add(a);
+				eventList.remove(a);
+				a--;
 				continue;
 			}
 			for (int q = 0, y = 0; y < level.size.height; y++) {

@@ -49,6 +49,7 @@ public class Animation implements Iterator<Color[][]> {
 			return null;
 		switch (type) {
 		case EXPLOSION:
+			this.color =  new Color((int) (color.getRed() / 2.5), (int) (color.getGreen() / 2.5), (int) (color.getBlue() / 2.5));
 			return explosionStage();
 		case BRICKHIT:
 			return hitStage();

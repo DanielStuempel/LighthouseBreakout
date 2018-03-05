@@ -7,14 +7,15 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 
 public class MainWindow extends JFrame {
 	
-	Menu menu;
+	Menu menu = new Menu();
+	OptionsMenu optionsMenu = new OptionsMenu(); 
 	Display display;
 
-	public MainWindow(Menu menu, Display display, SimplePaddel paddel) {
-		this.menu = menu;
+	public MainWindow(Display display, SimplePaddel paddel) {
 		this.display = display;
 		init(paddel);
 	}
@@ -68,6 +69,8 @@ public class MainWindow extends JFrame {
 			}
 		});
 		menu = new Menu();
+		
+		//MENU 
 		MenuButton btn_start = new MenuButton("START") {
 			@Override
 			public void onClick(ActionEvent e) {
@@ -77,18 +80,40 @@ public class MainWindow extends JFrame {
 		MenuButton btn_options = new MenuButton("OPTIONS") {
 			@Override
 			public void onClick(ActionEvent e) {
-				System.out.println("options");
+				switchMenu();
 			}
 		};
-		MenuButton btn_style = new MenuButton("STYLE") {
+		MenuButton btn_score = new MenuButton("SCORES") {
 			@Override
 			public void onClick(ActionEvent e) {
-				System.out.println("style");
+				System.out.println("score");
 			}
 		};
+		
+		//OPTIONS MENU
+		MenuButton btn_style = new MenuButton("STYLE: "+ Settings.THEME.toString()) {
+			@Override
+			public void onClick(ActionEvent e) {
+				switchTheme();
+			}
+		};
+		MenuButton btn_back = new MenuButton("BACK") {
+			@Override
+			public void onClick(ActionEvent e) {
+				System.out.println("back");
+				setContentPane(menu);
+				Settings.OPTIONS_MENU = false;
+				validate();
+			}
+		};
+		menu.add(new JLabel(" "));
 		menu.add(btn_start);
 		menu.add(btn_options);
-		menu.add(btn_style);
+		menu.add(btn_score);
+		
+		optionsMenu.add(new JLabel(""));
+		optionsMenu.add(btn_style);
+		optionsMenu.add(btn_back);
 
 		setSize(display.getPreferredSize());
 		setLayout(null);
@@ -97,9 +122,18 @@ public class MainWindow extends JFrame {
 
 		setVisible(true);
 	}
-
+	
+	private void switchTheme() {
+		System.out.println("only one Theme available right now");
+	}
+	private void switchMenu() {
+		if(Settings.OPTIONS_MENU ^= true) {
+			setContentPane(optionsMenu);
+		}
+		validate();
+	}
 	private void switchView() {
-		if (Settings.MENU_VIEW ^= true) {
+		if (!(Settings.MENU_VIEW ^= true)) {
 			Settings.GAME_RUNNING = false;
 			setContentPane(menu);
 		} else {

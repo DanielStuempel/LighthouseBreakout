@@ -10,24 +10,20 @@ public class Main {
 	public static Timer systemTimer = new Timer();
 
 	private static HashSet<String> args = new HashSet<String>();
-	
-	private static Display display;
-	private static Menu menu;
-	
+
 	public static void main(String[] args) {
 		parseArguments(args);
 
-		Style.loadTheme(Style.Theme.COLORFUL);
+		Style.loadTheme(Settings.THEME);
 
 		LinkedList<Animation> eventList = new LinkedList<>();
-
 		byte[] data = new byte[28 * 14 * 3];
 
 		Level level = new Level(Map.FINAL);
 		SimplePaddel paddel = new SimplePaddel(10, 8);
 		SimpleBall ball = new SimpleBall(13, 11);
 
-		display = new Display();
+		Display display = new Display();
 		Thread displayThread = new Thread(display, "displayThread");
 		displayThread.start();
 		
@@ -43,7 +39,7 @@ public class Main {
 		Thread gameEngineThread = new Thread(engine, "gameEngineThread");
 		gameEngineThread.start();
 
-		JFrame window = new MainWindow(menu, display, paddel);
+		JFrame window = new MainWindow(display, paddel);
 		
 		window.requestFocus();
 		

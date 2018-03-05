@@ -2,14 +2,17 @@ package stuff;
 
 import java.awt.event.KeyEvent;
 
+import stuff.Style.Theme;
+
 class Settings {
 	// display settings
 	static int FRAME_TICK_MS = 20;
 	static boolean SHOW_FPS_ON_DISPLAY = true;
 	static boolean SHOW_RASTER_ON_DISPLAY = true;
+	static Theme THEME = Style.Theme.COLORFUL;
 
 	// game engine settings
-	static int GAME_TICK__MS = 13;
+	static int GAME_TICK__MS = 100;
 
 	// animation settings
 	static boolean DO_ANIMATIONS = true;
@@ -17,7 +20,8 @@ class Settings {
 	static boolean BRICK_COLLISION = true;
 	static boolean GAME_RUNNING = false;
 	static boolean MENU_VIEW = true;
-	static boolean HAX_ON = false;
+	static boolean HAX_ON = true;
+	static boolean OPTIONS_MENU = false;
 
 	// window settings
 	static enum Keys {
@@ -36,5 +40,5 @@ class Settings {
 	}
 	
 	// other settings
-	public static final boolean CONNECT_TO_LIGHTHOUSE = false;
+	public static final boolean CONNECT_TO_LIGHTHOUSE = true;
 }
