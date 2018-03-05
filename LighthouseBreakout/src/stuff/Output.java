@@ -75,7 +75,6 @@ public class Output implements Runnable {
 				data[q++] = (byte) c.getRed();
 				data[q++] = (byte) c.getGreen();
 				data[q++] = (byte) c.getBlue();
-
 			}
 		}
 		// animations
@@ -90,6 +89,7 @@ public class Output implements Runnable {
 				c = eventList.get(i).next();
 			} catch (NullPointerException e) {
 				e.printStackTrace();
+				eventList.clear();
 				continue;
 			}
 			if (c == null) {
