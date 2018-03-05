@@ -14,8 +14,10 @@ public class MainWindow extends JFrame {
 	Menu menu = new Menu();
 	OptionsMenu optionsMenu = new OptionsMenu(); 
 	Display display;
+	
+	Engine engine;
 
-	public MainWindow(Display display, SimplePaddel paddel) {
+	public MainWindow(Display display, SimplePaddel paddel, Engine engine) {
 		this.display = display;
 		init(paddel);
 	}
@@ -28,9 +30,9 @@ public class MainWindow extends JFrame {
 			public void keyPressed(KeyEvent arg0) {
 				int keyCode = arg0.getKeyCode();
 				if (keyCode == Settings.Keys.PADDEL_LEFT.keyCode)
-					paddel.vel = -1;
+					engine.changePaddelVelocity(paddel.vel = -1);
 				else if (keyCode == Settings.Keys.PADDEL_RIGHT.keyCode)
-					paddel.vel = 1;
+					engine.changePaddelVelocity(paddel.vel = 1);
 				else if (keyCode == Settings.Keys.SWITCH_FPS_DISPLAY.keyCode)
 					Settings.SHOW_FPS_ON_DISPLAY ^= true;
 				else if (keyCode == Settings.Keys.PAUSE_GAME.keyCode)

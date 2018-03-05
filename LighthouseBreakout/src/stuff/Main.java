@@ -34,16 +34,16 @@ public class Main {
 		
 		Output output = new Output(display, data, level, paddel, ball, eventList);
 		
-		SimpleEngine engine = new SimpleEngine(level, paddel, ball, eventList);
-//		Engine engine = new Engine(display);
+//		SimpleEngine engine = new SimpleEngine(level, paddel, ball, eventList);
+		Engine engine = new Engine(display, level);
 		Thread gameEngineThread = new Thread(engine, "gameEngineThread");
 		gameEngineThread.start();
 
-		JFrame window = new MainWindow(display, paddel);
+		JFrame window = new MainWindow(display, paddel, engine);
 		window.setLocationRelativeTo(null);
 		window.requestFocus();
 		
-		output.run();
+//		output.run();
 	}
 	
 	private static void parseArguments(String[] args) {

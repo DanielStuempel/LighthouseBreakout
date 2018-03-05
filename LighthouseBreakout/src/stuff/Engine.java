@@ -1,5 +1,7 @@
 package stuff;
 
+import java.awt.Color;
+
 public class Engine implements Runnable {
 	private boolean running;
 
@@ -9,6 +11,8 @@ public class Engine implements Runnable {
 	private int newPaddelVelocity;
 	
 	private Display display;
+	
+	private Level level;
 
 	public Engine() {
 
@@ -16,6 +20,7 @@ public class Engine implements Runnable {
 
 	public Engine(Display display, Level level) {
 		this.display = display;
+		this.level = level;
 	}
 
 	@Override
@@ -66,6 +71,7 @@ public class Engine implements Runnable {
 		Vector2f pos = ball.getPosition();
 		Vector2f vel = ball.getVelocity();
 		Vector2f newPos = pos.add(vel);
+		
 		if (newPos.getX() < 0) {
 			ball.setPosition(0, pos.getY());
 			ball.setVelocity(-vel.getX(), vel.getY());
@@ -91,11 +97,23 @@ public class Engine implements Runnable {
 			}
 		}
 		
+		Brick b = level.get((int) ball.getPosition().getX(), (int) ball.getPosition().getX());
 		
+//		System.out.println(b.hit());
 		
 //		System.out.println(ball.getPosition() + ":" + ball.getVelocity() + ":" + ball.getVelocity().length());
 
 		byte[] data = new byte[28 * 14 * 3];
+		
+		for (int q = 0, y = 0; y < level.size.height; y++) {
+			for (int x = 0; x < level.size.width; x++) {
+				// draw brick
+				Color c = Style.brickColor[level.get(x, y).getType()];
+				data[q++] = (byte) c.getRed();
+				data[q++] = (byte) c.getGreen();
+				data[q++] = (byte) c.getBlue();
+			}
+		}
 
 		int p = ((int) ball.getPosition().getX() + (int) ball.getPosition().getY() * 28) * 3;
 		data[p++] = (byte) Style.ballColor.getRed();

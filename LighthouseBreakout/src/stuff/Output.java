@@ -4,8 +4,6 @@ import java.awt.Color;
 import java.io.IOException;
 import java.util.LinkedList;
 
-import javax.rmi.ssl.SslRMIClientSocketFactory;
-
 import de.cau.infprogoo.lighthouse.LighthouseDisplay;
 import tokens.NoToken;
 
@@ -16,7 +14,6 @@ public class Output implements Runnable {
 	private SimplePaddel paddel;
 	private SimpleBall ball;
 	private LinkedList<Animation> eventList;
-	private LinkedList<Integer> remove = new LinkedList<>();
 
 	private LighthouseDisplay lighthouseDisplay;
 	
@@ -67,7 +64,6 @@ public class Output implements Runnable {
 	private synchronized void main() throws InterruptedException {
 		wait();
 		
-
 		for (int q = 0, y = 0; y < level.size.height; y++) {
 			for (int x = 0; x < level.size.width; x++) {
 				// draw brick
@@ -77,16 +73,11 @@ public class Output implements Runnable {
 				data[q++] = (byte) c.getBlue();
 			}
 		}
-		// animations
-//		for (int x = remove.size()-1; x >= 0; x--) {
-//			eventList.remove(x);
-//			System.out.println(eventList.size());
-//		}
-//		remove.clear();	
+		
 		Color[][] c = null;
 		for (int i = 0; i < eventList.size(); i++) {
 			if (i >= eventList.size()) {
-				System.out.println("...");
+				System.out.println("caught a null pointer!");
 				break;
 			}
 			try {
@@ -97,7 +88,6 @@ public class Output implements Runnable {
 				continue;
 			}
 			if (c == null) {
-//				remove.add(a);
 				eventList.remove(i);
 				i--;
 				continue;
