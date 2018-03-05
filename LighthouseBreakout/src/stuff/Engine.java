@@ -45,7 +45,7 @@ public class Engine implements Runnable {
 				}
 			}
 		};
-		Main.systemTimer.schedule(gameTickTimer, 0, Settings.GAME_TICK__MS);
+		Main.systemTimer.schedule(gameTickTimer, 0, Settings.GAME_TICK_MS);
 	}
 
 	private synchronized void main() throws InterruptedException {

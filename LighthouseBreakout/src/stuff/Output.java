@@ -61,7 +61,7 @@ public class Output implements Runnable {
 				}
 			}
 		};
-		Main.systemTimer.schedule(outputTimer, 0, 100);//Settings.GAME_TICK__MS);
+		Main.systemTimer.schedule(outputTimer, 0, Settings.GAME_TICK_MS);//Settings.GAME_TICK__MS);
 	}
 
 	private synchronized void main() throws InterruptedException {
