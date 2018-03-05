@@ -105,8 +105,8 @@ public class Engine implements Runnable {
 	}
 	
 	//TODO:
-	public void changePaddelVelocity() {
-		
+	public void changePaddelVelocity(int x) {
+		pad.setVelocity(x, 0);
 	}
 	
 	public Ball getPosition() {
