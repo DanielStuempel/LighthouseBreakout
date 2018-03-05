@@ -5,6 +5,8 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionListener;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -26,6 +28,25 @@ public class MainWindow extends JFrame {
 	private void init(SimplePaddel paddel) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+		addMouseMotionListener(new MouseMotionListener() {
+			
+			@Override
+			public void mouseMoved(MouseEvent e) {
+				if (Settings.MOUSE_CONTROL && !Settings.HAX_ON) {
+					int pos = e.getX()*28/display.getWidth();
+					if (pos >= paddel.size/2 && pos <= 28-paddel.size/2 ) {
+						paddel.pos = pos-paddel.size/2;
+					}
+				}
+				
+			}
+			
+			@Override
+			public void mouseDragged(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 		addKeyListener(new KeyListener() {
 			@Override
 			public void keyPressed(KeyEvent arg0) {
@@ -43,6 +64,8 @@ public class MainWindow extends JFrame {
 				}
 				else if (keyCode == Settings.Keys.HAX_SWITCH.keyCode) {
 					Settings.HAX_ON ^= true;
+				}else if (keyCode == Settings.Keys.CONTROL_SWITCH.keyCode) {
+					Settings.MOUSE_CONTROL ^= true;
 				}
 			}
 

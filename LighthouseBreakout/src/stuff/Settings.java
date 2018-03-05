@@ -22,6 +22,7 @@ class Settings {
 	static boolean MENU_VIEW = true;
 	static boolean HAX_ON = false;
 	static boolean OPTIONS_MENU = false;
+	static boolean MOUSE_CONTROL = false;
 
 	// window settings
 	static enum Keys {
@@ -30,7 +31,8 @@ class Settings {
 		SWITCH_FPS_DISPLAY(KeyEvent.VK_F1),
 		PAUSE_GAME(KeyEvent.VK_P),
 		SHOW_MENU(KeyEvent.VK_ESCAPE),
-		HAX_SWITCH(KeyEvent.VK_C);
+		HAX_SWITCH(KeyEvent.VK_C), 
+		CONTROL_SWITCH(KeyEvent.VK_M);
 
 		int keyCode;
 
