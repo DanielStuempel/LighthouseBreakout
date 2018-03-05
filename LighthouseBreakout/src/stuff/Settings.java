@@ -12,7 +12,7 @@ class Settings {
 	static Theme THEME = Style.Theme.COLORFUL;
 
 	// game engine settings
-	static int GAME_TICK_MS = 10;
+	static int GAME_TICK_MS = 100;
 
 	// animation settings
 	static boolean DO_ANIMATIONS = true;
@@ -40,5 +40,5 @@ class Settings {
 	}
 	
 	// other settings
-	public static final boolean CONNECT_TO_LIGHTHOUSE = false;
+	public static final boolean CONNECT_TO_LIGHTHOUSE = true;
 }

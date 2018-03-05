@@ -82,7 +82,7 @@ public class SimpleEngine implements Runnable {
 					level.reset();
 					return;
 				} else if (paddel.vel != 0)
-					ball.vel.x = paddel.vel;
+					//ball.vel.x = paddel.vel;
 				ball.vel.y *= -1;
 				// test ceiling
 			} else if (newPos.y < 0)
