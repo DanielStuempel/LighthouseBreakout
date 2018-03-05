@@ -90,7 +90,7 @@ public class MainWindow extends JFrame {
 		setSize(display.getPreferredSize());
 		setLayout(null);
 
-		setContentPane(menu);
+		switchView();
 
 		setVisible(true);
 	}

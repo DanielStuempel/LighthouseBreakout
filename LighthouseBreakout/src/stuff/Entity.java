@@ -44,21 +44,4 @@ public abstract class Entity {
 	public void setSize(float x, float y) {
 		this.size = new Vector2f(x, y);
 	}
-	
-//	
-//	public Vector2f topLeft() {
-//		return position;
-//	}
-//	
-//	public Vector2f bottomLeft() {
-//		return position.add(new Vector2f(0, size.getY()));
-//	}
-//	
-//	public Vector2f topRight() {
-//		return position.add(new Vector2f(size.getX(), 0));
-//	}
-//	
-//	public Vector2f bottomRight() {
-//		return position.add(size);
-//	}
 }

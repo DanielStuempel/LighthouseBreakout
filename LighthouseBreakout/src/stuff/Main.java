@@ -1,8 +1,5 @@
 package stuff;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Timer;
@@ -36,7 +33,8 @@ public class Main {
 		
 		Output output = new Output(display, data, level, paddel, ball, eventList);
 		
-		SimpleEngine engine = new SimpleEngine(level, paddel, ball, eventList);
+//		SimpleEngine engine = new SimpleEngine(level, paddel, ball, eventList);
+		Engine engine = new Engine(display);
 		Thread gameEngineThread = new Thread(engine, "gameEngineThread");
 		gameEngineThread.start();
 
@@ -44,7 +42,7 @@ public class Main {
 		
 		window.requestFocus();
 		
-		output.run();
+//		output.run();
 	}
 	
 	private static void parseArguments(String[] args) {

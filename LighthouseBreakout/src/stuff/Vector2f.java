@@ -44,7 +44,7 @@ public class Vector2f {
 		return rotate((float) Math.toRadians(angle));
 	}
 	
-	public Vector2f rotate(float rad) {
+	public Vector2f rotate(double rad) {
 		double sin = Math.sin(rad);
 		double cos = Math.cos(rad);
 		return new Vector2f((float) (x * cos - y * sin), (float) (x * sin + y * cos));
