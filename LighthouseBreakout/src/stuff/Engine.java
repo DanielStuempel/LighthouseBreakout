@@ -1,6 +1,7 @@
 package stuff;
 
 import java.awt.Color;
+import java.awt.Point;
 
 public class Engine implements Runnable {
 	private boolean running;
@@ -37,9 +38,9 @@ public class Engine implements Runnable {
 
 	private void init() {
 		pad = new Paddel(9, 13, 10);
-		ball = new Ball(0, 0);
+		ball = new Ball(13, 10);
 
-		ball.setVelocity(0.3f, 0.8f);
+		ball.setVelocity(0f, 1f);
 
 		Engine e = this;
 		TickTimer gameTickTimer = new TickTimer() {
@@ -55,6 +56,8 @@ public class Engine implements Runnable {
 
 	private synchronized void main() throws InterruptedException {
 		wait();
+		if (!Settings.GAME_RUNNING)
+			return;
 
 		if (pad.getPosition().getX() + pad.getVelocity().getX() < 0) {
 			pad.setPosition(0);
@@ -73,33 +76,58 @@ public class Engine implements Runnable {
 		Vector2f newPos = pos.add(vel);
 		
 		if (newPos.getX() < 0) {
-			ball.setPosition(0, pos.getY());
-			ball.setVelocity(-vel.getX(), vel.getY());
+			pos = new Vector2f(0, pos.getY());
+			vel = new Vector2f(-vel.getX(), vel.getY());
 		} else if (newPos.getX() > 27) {
-			ball.setPosition(27, pos.getY());
-			ball.setVelocity(-vel.getX(), vel.getY());
+			pos = new Vector2f(27, pos.getY());
+			vel = new Vector2f(-vel.getX(), vel.getY());
 		}
 		if (newPos.getY() < 0) {
-			ball.setPosition(pos.getX(), 0);
-			ball.setVelocity(vel.getX(), -vel.getY());
+			pos = new Vector2f(pos.getX(), 0);
+			vel = new Vector2f(vel.getX(), -vel.getY());
 		} else if (newPos.getY() >= 13) {
 			if (pos.getX() >= pad.getPosition().getX() && pos.getX() < pad.getPosition().getX() + pad.getSize().getX()) {
-				ball.setPosition(pos.getX(), 12);
+				pos = new Vector2f(pos.getX(), 12);
 				float rotation = (float) vel.angle(vel.rotate(Math.PI + vel.angle(new Vector2f(1, 0)) * 2));
 				float scaling = (ball.getPosition().getX() - pad.getPosition().getX() - pad.getSize().getX() / 2) / pad.getSize().getX();
 				if (vel.getX() < 0)
 					rotation *= -1;
 				System.out.println(rotation + "+" + scaling);
-				ball.setVelocity(vel.rotate(Math.PI + rotation + scaling));
+				Vector2f tmp = vel.rotate(Math.PI + rotation + scaling);
+				float angle = vel.angle(new Vector2f(1, 0));
+				System.out.println(angle);
+				if (angle > 1 && angle < 2)
+					vel = new Vector2f(tmp);
+				else
+					vel = vel.rotate(Math.PI + rotation);
+				System.out.println(vel);
 			} else {
 				// loose
-				ball.setPosition(0, 0);
+				pos = new Vector2f(13, 10);
+				vel = new Vector2f(0, 1);
+				level.reset();
 			}
 		}
+
+//		pos = ball.getPosition();
+//		vel = ball.getVelocity();
+//		newPos = pos.add(vel);
 		
-		Brick b = level.get((int) ball.getPosition().getX(), (int) ball.getPosition().getX());
+		Point totalPos = new Point((int) pos.getX(), (int) pos.getY());
+		Brick brick = level.get(totalPos.x, totalPos.y);
+		boolean b = brick.hit();
 		
-//		System.out.println(b.hit());
+		if (b) {
+			if (pos.getX() - totalPos.x > pos.getY() - totalPos.y)
+				vel = new Vector2f(-vel.getX(), vel.getY());
+			else if (newPos.getX() - totalPos.x < newPos.getY() -totalPos.y)
+				vel = new Vector2f(vel.getX(), -vel.getY());
+			else;
+			vel = new Vector2f(ball.getVelocity().rotate(Math.PI));
+		}
+		
+		ball.setPosition(pos);
+		ball.setVelocity(vel);
 		
 //		System.out.println(ball.getPosition() + ":" + ball.getVelocity() + ":" + ball.getVelocity().length());
 

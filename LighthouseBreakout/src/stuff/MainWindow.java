@@ -19,6 +19,7 @@ public class MainWindow extends JFrame {
 
 	public MainWindow(Display display, SimplePaddel paddel, Engine engine) {
 		this.display = display;
+		this.engine = engine;
 		init(paddel);
 	}
 
@@ -49,9 +50,9 @@ public class MainWindow extends JFrame {
 			public void keyReleased(KeyEvent arg0) {
 				int keyCode = arg0.getKeyCode();
 				if (keyCode == Settings.Keys.PADDEL_LEFT.keyCode && paddel.vel == -1)
-					paddel.vel = 0;
+					engine.changePaddelVelocity(paddel.vel = 0);
 				else if (keyCode == Settings.Keys.PADDEL_RIGHT.keyCode && paddel.vel == 1)
-					paddel.vel = 0;
+					engine.changePaddelVelocity(paddel.vel = 0);
 			}
 
 			@Override
