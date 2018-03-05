@@ -94,6 +94,8 @@ public class Engine implements Runnable {
 				ball.setPosition(0, 0);
 			}
 		}
+		
+		
 
 //		System.out.println(ball.getPosition() + ":" + ball.getVelocity() + ":" + ball.getVelocity().length());
 
