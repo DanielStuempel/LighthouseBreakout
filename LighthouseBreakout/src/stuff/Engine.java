@@ -14,7 +14,7 @@ public class Engine implements Runnable {
 
 	}
 
-	public Engine(Display display) {
+	public Engine(Display display, Level level) {
 		this.display = display;
 	}
 
@@ -81,14 +81,10 @@ public class Engine implements Runnable {
 				ball.setPosition(pos.getX(), 12);
 				float rotation = (float) vel.angle(vel.rotate(Math.PI + vel.angle(new Vector2f(1, 0)) * 2));
 				float scaling = (ball.getPosition().getX() - pad.getPosition().getX() - pad.getSize().getX() / 2) / pad.getSize().getX();
-//				float scaling = 0;
-				if (vel.getX() < 0) {
+				if (vel.getX() < 0)
 					rotation *= -1;
-//					scaling *= -1;
-				}
 				System.out.println(rotation + "+" + scaling);
 				ball.setVelocity(vel.rotate(Math.PI + rotation + scaling));
-//				System.out.println(ball.getVelocity());
 			} else {
 				// loose
 				ball.setPosition(0, 0);
@@ -96,7 +92,7 @@ public class Engine implements Runnable {
 		}
 		
 		
-
+		
 //		System.out.println(ball.getPosition() + ":" + ball.getVelocity() + ":" + ball.getVelocity().length());
 
 		byte[] data = new byte[28 * 14 * 3];

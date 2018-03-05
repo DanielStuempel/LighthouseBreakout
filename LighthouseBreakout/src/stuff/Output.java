@@ -85,6 +85,10 @@ public class Output implements Runnable {
 //		remove.clear();	
 		Color[][] c = null;
 		for (int i = 0; i < eventList.size(); i++) {
+			if (i >= eventList.size()) {
+				System.out.println("...");
+				break;
+			}
 			try {
 				c = eventList.get(i).next();
 			} catch (NullPointerException e) {
