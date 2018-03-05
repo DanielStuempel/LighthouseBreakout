@@ -13,7 +13,6 @@ public class Main {
 	public static Timer systemTimer = new Timer();
 
 	private static HashSet<String> args = new HashSet<String>();
-	public static JFrame window = new MainWindow();
 	
 	private static Display display;
 	private static Menu menu;
@@ -46,32 +45,9 @@ public class Main {
 		Thread gameEngineThread = new Thread(engine, "gameEngineThread");
 		gameEngineThread.start();
 
-		menu = new Menu();
-		MenuButton btn_start = new MenuButton("START") {
-			@Override
-			public void onClick(ActionEvent e) {
-				switchView();
-			}
-		};
-		MenuButton btn_options = new MenuButton("OPTIONS") {
-			@Override
-			public void onClick(ActionEvent e) {
-				System.out.println("options");
-			}
-		};
-		MenuButton btn_style = new MenuButton("STYLE") {
-			@Override
-			public void onClick(ActionEvent e) {
-				System.out.println("style");
-			}
-		};
-		menu.add(btn_start);
-		menu.add(btn_options);
-		menu.add(btn_style);
-
-		window.setSize(display.getPreferredSize());
-		window.setLayout(null);
+		JFrame window = new MainWindow(menu, display, paddel);
 		
+<<<<<<< HEAD
 		window.setContentPane(menu);
 
 		window.setVisible(true);
@@ -112,22 +88,13 @@ public class Main {
 			public void keyTyped(KeyEvent arg0) { }
 		});
 
+=======
+>>>>>>> branch 'master' of https://github.com/Kubus2230/LighthouseBreakout.git
 		window.requestFocus();
 		
 		output.run();
 	}
 	
-	private static void switchView() {
-		if (Settings.MENU_VIEW ^= true) {
-			Settings.GAME_RUNNING = false;
-			window.setContentPane(menu);
-		} else {
-			window.setContentPane(display);
-			Settings.GAME_RUNNING = true;
-		}
-		window.validate();
-	}
-
 	private static void parseArguments(String[] args) {
 		for (String s : args)
 			Main.args.add(s);
