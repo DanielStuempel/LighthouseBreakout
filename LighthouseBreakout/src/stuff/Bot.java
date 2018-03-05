@@ -27,7 +27,7 @@ public class Bot implements Runnable {
 				}
 			}
 		};
-		Main.systemTimer.schedule(timer, 0, Settings.GAME_TICK__MS);
+		Main.systemTimer.schedule(timer, 0, Settings.GAME_TICK_MS);
 	}
 
 	private synchronized void main() throws InterruptedException {

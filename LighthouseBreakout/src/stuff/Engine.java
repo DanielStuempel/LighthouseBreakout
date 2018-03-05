@@ -6,6 +6,8 @@ public class Engine implements Runnable {
 	private Paddel pad;
 	private Ball ball;
 
+	private int newPaddelVelocity;
+	
 	private Display display;
 
 	public Engine() {
@@ -29,10 +31,10 @@ public class Engine implements Runnable {
 	}
 
 	private void init() {
-		pad = new Paddel(0, 13, 28);
+		pad = new Paddel(9, 13, 10);
 		ball = new Ball(0, 0);
 
-		ball.setVelocity(0.8f, 1.3f);
+		ball.setVelocity(0.3f, 0.8f);
 
 		Engine e = this;
 		TickTimer gameTickTimer = new TickTimer() {
@@ -43,31 +45,27 @@ public class Engine implements Runnable {
 				}
 			}
 		};
-		Main.systemTimer.schedule(gameTickTimer, 0, 200);
+		Main.systemTimer.schedule(gameTickTimer, 0, Settings.GAME_TICK_MS);
 	}
 
 	private synchronized void main() throws InterruptedException {
 		wait();
 
-		if (pad.getPosition().getX() < 0) {
+		if (pad.getPosition().getX() + pad.getVelocity().getX() < 0) {
 			pad.setPosition(0);
 			pad.setVelocity(0, 0);
-		} else if (pad.getPosition().getX() + pad.getSize().getX() > 27) {
+		} else if (pad.getPosition().getX() + pad.getSize().getX() + pad.getVelocity().getX() > 27) {
 			pad.setPosition(28 - pad.getSize().getX());
 			pad.setVelocity(0, 0);
+		} else {
+			pad.move();
 		}
+		pad.setVelocity(newPaddelVelocity, 0);
 
 		ball.move();
 		Vector2f pos = ball.getPosition();
 		Vector2f vel = ball.getVelocity();
 		Vector2f newPos = pos.add(vel);
-		float angle = vel.angle(new Vector2f(1, 0));
-//		if (vel.getX() < 0)
-//			angle = -angle;
-		// if (vel.getX() < 0)
-//		// angle = (float) Math.PI - angle;
-//		System.out.println(angle / Math.PI * 180);
-//		angle = (float) (angle / Math.PI * 180);
 		if (newPos.getX() < 0) {
 			ball.setPosition(0, pos.getY());
 			ball.setVelocity(-vel.getX(), vel.getY());
@@ -78,20 +76,28 @@ public class Engine implements Runnable {
 		if (newPos.getY() < 0) {
 			ball.setPosition(pos.getX(), 0);
 			ball.setVelocity(vel.getX(), -vel.getY());
-		} else if (newPos.getY() > 12) {
-			if (pos.getX() >= pad.getPosition().getX() && pos.getX() < pad.getPosition().getX() + pad.getSize().getX() - 1) {
+		} else if (newPos.getY() >= 13) {
+			if (pos.getX() >= pad.getPosition().getX() && pos.getX() < pad.getPosition().getX() + pad.getSize().getX()) {
 				ball.setPosition(pos.getX(), 12);
-				System.out.println(vel.angle(vel.rotate(Math.PI + angle * 2)) / Math.PI * 180);
-				System.out.println(vel.rotate(Math.PI + angle * 2).angle(new Vector2f(1, 0)) / Math.PI * 180);
-				ball.setVelocity(vel.rotate((float) (Math.PI + angle * 2)));
-//				ball.setVelocity(vel.rotateDegrees(180 + 2 * 58.39f));
+				float rotation = (float) vel.angle(vel.rotate(Math.PI + vel.angle(new Vector2f(1, 0)) * 2));
+				float scaling = (ball.getPosition().getX() - pad.getPosition().getX() - pad.getSize().getX() / 2) / pad.getSize().getX();
+//				float scaling = 0;
+				if (vel.getX() < 0) {
+					rotation *= -1;
+//					scaling *= -1;
+				}
+				System.out.println(rotation + "+" + scaling);
+				ball.setVelocity(vel.rotate(Math.PI + rotation + scaling));
+//				System.out.println(ball.getVelocity());
 			} else {
 				// loose
 				ball.setPosition(0, 0);
 			}
 		}
+		
+		
 
-		System.out.println(ball.getPosition() + ":" + ball.getVelocity() + ":" + ball.getVelocity().length());
+//		System.out.println(ball.getPosition() + ":" + ball.getVelocity() + ":" + ball.getVelocity().length());
 
 		byte[] data = new byte[28 * 14 * 3];
 
@@ -113,7 +119,7 @@ public class Engine implements Runnable {
 
 	// TODO:
 	public void changePaddelVelocity(int x) {
-		pad.setVelocity(x, 0);
+		newPaddelVelocity = x;
 	}
 
 	public Ball getPosition() {

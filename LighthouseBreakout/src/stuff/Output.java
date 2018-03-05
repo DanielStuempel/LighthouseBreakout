@@ -61,7 +61,7 @@ public class Output implements Runnable {
 				}
 			}
 		};
-		Main.systemTimer.schedule(outputTimer, 0, 100);//Settings.GAME_TICK__MS);
+		Main.systemTimer.schedule(outputTimer, 0, Settings.FRAME_TICK_MS);//Settings.GAME_TICK__MS);
 	}
 
 	private synchronized void main() throws InterruptedException {
@@ -83,14 +83,19 @@ public class Output implements Runnable {
 //			eventList.remove(x);
 //			System.out.println(eventList.size());
 //		}
-//		remove.clear();		
+//		remove.clear();	
 		Color[][] c = null;
-		for (int a = 0; a < eventList.size(); a++) {
-			c = eventList.get(a).next();
+		for (int i = 0; i < eventList.size(); i++) {
+			try {
+				c = eventList.get(i).next();
+			} catch (NullPointerException e) {
+				e.printStackTrace();
+				continue;
+			}
 			if (c == null) {
 //				remove.add(a);
-				eventList.remove(a);
-				a--;
+				eventList.remove(i);
+				i--;
 				continue;
 			}
 			for (int q = 0, y = 0; y < level.size.height; y++) {
