@@ -40,7 +40,7 @@ public class Main {
 		gameEngineThread.start();
 
 		JFrame window = new MainWindow(display, paddel);
-		
+		window.setLocationRelativeTo(null);
 		window.requestFocus();
 		
 		output.run();
