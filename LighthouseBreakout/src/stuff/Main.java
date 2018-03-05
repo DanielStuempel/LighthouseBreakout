@@ -45,49 +45,6 @@ public class Main {
 
 		JFrame window = new MainWindow(menu, display, paddel);
 		
-<<<<<<< HEAD
-		window.setContentPane(menu);
-
-		window.setVisible(true);
-		
-		window.addKeyListener(new KeyListener() {
-			@Override
-			public void keyPressed(KeyEvent arg0) {
-				int keyCode = arg0.getKeyCode();
-				if (keyCode == Settings.Keys.PADDEL_LEFT.keyCode)
-					paddel.vel = -1;
-				else if (keyCode == Settings.Keys.PADDEL_RIGHT.keyCode)
-					paddel.vel = 1;
-				else if (keyCode == Settings.Keys.SWITCH_FPS_DISPLAY.keyCode)
-					Settings.SHOW_FPS_ON_DISPLAY ^= true;
-				else if (keyCode == Settings.Keys.PAUSE_GAME.keyCode)
-					Settings.GAME_RUNNING ^= true;
-				else if (keyCode == Settings.Keys.SHOW_MENU.keyCode) {
-					switchView();
-				}
-				else if (keyCode == Settings.Keys.SHOW_MENU.keyCode) {
-					switchView();
-				}
-				else if (keyCode == Settings.Keys.HAX_SWITCH.keyCode) {
-					Settings.HAX_ON ^= true;
-				}
-			}
-
-			@Override
-			public void keyReleased(KeyEvent arg0) {
-				int keyCode = arg0.getKeyCode();
-				if (keyCode == Settings.Keys.PADDEL_LEFT.keyCode && paddel.vel == -1)
-					paddel.vel = 0;
-				else if (keyCode == Settings.Keys.PADDEL_RIGHT.keyCode && paddel.vel == 1)
-					paddel.vel = 0;
-			}
-			
-			@Override
-			public void keyTyped(KeyEvent arg0) { }
-		});
-
-=======
->>>>>>> branch 'master' of https://github.com/Kubus2230/LighthouseBreakout.git
 		window.requestFocus();
 		
 //		output.run();
