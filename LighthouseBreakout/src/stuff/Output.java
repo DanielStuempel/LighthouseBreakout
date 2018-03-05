@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.io.IOException;
 import java.util.LinkedList;
 
+import javax.rmi.ssl.SslRMIClientSocketFactory;
+
 import de.cau.infprogoo.lighthouse.LighthouseDisplay;
 import tokens.NoToken;
 
@@ -14,7 +16,7 @@ public class Output implements Runnable {
 	private SimplePaddel paddel;
 	private SimpleBall ball;
 	private LinkedList<Animation> eventList;
-	private LinkedList <Integer> remove = new LinkedList<>();
+	private LinkedList<Integer> remove = new LinkedList<>();
 
 	private LighthouseDisplay lighthouseDisplay;
 
@@ -73,12 +75,13 @@ public class Output implements Runnable {
 
 			}
 		}
-		for (Integer a : remove){
-			eventList.remove(a);
+		// animations
+		for (Integer a : remove) {
+			eventList.remove(a.intValue());
+			System.out.println(eventList.size());
 		}
 		remove.clear();
-
-		// animations
+		
 		Color[][] c = null;
 		for (int a = 0; a < eventList.size(); a++) {
 			c = eventList.get(a).next();
@@ -116,12 +119,20 @@ public class Output implements Runnable {
 
 		display.send(data);
 		if (Settings.CONNECT_TO_LIGHTHOUSE) {
-			if (lighthouseDisplay.isConnected())
+			if (lighthouseDisplay.isConnected()) {
 				try {
 					lighthouseDisplay.send(data);
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
+			} else { 
+				try {
+					lighthouseDisplay.connect();
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
 		}
 	}
 }

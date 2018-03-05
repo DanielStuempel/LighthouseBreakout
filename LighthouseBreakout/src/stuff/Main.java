@@ -35,6 +35,11 @@ public class Main {
 		Thread displayThread = new Thread(display, "displayThread");
 		displayThread.start();
 		
+		Bot bot = new Bot();
+		Thread botThread = new Thread(bot, "botThread");
+		bot.set(paddel,ball);
+		botThread.start();
+		
 		Output output = new Output(display, data, level, paddel, ball, eventList);
 		
 		SimpleEngine engine = new SimpleEngine(level, paddel, ball, eventList);
@@ -85,6 +90,12 @@ public class Main {
 					Settings.GAME_RUNNING ^= true;
 				else if (keyCode == Settings.Keys.SHOW_MENU.keyCode) {
 					switchView();
+				}
+				else if (keyCode == Settings.Keys.SHOW_MENU.keyCode) {
+					switchView();
+				}
+				else if (keyCode == Settings.Keys.HAX_SWITCH.keyCode) {
+					Settings.HAX_ON ^= true;
 				}
 			}
 
