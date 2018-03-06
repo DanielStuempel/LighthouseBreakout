@@ -36,8 +36,8 @@ public class Window extends JFrame {
 			@Override
 			public void mouseMoved(MouseEvent e) {
 				if (Settings.MOUSE_CONTROL && !Settings.HAX_ON) {
-					int pos = e.getX() * 28 / display.getWidth() - paddel.size / 2;
-					engine.changePaddelPosition(pos - engine.getPaddel().pos);
+					int pos = e.getX() * 28 / display.getWidth() - (int) paddel.getSize().getX() / 2;
+					engine.changePaddelPosition((int) (pos - engine.getPaddel().getPosition().getX()));
 				}
 			}
 
