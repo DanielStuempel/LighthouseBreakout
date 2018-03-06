@@ -46,8 +46,8 @@ public class Style {
 			background = Color.WHITE;
 			ballColor = Color.GREEN;
 			brickColor[1] = Color.YELLOW;
-			brickColor[2] = Color.BLUE;
-			brickColor[3] = Color.RED;
+			brickColor[3] = Color.BLUE;
+			brickColor[2] = new Color(255,96,96);
 			menuButton = Color.GREEN;
 			menuButtonOn = Color.LIGHT_GRAY;
 			border = Color.GREEN;

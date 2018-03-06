@@ -25,14 +25,21 @@ public class Animation implements Iterator<Color[][]> {
 	public Animation(Point origin, Color c, Type type) {
 		this.type = type;
 		this.origin = origin;
-		this.color = new Color((int) (c.getRed() /2), (int) (c.getGreen() / 2), (int) (c.getBlue() / 2));
+		if (Settings.THEME == Theme.LIGHT) {
+			int red = c.getRed() <= 200 ? c.getRed()+50 : c.getRed();
+			int green = c.getGreen() <= 200 ? c.getGreen()+50 : c.getGreen();
+			int blue = c.getBlue() <= 200 ? c.getBlue()+50 : c.getBlue();
+			this.color = new Color(red,green,blue);
+		} else {
+			this.color = new Color((int) (c.getRed() / 2), (int) (c.getGreen() / 2), (int) (c.getBlue() / 2));
+		}
 	}
-	
+
 	public Animation(Point origin, Brick brick, Type type) {
 		this.origin = origin;
 		this.type = type;
 		this.color = Style.brickColor[brick.getType()];
-		this.color2 =  Style.brickColor[brick.getType()-1]; 
+		this.color2 = Style.brickColor[brick.getType() - 1];
 	}
 
 	@Override
@@ -64,7 +71,7 @@ public class Animation implements Iterator<Color[][]> {
 			tail[origin.x][origin.y] = color;
 		return tail;
 	}
-	
+
 	private Color[][] hitStage() {
 		Color[][] hit = new Color[28][14];
 		if (frame <= type.frameCount / 4)
