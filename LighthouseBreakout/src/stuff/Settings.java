@@ -12,7 +12,7 @@ class Settings {
 	static Theme THEME = Style.Theme.COLORFUL;
 
 	// game engine settings
-	static int GAME_TICK_MS = 10;
+	static int GAME_TICK_MS = 100;
 	static int RESET_TIMEOUT = 200;
 
 	// animation settings

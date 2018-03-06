@@ -12,7 +12,7 @@ public class Animation implements Iterator<Color[][]> {
 	private Brick brick;
 
 	public static enum Type {
-		TAIL(2), EXPLOSION(4), BRICKHIT(4);
+		TAIL(8), EXPLOSION(4), BRICKHIT(4);
 
 		private int frameCount;
 
@@ -63,14 +63,10 @@ public class Animation implements Iterator<Color[][]> {
 
 	private Color[][] tailStage() {
 		Color[][] tail = new Color[28][14];
-		switch (frame++) {
-		case 0:
+		if (frame++ > type.getFrameCount() / 2)
 			tail[origin.x][origin.y] = color;
-			break;
-		case 1:
+		else
 			tail[origin.x][origin.y] = color;
-			break;
-		}
 		return tail;
 	}
 	
