@@ -13,7 +13,7 @@ public class Animation implements Iterator<Color[][]> {
 	private Type type;
 
 	public static enum Type {
-		TAIL(8), EXPLOSION(20), BRICKHIT(20);
+		TAIL(8), EXPLOSION(14), BRICKHIT(14);
 
 		private int frameCount;
 
