@@ -26,12 +26,13 @@ public class Animation implements Iterator<Color[][]> {
 		this.type = type;
 		this.origin = origin;
 		if (Settings.THEME == Theme.LIGHT) {
-			int red = c.getRed() <= 200 ? c.getRed()+50 : c.getRed();
-			int green = c.getGreen() <= 200 ? c.getGreen()+50 : c.getGreen();
-			int blue = c.getBlue() <= 200 ? c.getBlue()+50 : c.getBlue();
-			this.color = new Color(red,green,blue);
+			int red = c.getRed() <= 200 ? c.getRed() + 50 : c.getRed();
+			int green = c.getGreen() <= 200 ? c.getGreen() + 50 : c.getGreen();
+			int blue = c.getBlue() <= 200 ? c.getBlue() + 50 : c.getBlue();
+			this.color = new Color(red, green, blue);
 		} else {
-			this.color = new Color((int) (c.getRed() / 2.5), (int) (c.getGreen() / 2.5), (int) (c.getBlue() / 2.5));
+				this.color = new Color((int) (c.getRed() / 2.5), (int) (c.getGreen() / 2.5), (int) (c.getBlue() / 2.5));
+			
 		}
 	}
 

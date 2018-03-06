@@ -17,7 +17,8 @@ public class Style {
 		DEFAULT(null),
 		DARK(DEFAULT),
 		LIGHT(DEFAULT),
-		COLORFUL(DEFAULT);
+		COLORFUL(DEFAULT),
+		SPOOKY(DEFAULT);
 		
 		private Theme parent;
 
@@ -64,6 +65,17 @@ public class Style {
 			border = Color.RED;
 			paddel = Color.WHITE;
 			break;
+		case SPOOKY:
+			background = Color.BLACK;
+			ballColor = Color.WHITE;
+			brickColor[1] = new Color(69,100,150);
+			brickColor[2] = new Color(30,54,94);
+			brickColor[3] = new Color(5,21,48);
+			menuButton = Color.WHITE;
+			menuButtonOn = Color.RED;
+			border = Color.RED;
+			paddel = new Color(109,0,0);
+			break;
 		default:
 			break;
 		}
@@ -79,6 +91,9 @@ public class Style {
 		case DEFAULT:
 			break;
 		case LIGHT:
+			Settings.THEME = Theme.SPOOKY;
+			break;
+		case SPOOKY:
 			Settings.THEME = Theme.COLORFUL;
 			break;
 		default:

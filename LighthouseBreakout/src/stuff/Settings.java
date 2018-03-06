@@ -9,10 +9,10 @@ class Settings {
 	static int FRAME_TICK_MS = 20;
 	static boolean SHOW_FPS_ON_DISPLAY = true;
 	static boolean SHOW_RASTER_ON_DISPLAY = true;
-	static Theme THEME = Style.Theme.COLORFUL;
+	static Theme THEME = Style.Theme.SPOOKY;
 
 	// game engine settings
-	static int GAME_TICK_MS = 100;
+	static int GAME_TICK_MS = 80;
 	static int RESET_TIMEOUT = 200;
 
 	// animation settings

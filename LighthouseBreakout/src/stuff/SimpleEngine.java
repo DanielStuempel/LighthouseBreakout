@@ -61,7 +61,7 @@ public class SimpleEngine implements Runnable {
 		if (!Settings.GAME_RUNNING)
 			return;
 
-		Animation tail = new Animation(new Point(ball.pos), Color.MAGENTA, Animation.Type.TAIL);
+		Animation tail = new Animation(new Point(ball.pos), Style.ballColor, Animation.Type.TAIL);
 		eventList.add(tail);
 
 		// update paddel
