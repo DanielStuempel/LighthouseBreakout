@@ -11,8 +11,6 @@ import java.awt.event.MouseMotionListener;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
-import stuff.Style.Theme;
-
 public class Window extends JFrame {
 
 	Menu menu = new Menu();

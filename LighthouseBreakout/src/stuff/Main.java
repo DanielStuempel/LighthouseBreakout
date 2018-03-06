@@ -26,7 +26,7 @@ public class Main {
 		displayThread.start();
 		
 		SimpleEngine engine = new SimpleEngine(level, eventList);
-//		Engine engine = new Engine(display, level);
+//		Engine engine = new Engine(display.getWriter(), level);
 		Thread gameEngineThread = new Thread(engine, "gameEngineThread");
 		gameEngineThread.start();
 		

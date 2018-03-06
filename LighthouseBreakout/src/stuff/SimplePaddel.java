@@ -10,8 +10,8 @@ public class SimplePaddel {
 		pos = y;
 		size = w;
 	}
-	public int getPosition() {
-		return pos;
+	public Point getPosition() {
+		return new Point(pos, 13);
 	}
 	public Point getSize() {
 		return new Point(size,1);
