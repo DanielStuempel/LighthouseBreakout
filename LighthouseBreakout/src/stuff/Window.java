@@ -11,21 +11,23 @@ import java.awt.event.MouseMotionListener;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
-public class MainWindow extends JFrame {
+public class Window extends JFrame {
 	
 	Menu menu = new Menu();
 	OptionsMenu optionsMenu = new OptionsMenu(); 
 	Display display;
 	
 	SimpleEngine engine;
-
-	public MainWindow(Display display, SimplePaddel paddel, SimpleEngine engine) {
+	
+	public Window(Display display, SimpleEngine engine) {
 		this.display = display;
 		this.engine = engine;
-		init(paddel);
+		init();
 	}
 
-	private void init(SimplePaddel paddel) {
+	private void init() {
+		SimplePaddel paddel = engine.getPaddel();
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		addMouseMotionListener(new MouseMotionListener() {
@@ -47,6 +49,7 @@ public class MainWindow extends JFrame {
 				
 			}
 		});
+		
 		addKeyListener(new KeyListener() {
 			@Override
 			public void keyPressed(KeyEvent arg0) {
@@ -94,6 +97,7 @@ public class MainWindow extends JFrame {
 				requestFocus();
 			}
 		});
+		
 		menu = new Menu();
 		
 		//MENU 
@@ -132,6 +136,7 @@ public class MainWindow extends JFrame {
 				validate();
 			}
 		};
+		
 		menu.add(new JLabel(" "));
 		menu.add(btn_start);
 		menu.add(btn_options);
@@ -152,12 +157,14 @@ public class MainWindow extends JFrame {
 	private void switchTheme() {
 		System.out.println("only one Theme available right now");
 	}
+	
 	private void switchMenu() {
 		if(Settings.OPTIONS_MENU ^= true) {
 			setContentPane(optionsMenu);
 		}
 		validate();
 	}
+	
 	private void switchView() {
 		if (!(Settings.MENU_VIEW ^= true)) {
 			Settings.GAME_RUNNING = false;
@@ -168,5 +175,4 @@ public class MainWindow extends JFrame {
 		}
 		validate();
 	}
-
 }

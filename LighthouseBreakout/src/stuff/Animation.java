@@ -30,6 +30,7 @@ public class Animation implements Iterator<Color[][]> {
 		this.origin = origin;
 		this.color = new Color((int) (c.getRed() / 1.5), (int) (c.getGreen() / 1.5), (int) (c.getBlue() / 1.5));
 	}
+	
 	public Animation(Point origin, Brick brick, Type type) {
 		this.origin = origin;
 		this.brick = brick;

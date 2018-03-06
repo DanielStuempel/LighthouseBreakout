@@ -11,11 +11,11 @@ public class SimpleEngine implements Runnable {
 	LinkedList<Animation> eventList;
 	private int timeout = Settings.RESET_TIMEOUT;
 
-	public SimpleEngine(Level level, SimplePaddel paddel, SimpleBall ball, LinkedList<Animation> eventList,
+	public SimpleEngine(Level level, LinkedList<Animation> eventList,
 			String... args) {
 		this.level = level;
-		this.paddel = paddel;
-		this.ball = ball;
+		paddel = new SimplePaddel(10, 7);
+		ball = new SimpleBall(13, 11);
 		this.eventList = eventList;
 	}
 
@@ -41,10 +41,7 @@ public class SimpleEngine implements Runnable {
 			@Override
 			public void tick() {
 				synchronized (e) {
-					// pause function
-					if (Settings.GAME_RUNNING) {
-						e.notify();
-					}
+					e.notify();
 				}
 			}
 		};
@@ -53,15 +50,18 @@ public class SimpleEngine implements Runnable {
 	
 	public void reset() {
 		ball.pos.x = 13;
-		ball.pos.y = 12;
+		ball.pos.y = 11;
 		ball.vel.x = 1;
 		ball.vel.y = 1;
-		paddel.pos = 11;
+		paddel.pos = 10;
 		level.reset();
 	}
 
 	public synchronized void main() throws InterruptedException {
 		wait();
+
+		if (!Settings.GAME_RUNNING)
+			return;
 
 		Animation tail = new Animation(new Point(ball.pos), Color.MAGENTA, Animation.Type.TAIL);
 		eventList.add(tail);
@@ -128,10 +128,6 @@ public class SimpleEngine implements Runnable {
 			timeout = Settings.RESET_TIMEOUT;
 		if (timeout-- == 0)
 			reset();
-
-		// hitCount
-		// eventList.add(new Animation(new Point(ball.pos.x,ball.pos.y),
-		// Style.brickColor[type], Animation.Type.EXPLOSION));
 	}
 
 	private boolean hitBrick(int x, int y) {
@@ -144,5 +140,17 @@ public class SimpleEngine implements Runnable {
 		eventList.add(new Animation(new Point(x, y), b, Animation.Type.EXPLOSION));
 		b.hit();
 		return true;
+	}
+	
+	public SimpleBall getBall() {
+		return ball;
+	}
+	
+	public SimplePaddel getPaddel() {
+		return paddel;
+	}
+	
+	public void setPaddelVelocity(int v) {
+		paddel.vel = v;
 	}
 }

@@ -8,24 +8,25 @@ import de.cau.infprogoo.lighthouse.LighthouseDisplay;
 import tokens.NoToken;
 
 public class Output implements Runnable {
-	private Display display;
+	private Display.Input display;
 	private byte[] data;
 	private Level level;
-	private SimplePaddel paddel;
-	private SimpleBall ball;
+//	private SimplePaddel paddel;
+//	private SimpleBall ball;
+	private SimpleEngine engine;
 	private LinkedList<Animation> eventList;
 
 	private LighthouseDisplay lighthouseDisplay;
 	
 	TickTimer outputTimer;
 
-	public Output(Display display, byte[] data, Level level, SimplePaddel paddel, SimpleBall ball,
-			LinkedList<Animation> eventList) {
+	public Output(SimpleEngine engine, Display.Input display, byte[] data, Level level, LinkedList<Animation> eventList) {
 		this.display = display;
 		this.data = data;
 		this.level = level;
-		this.paddel = paddel;
-		this.ball = ball;
+		this.engine = engine;
+//		this.paddel = paddel;
+//		this.ball = ball;
 		this.eventList = eventList;
 	}
 
@@ -63,6 +64,9 @@ public class Output implements Runnable {
 
 	private synchronized void main() throws InterruptedException {
 		wait();
+		
+		SimpleBall ball = engine.getBall();
+		SimplePaddel paddel = engine.getPaddel();
 		
 		for (int q = 0, y = 0; y < level.size.height; y++) {
 			for (int x = 0; x < level.size.width; x++) {
@@ -122,6 +126,7 @@ public class Output implements Runnable {
 		}
 
 		display.send(data);
+		
 		if (Settings.CONNECT_TO_LIGHTHOUSE) {
 			if (lighthouseDisplay.isConnected()) {
 				try {
@@ -129,13 +134,8 @@ public class Output implements Runnable {
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-			} else { 
-				try {
-					lighthouseDisplay.connect();
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+			} else {
+//				System.err.println("lighthouse disconnected");
 			}
 		}
 	}

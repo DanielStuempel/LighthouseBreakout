@@ -11,7 +11,7 @@ public class Engine implements Runnable {
 
 	private int newPaddelVelocity;
 	
-	private Display display;
+	private Display.Input display;
 	
 	private Level level;
 
@@ -19,7 +19,7 @@ public class Engine implements Runnable {
 
 	}
 
-	public Engine(Display display, Level level) {
+	public Engine(Display.Input display, Level level) {
 		this.display = display;
 		this.level = level;
 	}

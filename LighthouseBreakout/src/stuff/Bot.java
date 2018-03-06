@@ -1,23 +1,26 @@
 package stuff;
 
 public class Bot implements Runnable {
-	SimplePaddel paddel = null;
-	SimpleBall ball = null;
-
+	SimpleEngine engine;
+	
+	public Bot(SimpleEngine engine) {
+		this.engine = engine;
+	}
+	
 	public void run() {
 		init();
 		while (true) {
 			try {
 				main();
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
+				System.err.println("bot crashed unexpectedly");
 				e.printStackTrace();
+				break;
 			}
 		}
 	}
 
 	public void init() {
-
 		Bot bot = this;
 		TickTimer timer = new TickTimer() {
 			@Override
@@ -32,19 +35,15 @@ public class Bot implements Runnable {
 
 	private synchronized void main() throws InterruptedException {
 		wait();
+		
+		SimpleBall ball = engine.getBall();
+		SimplePaddel paddel = engine.getPaddel();
+		
 		if (Settings.HAX_ON) {
-			if (ball.pos.x < paddel.pos + paddel.size / 2) {
-				paddel.vel = -1;
-			} else if (ball.pos.x > paddel.pos + paddel.size / 2) {
-				paddel.vel = 1;
-			} else {
-				paddel.vel = 0;
-			}
+			if (ball.pos.x > paddel.pos + paddel.size / 2)
+				engine.setPaddelVelocity(1);
+			else if (ball.pos.x <= paddel.pos + paddel.size / 2)
+				engine.setPaddelVelocity(-1);
 		}
-	}
-
-	public void set(SimplePaddel paddel, SimpleBall ball) {
-		this.paddel = paddel;
-		this.ball = ball;
 	}
 }

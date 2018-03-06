@@ -7,7 +7,7 @@ import java.util.Timer;
 import javax.swing.JFrame;
 
 public class Main {
-	public static Timer systemTimer = new Timer();
+	public static Timer systemTimer = new Timer(true);
 
 	private static HashSet<String> args = new HashSet<String>();
 
@@ -20,26 +20,23 @@ public class Main {
 		byte[] data = new byte[28 * 14 * 3];
 
 		Level level = new Level(Map.CAU);
-		SimplePaddel paddel = new SimplePaddel(12, 7);
-		SimpleBall ball = new SimpleBall(13, 11);
 
 		Display display = new Display();
 		Thread displayThread = new Thread(display, "displayThread");
 		displayThread.start();
 		
-		Bot bot = new Bot();
-		Thread botThread = new Thread(bot, "botThread");
-		bot.set(paddel,ball);
-		botThread.start();
-		
-		Output output = new Output(display, data, level, paddel, ball, eventList);
-		
-		SimpleEngine engine = new SimpleEngine(level, paddel, ball, eventList);
+		SimpleEngine engine = new SimpleEngine(level, eventList);
 //		Engine engine = new Engine(display, level);
 		Thread gameEngineThread = new Thread(engine, "gameEngineThread");
 		gameEngineThread.start();
+		
+		Output output = new Output(engine, display.getStream(), data, level, eventList);
 
-		JFrame window = new MainWindow(display, paddel, engine);
+		Bot bot = new Bot(engine);
+		Thread botThread = new Thread(bot, "botThread");
+		botThread.start();
+		
+		JFrame window = new Window(display, engine);
 		window.setLocationRelativeTo(null);
 		window.requestFocus();
 		

@@ -10,10 +10,14 @@ public class Display extends JPanel implements Runnable {
 	private Dimension size = new Dimension(28, 14);
 	private Dimension scale = new Dimension (30, 50);
 	
-	private volatile byte[] state = new byte[size.width * size.height * 3];
+	private volatile byte[] data = new byte[size.width * size.height * 3];
 	
-	private volatile boolean state_changed;
+	private volatile boolean dataChanged;
 	TickTimer frameRateTimer;
+	
+	protected abstract class Input {
+		public abstract void send(byte[] data);
+	}
 	
 	public Display() {
 		super();
@@ -49,9 +53,9 @@ public class Display extends JPanel implements Runnable {
 	
 	public synchronized void main() throws InterruptedException {
 		this.wait();
-		if (!state_changed)
+		if (!dataChanged)
 			return;
-			state_changed = false;
+			dataChanged = false;
 			repaint();
 	}
 	
@@ -61,9 +65,9 @@ public class Display extends JPanel implements Runnable {
 		for (int p = 0, y = 0; y < size.height; y++) {
 			for (int x = 0; x < size.width; x++) {
 				Color c = new Color(
-						state[p++] & 0xff,
-						state[p++] & 0xff,
-						state[p++] & 0xff);
+						data[p++] & 0xff,
+						data[p++] & 0xff,
+						data[p++] & 0xff);
 				drawRect(g, x, y, c);
 			}
 		}
@@ -93,10 +97,19 @@ public class Display extends JPanel implements Runnable {
 		}
 	}
 	
-	public void send(byte[] data) {
-		if (state.length != data.length)
+	private void write(byte[] data) {
+		if (this.data.length != data.length)
 			throw new IllegalArgumentException();
-		state = data.clone();
-		state_changed = true;
+		this.data = data.clone();
+		dataChanged = true;
+	}
+	
+	public Input getStream() {
+		return new Input() {
+			@Override
+			public final void send(byte[] data) {
+				write(data);
+			}
+		};
 	}
 }
