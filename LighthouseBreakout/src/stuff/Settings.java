@@ -21,7 +21,7 @@ class Settings {
 	static boolean BRICK_COLLISION = true;
 	static boolean GAME_RUNNING = false;
 	static boolean MENU_VIEW = true;
-	static boolean HAX_ON = false;
+	static boolean HAX_ON = true;
 	static boolean OPTIONS_MENU = false;
 	static boolean MOUSE_CONTROL = false;
 
