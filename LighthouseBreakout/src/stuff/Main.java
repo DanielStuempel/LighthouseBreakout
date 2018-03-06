@@ -19,8 +19,8 @@ public class Main {
 		LinkedList<Animation> eventList = new LinkedList<>();
 		byte[] data = new byte[28 * 14 * 3];
 
-		Level level = new Level(Map.FINAL);
-		SimplePaddel paddel = new SimplePaddel(10, 8);
+		Level level = new Level(Map.CAU);
+		SimplePaddel paddel = new SimplePaddel(12, 7);
 		SimpleBall ball = new SimpleBall(13, 11);
 
 		Display display = new Display();
@@ -34,9 +34,9 @@ public class Main {
 		
 		Output output = new Output(display, data, level, paddel, ball, eventList);
 		
-		SimpleEngine sEngine = new SimpleEngine(level, paddel, ball, eventList);
-		Engine engine = new Engine(display, level);
-		Thread gameEngineThread = new Thread(sEngine, "gameEngineThread");
+		SimpleEngine engine = new SimpleEngine(level, paddel, ball, eventList);
+//		Engine engine = new Engine(display, level);
+		Thread gameEngineThread = new Thread(engine, "gameEngineThread");
 		gameEngineThread.start();
 
 		JFrame window = new MainWindow(display, paddel, engine);

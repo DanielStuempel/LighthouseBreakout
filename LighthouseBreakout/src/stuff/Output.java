@@ -58,7 +58,7 @@ public class Output implements Runnable {
 				}
 			}
 		};
-		Main.systemTimer.schedule(outputTimer, 0, Settings.GAME_TICK_MS);//Settings.GAME_TICK__MS);
+		Main.systemTimer.schedule(outputTimer, 0, Settings.FRAME_TICK_MS);//Settings.GAME_TICK__MS);
 	}
 
 	private synchronized void main() throws InterruptedException {
@@ -78,6 +78,7 @@ public class Output implements Runnable {
 		for (int i = 0; i < eventList.size(); i++) {
 			if (i >= eventList.size()) {
 				System.out.println("caught a null pointer!");
+				eventList.clear();
 				break;
 			}
 			try {

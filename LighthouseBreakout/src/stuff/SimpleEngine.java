@@ -9,6 +9,7 @@ public class SimpleEngine implements Runnable {
 	SimplePaddel paddel;
 	SimpleBall ball;
 	LinkedList<Animation> eventList;
+	private int timeout = Settings.RESET_TIMEOUT;
 
 	public SimpleEngine(Level level, SimplePaddel paddel, SimpleBall ball, LinkedList<Animation> eventList,
 			String... args) {
@@ -49,6 +50,15 @@ public class SimpleEngine implements Runnable {
 		};
 		Main.systemTimer.schedule(gameTickTimer, 0, Settings.GAME_TICK_MS);
 	}
+	
+	public void reset() {
+		ball.pos.x = 13;
+		ball.pos.y = 12;
+		ball.vel.x = 1;
+		ball.vel.y = 1;
+		paddel.pos = 11;
+		level.reset();
+	}
 
 	public synchronized void main() throws InterruptedException {
 		wait();
@@ -74,12 +84,7 @@ public class SimpleEngine implements Runnable {
 			// test ground
 			else if (newPos.y >= level.size.height - 1) {
 				if (newPos.x < paddel.pos || newPos.x > paddel.pos + paddel.size) {
-					ball.pos.x = 13;
-					ball.pos.y = 12;
-					ball.vel.x = 1;
-					ball.vel.y = 1;
-					paddel.pos = 11;
-					level.reset();
+					reset();
 					return;
 				} //else if (paddel.vel != 0)
 					//ball.vel.x = paddel.vel;
@@ -118,6 +123,11 @@ public class SimpleEngine implements Runnable {
 		}
 		ball.pos.x += ball.vel.x;
 		ball.pos.y += ball.vel.y;
+		
+		if (hitCount > 0)
+			timeout = Settings.RESET_TIMEOUT;
+		if (timeout-- == 0)
+			reset();
 
 		// hitCount
 		// eventList.add(new Animation(new Point(ball.pos.x,ball.pos.y),

@@ -12,7 +12,8 @@ class Settings {
 	static Theme THEME = Style.Theme.COLORFUL;
 
 	// game engine settings
-	static int GAME_TICK_MS = 100;
+	static int GAME_TICK_MS = 5;
+	static int RESET_TIMEOUT = 200;
 
 	// animation settings
 	static boolean DO_ANIMATIONS = true;
@@ -32,7 +33,8 @@ class Settings {
 		PAUSE_GAME(KeyEvent.VK_P),
 		SHOW_MENU(KeyEvent.VK_ESCAPE),
 		HAX_SWITCH(KeyEvent.VK_C), 
-		CONTROL_SWITCH(KeyEvent.VK_M);
+		CONTROL_SWITCH(KeyEvent.VK_M),
+		ENGINE_RESET(KeyEvent.VK_R);
 
 		int keyCode;
 
@@ -42,5 +44,5 @@ class Settings {
 	}
 	
 	// other settings
-	public static final boolean CONNECT_TO_LIGHTHOUSE = false;
+	public static final boolean CONNECT_TO_LIGHTHOUSE = true;
 }

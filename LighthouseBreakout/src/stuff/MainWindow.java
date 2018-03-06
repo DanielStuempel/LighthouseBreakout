@@ -17,9 +17,9 @@ public class MainWindow extends JFrame {
 	OptionsMenu optionsMenu = new OptionsMenu(); 
 	Display display;
 	
-	Engine engine;
+	SimpleEngine engine;
 
-	public MainWindow(Display display, SimplePaddel paddel, Engine engine) {
+	public MainWindow(Display display, SimplePaddel paddel, SimpleEngine engine) {
 		this.display = display;
 		this.engine = engine;
 		init(paddel);
@@ -52,30 +52,30 @@ public class MainWindow extends JFrame {
 			public void keyPressed(KeyEvent arg0) {
 				int keyCode = arg0.getKeyCode();
 				if (keyCode == Settings.Keys.PADDEL_LEFT.keyCode)
-					engine.changePaddelVelocity(paddel.vel = -1);
+					paddel.vel = -1;
 				else if (keyCode == Settings.Keys.PADDEL_RIGHT.keyCode)
-					engine.changePaddelVelocity(paddel.vel = 1);
+					paddel.vel = 1;
 				else if (keyCode == Settings.Keys.SWITCH_FPS_DISPLAY.keyCode)
 					Settings.SHOW_FPS_ON_DISPLAY ^= true;
 				else if (keyCode == Settings.Keys.PAUSE_GAME.keyCode)
 					Settings.GAME_RUNNING ^= true;
-				else if (keyCode == Settings.Keys.SHOW_MENU.keyCode) {
+				else if (keyCode == Settings.Keys.SHOW_MENU.keyCode)
 					switchView();
-				}
-				else if (keyCode == Settings.Keys.HAX_SWITCH.keyCode) {
+				else if (keyCode == Settings.Keys.HAX_SWITCH.keyCode)
 					Settings.HAX_ON ^= true;
-				}else if (keyCode == Settings.Keys.CONTROL_SWITCH.keyCode) {
+				else if (keyCode == Settings.Keys.CONTROL_SWITCH.keyCode)
 					Settings.MOUSE_CONTROL ^= true;
-				}
+				else if (keyCode == Settings.Keys.ENGINE_RESET.keyCode)
+					engine.reset();
 			}
 
 			@Override
 			public void keyReleased(KeyEvent arg0) {
 				int keyCode = arg0.getKeyCode();
 				if (keyCode == Settings.Keys.PADDEL_LEFT.keyCode && paddel.vel == -1)
-					engine.changePaddelVelocity(paddel.vel = 0);
+					paddel.vel = 0;
 				else if (keyCode == Settings.Keys.PADDEL_RIGHT.keyCode && paddel.vel == 1)
-					engine.changePaddelVelocity(paddel.vel = 0);
+					paddel.vel = 0;
 			}
 
 			@Override

@@ -37,6 +37,8 @@ public class Bot implements Runnable {
 				paddel.vel = -1;
 			} else if (ball.pos.x > paddel.pos + paddel.size / 2) {
 				paddel.vel = 1;
+			} else {
+				paddel.vel = 0;
 			}
 		}
 	}

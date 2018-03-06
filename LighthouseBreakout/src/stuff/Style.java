@@ -50,7 +50,7 @@ public class Style {
 			background = Color.BLACK;
 			ballColor = Color.MAGENTA;
 			brickColor[1] = Color.GREEN;
-			brickColor[2] = Color.YELLOW;
+			brickColor[2] = Color.BLUE;
 			brickColor[3] = Color.RED;
 			menuButton = Color.RED;
 			menuButtonOn = Color.WHITE;
