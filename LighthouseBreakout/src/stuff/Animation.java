@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Point;
 import java.util.Iterator;
 
+import org.eclipse.jetty.websocket.common.extensions.FrameCaptureExtension;
+
 public class Animation implements Iterator<Color[][]> {
 	private int frame;
 	private Point origin;
@@ -12,7 +14,7 @@ public class Animation implements Iterator<Color[][]> {
 	private Brick brick;
 
 	public static enum Type {
-		TAIL(8), EXPLOSION(4), BRICKHIT(4);
+		TAIL(8), EXPLOSION(20), BRICKHIT(20);
 
 		private int frameCount;
 
@@ -28,7 +30,7 @@ public class Animation implements Iterator<Color[][]> {
 	public Animation(Point origin, Color c, Type type) {
 		this.type = type;
 		this.origin = origin;
-		this.color = new Color((int) (c.getRed() / 1.5), (int) (c.getGreen() / 1.5), (int) (c.getBlue() / 1.5));
+		this.color = new Color((int) (c.getRed() /2), (int) (c.getGreen() / 2), (int) (c.getBlue() / 2));
 	}
 	
 	public Animation(Point origin, Brick brick, Type type) {
@@ -50,7 +52,6 @@ public class Animation implements Iterator<Color[][]> {
 			return null;
 		switch (type) {
 		case EXPLOSION:
-			this.color =  new Color((int) (color.getRed() / 2.5), (int) (color.getGreen() / 2.5), (int) (color.getBlue() / 2.5));
 			return explosionStage();
 		case BRICKHIT:
 			return hitStage();
@@ -72,26 +73,26 @@ public class Animation implements Iterator<Color[][]> {
 	
 	private Color[][] hitStage() {
 		Color[][] hit = new Color[28][14];
-		switch (frame++) {
-		case 0:
+		if (frame <= 5) {
 			hit[origin.x][origin.y] = color2;
-			break;
-		case 1:
-			hit[origin.x][origin.y] = color;
-			break;
-		case 2:
-			hit[origin.x][origin.y] = color2;
-			break;
-		case 3:
-			hit[origin.x][origin.y] = color;
-			break;
 		}
+		else if(frame <= 10) {
+			hit[origin.x][origin.y] = color;
+		}
+		else if (frame <= 15) {
+			hit[origin.x][origin.y] = color2;
+		}
+		else {
+			hit[origin.x][origin.y] = color;
+		}
+		frame++;
 		return hit;
 	}
 
 	private Color[][] explosionStage() {
 		Color[][] explosion = new Color[28][14];
-		if (frame++ <= 1) {
+		System.out.println(color);
+		if (frame <= type.getFrameCount()/2) {
 			for (int x = 0; x < 28; x++) {
 				for (int y = 0; y < 14; y++) {
 					if (((origin.x - 1 == x || origin.x + 1 == x) && origin.y == y)
@@ -109,6 +110,7 @@ public class Animation implements Iterator<Color[][]> {
 				}
 			}
 		}
+		frame++;
 		return explosion;
 	}
 }

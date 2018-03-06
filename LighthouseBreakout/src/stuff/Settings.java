@@ -44,5 +44,5 @@ class Settings {
 	}
 	
 	// other settings
-	public static final boolean CONNECT_TO_LIGHTHOUSE = true;
+	public static final boolean CONNECT_TO_LIGHTHOUSE = !true;
 }
