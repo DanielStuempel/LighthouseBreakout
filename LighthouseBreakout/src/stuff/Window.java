@@ -7,6 +7,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
+import java.util.LinkedList;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -16,7 +17,7 @@ public class Window extends JFrame {
 	Menu menu = new Menu();
 	OptionsMenu optionsMenu = new OptionsMenu();
 	Display display;
-	MenuButton[] button = new MenuButton[5];
+	LinkedList<MenuButton> button = new LinkedList<>();
 
 	SimpleEngine engine;
 
@@ -94,33 +95,33 @@ public class Window extends JFrame {
 		menu = new Menu();
 
 		// MENU
-		button[0] = new MenuButton("START") {
+		button.add(new MenuButton("START") {
 			@Override
 			public void onClick(ActionEvent e) {
 				switchView();
 			}
-		};
-		button[1] = new MenuButton("OPTIONS") {
+		});
+		button.add( new MenuButton("OPTIONS") {
 			@Override
 			public void onClick(ActionEvent e) {
 				switchMenu();
 			}
-		};
-		button[2] = new MenuButton("SCORES") {
+		});
+		button.add( new MenuButton("SCORES") {
 			@Override
 			public void onClick(ActionEvent e) {
 				System.out.println("score");
 			}
-		};
+		});
 
 		// OPTIONS MENU
-		button[3] = new MenuButton("STYLE: " + Settings.THEME.toString()) {
+		button.add( new MenuButton("STYLE: " + Settings.THEME.toString()) {
 			@Override
 			public void onClick(ActionEvent e) {
 				switchTheme();
 			}
-		};
-		button[4] = new MenuButton("BACK") {
+		});
+		button.add( new MenuButton("BACK") {
 			@Override
 			public void onClick(ActionEvent e) {
 				System.out.println("back");
@@ -128,16 +129,16 @@ public class Window extends JFrame {
 				Settings.OPTIONS_MENU = false;
 				validate();
 			}
-		};
+		});
 
 		menu.add(new JLabel(" "));
-		menu.add(button[0]);
-		menu.add(button[1]);
-		menu.add(button[2]);
+		menu.add(button.get(0));
+		menu.add(button.get(1));
+		menu.add(button.get(2));
 
 		optionsMenu.add(new JLabel(""));
-		optionsMenu.add(button[3]);
-		optionsMenu.add(button[4]);
+		optionsMenu.add(button.get(3));
+		optionsMenu.add(button.get(4));
 
 		setSize(display.getPreferredSize());
 		setLayout(null);
@@ -154,7 +155,7 @@ public class Window extends JFrame {
 		for (MenuButton b : button) {
 			b.reload();
 		}
-		button[3].setText("STYLE: " + Settings.THEME.toString());
+		button.get(3).setText("STYLE: " + Settings.THEME.toString());
 		validate();
 	}
 
