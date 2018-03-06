@@ -11,11 +11,10 @@ public class SimpleEngine implements Runnable {
 	LinkedList<Animation> eventList;
 	private int timeout = Settings.RESET_TIMEOUT;
 
-	public SimpleEngine(Level level, LinkedList<Animation> eventList,
-			String... args) {
+	public SimpleEngine(Level level, LinkedList<Animation> eventList, String... args) {
 		this.level = level;
-		paddel = new SimplePaddel(10, 7);
-		ball = new SimpleBall(13, 11);
+		paddel = new SimplePaddel(0, 7);
+		ball = new SimpleBall(0, 0);
 		this.eventList = eventList;
 	}
 
@@ -33,8 +32,7 @@ public class SimpleEngine implements Runnable {
 	}
 
 	public void init() {
-		ball.vel.x = 1;
-		ball.vel.y = 1;
+		reset();
 
 		SimpleEngine e = this;
 		TickTimer gameTickTimer = new TickTimer() {
@@ -47,13 +45,13 @@ public class SimpleEngine implements Runnable {
 		};
 		Main.systemTimer.schedule(gameTickTimer, 0, Settings.GAME_TICK_MS);
 	}
-	
+
 	public void reset() {
-		ball.pos.x = 13;
-		ball.pos.y = 11;
+		ball.pos.x = level.size.width/2-1;
+		ball.pos.y = level.size.height-2;
 		ball.vel.x = 1;
 		ball.vel.y = 1;
-		paddel.pos = 10;
+		paddel.pos = (level.size.width - paddel.size) / 2;
 		level.reset();
 	}
 
@@ -67,8 +65,13 @@ public class SimpleEngine implements Runnable {
 		eventList.add(tail);
 
 		// update paddel
-		if (paddel.pos + paddel.vel >= 0 && paddel.pos + paddel.size + paddel.vel <= level.size.width)
-			paddel.pos += paddel.vel;
+//		if (paddel.pos + paddel.vel >= 0 && paddel.pos + paddel.size + paddel.vel <= level.size.width)
+//			paddel.pos += paddel.vel;
+		
+//		if (!(paddel.pos > 0 && paddel.pos < level.size.width-paddel.size)) {
+//			if (paddel.pos < 0) paddel.pos = 0;
+//			if (paddel.pos > level.size.width-paddel.size) paddel.pos = level.size.width-paddel.size;
+//		}
 
 		Point newPos = new Point(ball.pos.x + ball.vel.x, ball.pos.y + ball.vel.y);
 
@@ -86,8 +89,8 @@ public class SimpleEngine implements Runnable {
 				if (newPos.x < paddel.pos || newPos.x > paddel.pos + paddel.size) {
 					reset();
 					return;
-				} //else if (paddel.vel != 0)
-					//ball.vel.x = paddel.vel;
+				} // else if (paddel.vel != 0)
+					// ball.vel.x = paddel.vel;
 				ball.vel.y *= -1;
 				// test ceiling
 			} else if (newPos.y < 0)
@@ -123,7 +126,7 @@ public class SimpleEngine implements Runnable {
 		}
 		ball.pos.x += ball.vel.x;
 		ball.pos.y += ball.vel.y;
-		
+
 		if (hitCount > 0)
 			timeout = Settings.RESET_TIMEOUT;
 		if (timeout-- == 0)
@@ -141,21 +144,22 @@ public class SimpleEngine implements Runnable {
 		b.hit();
 		return true;
 	}
-	
+
 	public SimpleBall getBall() {
 		return ball;
 	}
-	
+
 	public SimplePaddel getPaddel() {
 		return paddel;
 	}
-	
-	public void setPaddelVelocity(int v) {
-		paddel.vel = v;
+
+	public void setPaddelPosition(int newP) {
+		if(paddel.pos + newP < 0 || paddel.pos + newP > level.size.width - paddel.size) return;
+		paddel.pos += newP;
 	}
 
 	public void debug() {
 		eventList.clear();
-		
+
 	}
 }

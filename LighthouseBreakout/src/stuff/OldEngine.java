@@ -57,9 +57,6 @@ public class OldEngine implements Runnable {
 			ball.vel.x = (int) (Math.random() * 3) - 1;
 		}
 		
-		if (paddel.pos + paddel.vel >= 0 && paddel.pos + paddel.size + paddel.vel <= level.size.width)
-			paddel.pos += paddel.vel;
-
 		Point newPos = ball.pos.getLocation();
 		Point curPos = ball.pos.getLocation();
 

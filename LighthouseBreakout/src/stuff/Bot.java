@@ -41,9 +41,9 @@ public class Bot implements Runnable {
 		
 		if (Settings.HAX_ON) {
 			if (ball.pos.x > paddel.pos + paddel.size / 2)
-				engine.setPaddelVelocity(1);
+				engine.setPaddelPosition(1);
 			else if (ball.pos.x <= paddel.pos + paddel.size / 2)
-				engine.setPaddelVelocity(-1);
+				engine.setPaddelPosition(-1);
 		}
 	}
 }
