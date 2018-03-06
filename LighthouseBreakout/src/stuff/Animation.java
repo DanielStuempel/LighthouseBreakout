@@ -4,13 +4,11 @@ import java.awt.Color;
 import java.awt.Point;
 import java.util.Iterator;
 
-
 public class Animation implements Iterator<Color[][]> {
 	private int frame;
 	private Point origin;
 	private Color color, color2;
 	private Type type;
-	private Brick brick;
 
 	public static enum Type {
 		TAIL(8), EXPLOSION(20), BRICKHIT(20);
@@ -19,10 +17,6 @@ public class Animation implements Iterator<Color[][]> {
 
 		private Type(int l) {
 			frameCount = l;
-		}
-
-		private int getFrameCount() {
-			return frameCount;
 		}
 	}
 
@@ -34,7 +28,6 @@ public class Animation implements Iterator<Color[][]> {
 	
 	public Animation(Point origin, Brick brick, Type type) {
 		this.origin = origin;
-		this.brick = brick;
 		this.type = type;
 		this.color = Style.brickColor[brick.getType()];
 		this.color2 =  Style.brickColor[brick.getType()-1]; 
@@ -42,7 +35,7 @@ public class Animation implements Iterator<Color[][]> {
 
 	@Override
 	public boolean hasNext() {
-		return frame < type.getFrameCount();
+		return frame < type.frameCount;
 	}
 
 	@Override
@@ -63,7 +56,7 @@ public class Animation implements Iterator<Color[][]> {
 
 	private Color[][] tailStage() {
 		Color[][] tail = new Color[28][14];
-		if (frame++ > type.getFrameCount() / 2)
+		if (frame++ > type.frameCount / 2)
 			tail[origin.x][origin.y] = color;
 		else
 			tail[origin.x][origin.y] = color;
@@ -72,25 +65,21 @@ public class Animation implements Iterator<Color[][]> {
 	
 	private Color[][] hitStage() {
 		Color[][] hit = new Color[28][14];
-		if (frame <= 5) {
+		if (frame <= type.frameCount / 4)
 			hit[origin.x][origin.y] = color2;
-		}
-		else if(frame <= 10) {
+		else if (frame <= type.frameCount / 2)
 			hit[origin.x][origin.y] = color;
-		}
-		else if (frame <= 15) {
+		else if (frame <= type.frameCount / 4 * 3)
 			hit[origin.x][origin.y] = color2;
-		}
-		else {
+		else
 			hit[origin.x][origin.y] = color;
-		}
 		frame++;
 		return hit;
 	}
 
 	private Color[][] explosionStage() {
 		Color[][] explosion = new Color[28][14];
-		if (frame <= type.getFrameCount()/2) {
+		if (frame <= type.frameCount / 2) {
 			for (int x = 0; x < 28; x++) {
 				for (int y = 0; y < 14; y++) {
 					if (((origin.x - 1 == x || origin.x + 1 == x) && origin.y == y)

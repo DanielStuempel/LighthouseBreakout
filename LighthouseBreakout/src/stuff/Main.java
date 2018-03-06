@@ -30,7 +30,7 @@ public class Main {
 		Thread gameEngineThread = new Thread(engine, "gameEngineThread");
 		gameEngineThread.start();
 		
-		Output output = new Output(engine, display.getStream(), data, level, eventList);
+		Output output = new Output(engine, display.getWriter(), data, level, eventList);
 
 		Bot bot = new Bot(engine);
 		Thread botThread = new Thread(bot, "botThread");

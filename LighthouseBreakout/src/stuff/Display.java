@@ -104,7 +104,7 @@ public class Display extends JPanel implements Runnable {
 		dataChanged = true;
 	}
 	
-	public Input getStream() {
+	public Input getWriter() {
 		return new Input() {
 			@Override
 			public final void send(byte[] data) {

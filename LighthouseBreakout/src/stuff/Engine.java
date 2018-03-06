@@ -56,6 +56,7 @@ public class Engine implements Runnable {
 
 	private synchronized void main() throws InterruptedException {
 		wait();
+		
 		if (!Settings.GAME_RUNNING)
 			return;
 
@@ -111,6 +112,10 @@ public class Engine implements Runnable {
 		Point absVel = new Point((int) (vel.getX() / Math.abs(vel.getX())), (int) (vel.getY() / Math.abs(vel.getY())));
 		
 		if (testBrick(totalPos.x, totalPos.y) && level.get(totalPos.x, totalPos.y).hit()) {
+			if (testBrick(totalPos.x + absVel.x, totalPos.y))
+				level.get(totalPos.x + absVel.x, totalPos.y);
+			if (testBrick(totalPos.x, totalPos.y + absVel.y))
+				level.get(totalPos.x, totalPos.y + absVel.y);
 			if ((pos.getX() - totalPos.x) - (pos.getY() - totalPos.y) < 0) {
 				pos = ball.getPosition();
 				vel = new Vector2f(-vel.getX(), vel.getY());
