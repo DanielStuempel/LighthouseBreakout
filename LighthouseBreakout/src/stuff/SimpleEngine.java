@@ -153,7 +153,7 @@ public class SimpleEngine implements Runnable {
 		return paddel;
 	}
 
-	public void setPaddelPosition(int newP) {
+	public void changePaddelPosition(int newP) {
 		if(paddel.pos + newP < 0 || paddel.pos + newP > level.size.width - paddel.size) return;
 		paddel.pos += newP;
 	}

@@ -36,15 +36,12 @@ public class Window extends JFrame {
 			public void mouseMoved(MouseEvent e) {
 				if (Settings.MOUSE_CONTROL && !Settings.HAX_ON) {
 					int pos = e.getX() * 28 / display.getWidth() - paddel.size / 2;
-					engine.setPaddelPosition(pos - engine.getPaddel().pos);
+					engine.changePaddelPosition(pos - engine.getPaddel().pos);
 				}
 			}
 
 			@Override
-			public void mouseDragged(MouseEvent e) {
-				// TODO Auto-generated method stub
-
-			}
+			public void mouseDragged(MouseEvent e) { }
 		});
 
 		addKeyListener(new KeyListener() {
@@ -52,9 +49,9 @@ public class Window extends JFrame {
 			public void keyPressed(KeyEvent arg0) {
 				int keyCode = arg0.getKeyCode();
 				if (keyCode == Settings.Keys.PADDEL_LEFT.keyCode && !Settings.MOUSE_CONTROL)
-					engine.setPaddelPosition(-1);
+					engine.changePaddelPosition(-1);
 				else if (keyCode == Settings.Keys.PADDEL_RIGHT.keyCode && !Settings.MOUSE_CONTROL)
-					engine.setPaddelPosition(1);
+					engine.changePaddelPosition(1);
 				else if (keyCode == Settings.Keys.SWITCH_FPS_DISPLAY.keyCode)
 					Settings.SHOW_FPS_ON_DISPLAY ^= true;
 				else if (keyCode == Settings.Keys.PAUSE_GAME.keyCode)
