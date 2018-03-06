@@ -136,8 +136,8 @@ public class SimpleEngine implements Runnable {
 		Brick b = level.get(x, y);
 		if (b.getType() == 0)
 			return false;
-		eventList.add(new Animation(new Point(x, y), b, Animation.Type.BRICKHIT));
-		eventList.add(new Animation(new Point(x, y), Style.brickColor[b.getType()], Animation.Type.EXPLOSION));
+		//eventList.add(new Animation(new Point(x, y), b, Animation.Type.BRICKHIT));
+		//eventList.add(new Animation(new Point(x, y), Style.brickColor[b.getType()], Animation.Type.EXPLOSION));
 		b.hit();
 		return true;
 	}

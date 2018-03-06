@@ -29,12 +29,13 @@ class Settings {
 	static enum Keys {
 		PADDEL_LEFT(KeyEvent.VK_LEFT),
 		PADDEL_RIGHT(KeyEvent.VK_RIGHT),
-		SWITCH_FPS_DISPLAY(KeyEvent.VK_F1),
+		SWITCH_FPS_DISPLAY(KeyEvent.VK_F),
 		PAUSE_GAME(KeyEvent.VK_P),
 		SHOW_MENU(KeyEvent.VK_ESCAPE),
 		HAX_SWITCH(KeyEvent.VK_C), 
 		CONTROL_SWITCH(KeyEvent.VK_M),
-		ENGINE_RESET(KeyEvent.VK_R);
+		ENGINE_RESET(KeyEvent.VK_R),
+		DEBUG(KeyEvent.VK_D);
 
 		int keyCode;
 

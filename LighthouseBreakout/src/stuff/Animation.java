@@ -91,7 +91,6 @@ public class Animation implements Iterator<Color[][]> {
 
 	private Color[][] explosionStage() {
 		Color[][] explosion = new Color[28][14];
-		System.out.println(color);
 		if (frame <= type.getFrameCount()/2) {
 			for (int x = 0; x < 28; x++) {
 				for (int y = 0; y < 14; y++) {
