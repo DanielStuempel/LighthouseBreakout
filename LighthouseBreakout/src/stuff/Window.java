@@ -70,6 +70,9 @@ public class Window extends JFrame {
 					Settings.MOUSE_CONTROL ^= true;
 				else if (keyCode == Settings.Keys.ENGINE_RESET.keyCode)
 					engine.reset();
+				else if (keyCode == Settings.Keys.DEBUG.keyCode)
+					engine.debug();
+				
 			}
 
 			@Override

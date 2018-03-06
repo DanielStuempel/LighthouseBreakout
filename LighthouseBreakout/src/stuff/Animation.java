@@ -4,8 +4,6 @@ import java.awt.Color;
 import java.awt.Point;
 import java.util.Iterator;
 
-import org.eclipse.jetty.websocket.common.extensions.FrameCaptureExtension;
-
 public class Animation implements Iterator<Color[][]> {
 	private int frame;
 	private Point origin;
