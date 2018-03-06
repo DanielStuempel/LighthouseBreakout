@@ -16,6 +16,7 @@ public abstract class MenuButton extends JButton {
 	
 	public MenuButton(String text) {
 		super(text);
+		setName(text);
 		init();
 	}
 	
@@ -48,4 +49,10 @@ public abstract class MenuButton extends JButton {
 	}
 	
 	public abstract void onClick(ActionEvent e);
+
+	public void reload() {
+		setBackground(Style.background);
+		setForeground(Style.menuButton);
+		
+	}
 }

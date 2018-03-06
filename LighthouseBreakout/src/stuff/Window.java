@@ -11,11 +11,14 @@ import java.awt.event.MouseMotionListener;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
+import stuff.Style.Theme;
+
 public class Window extends JFrame {
 
 	Menu menu = new Menu();
 	OptionsMenu optionsMenu = new OptionsMenu();
 	Display display;
+	MenuButton[] button = new MenuButton[5];
 
 	SimpleEngine engine;
 
@@ -93,19 +96,19 @@ public class Window extends JFrame {
 		menu = new Menu();
 
 		// MENU
-		MenuButton btn_start = new MenuButton("START") {
+		button[0] = new MenuButton("START") {
 			@Override
 			public void onClick(ActionEvent e) {
 				switchView();
 			}
 		};
-		MenuButton btn_options = new MenuButton("OPTIONS") {
+		button[1] = new MenuButton("OPTIONS") {
 			@Override
 			public void onClick(ActionEvent e) {
 				switchMenu();
 			}
 		};
-		MenuButton btn_score = new MenuButton("SCORES") {
+		button[2] = new MenuButton("SCORES") {
 			@Override
 			public void onClick(ActionEvent e) {
 				System.out.println("score");
@@ -113,13 +116,13 @@ public class Window extends JFrame {
 		};
 
 		// OPTIONS MENU
-		MenuButton btn_style = new MenuButton("STYLE: " + Settings.THEME.toString()) {
+		button[3] = new MenuButton("STYLE: " + Settings.THEME.toString()) {
 			@Override
 			public void onClick(ActionEvent e) {
 				switchTheme();
 			}
 		};
-		MenuButton btn_back = new MenuButton("BACK") {
+		button[4] = new MenuButton("BACK") {
 			@Override
 			public void onClick(ActionEvent e) {
 				System.out.println("back");
@@ -130,13 +133,13 @@ public class Window extends JFrame {
 		};
 
 		menu.add(new JLabel(" "));
-		menu.add(btn_start);
-		menu.add(btn_options);
-		menu.add(btn_score);
+		menu.add(button[0]);
+		menu.add(button[1]);
+		menu.add(button[2]);
 
 		optionsMenu.add(new JLabel(""));
-		optionsMenu.add(btn_style);
-		optionsMenu.add(btn_back);
+		optionsMenu.add(button[3]);
+		optionsMenu.add(button[4]);
 
 		setSize(display.getPreferredSize());
 		setLayout(null);
@@ -147,8 +150,19 @@ public class Window extends JFrame {
 	}
 
 	private void switchTheme() {
-		System.out.println("only one Theme available right now");
+		Style.loadTheme(Style.next());
+		menu.reload();
+		optionsMenu.reload();
+		for (MenuButton b : button) {
+			b.reload();
+		}
+		button[3].setText("STYLE: " + Settings.THEME.toString());
+		validate();
 	}
+
+	
+	
+	
 
 	private void switchMenu() {
 		if (Settings.OPTIONS_MENU ^= true) {
@@ -156,6 +170,7 @@ public class Window extends JFrame {
 		}
 		validate();
 	}
+
 
 	private void switchView() {
 		if (!(Settings.MENU_VIEW ^= true)) {

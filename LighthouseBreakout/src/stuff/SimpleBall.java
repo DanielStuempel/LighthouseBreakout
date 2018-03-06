@@ -14,4 +14,7 @@ public class SimpleBall {
 		this.pos = pos;
 		vel = new Point();
 	}
+	public Point getPosition() {
+		return pos;
+	}
 }

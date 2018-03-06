@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Point;
 import java.util.Iterator;
 
+import stuff.Style.Theme;
+
 public class Animation implements Iterator<Color[][]> {
 	private int frame;
 	private Point origin;

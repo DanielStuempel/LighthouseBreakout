@@ -13,4 +13,8 @@ public class Menu extends JPanel {
 		setBorder(BorderFactory.createLineBorder(Style.border, 7));
 		setLayout(new GridLayout(5, 1));
 	}
+	void reload(){
+		setBackground(Style.background);
+		setBorder(BorderFactory.createLineBorder(Style.border, 7));
+	}
 }

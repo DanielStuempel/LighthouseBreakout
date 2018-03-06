@@ -11,6 +11,7 @@ public class Style {
 	public static Color menuButton;
 	public static Color menuButtonOn;
 	public static Color border;
+	public static Color paddel;
 	
 	public static enum Theme {
 		DEFAULT(null),
@@ -28,9 +29,7 @@ public class Style {
 			return parent;
 		}
 	}
-	
 	public static void loadTheme(Theme t) {
-		//TODO: improve
 		if (t == null)
 			return;
 		loadTheme(t.getParent());
@@ -44,7 +43,15 @@ public class Style {
 			Arrays.fill(brickColor, Color.GRAY);
 			break;
 		case LIGHT:
-			background = Color.GRAY;
+			background = Color.WHITE;
+			ballColor = Color.GREEN;
+			brickColor[1] = Color.YELLOW;
+			brickColor[2] = Color.BLUE;
+			brickColor[3] = Color.RED;
+			menuButton = Color.GREEN;
+			menuButtonOn = Color.LIGHT_GRAY;
+			border = Color.GREEN;
+			paddel = Color.RED;
 			break;
 		case COLORFUL:
 			background = Color.BLACK;
@@ -55,10 +62,29 @@ public class Style {
 			menuButton = Color.RED;
 			menuButtonOn = Color.WHITE;
 			border = Color.RED;
+			paddel = Color.WHITE;
 			break;
 		default:
 			break;
 		}
 		brickColor[0] = background;
+	}
+	public static Theme next() {
+		switch (Settings.THEME) {
+		case COLORFUL:
+			Settings.THEME = Theme.LIGHT;
+			break;
+		case DARK:
+			break;
+		case DEFAULT:
+			break;
+		case LIGHT:
+			Settings.THEME = Theme.COLORFUL;
+			break;
+		default:
+			break;
+		
+		}
+		return Settings.THEME;
 	}
 }

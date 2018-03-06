@@ -120,9 +120,9 @@ public class Output implements Runnable {
 		// draw paddel
 		p = ((level.size.height - 1) * level.size.width + paddel.pos) * 3;
 		for (int i = 0; i < paddel.size; i++) {
-			data[p++] = -1;
-			data[p++] = -1;
-			data[p++] = -1;
+			data[p++] = (byte)Style.paddel.getRed();
+			data[p++] = (byte)Style.paddel.getGreen();
+			data[p++] = (byte)Style.paddel.getBlue();
 		}
 
 		display.send(data);
