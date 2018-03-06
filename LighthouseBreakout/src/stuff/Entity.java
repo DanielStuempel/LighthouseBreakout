@@ -1,5 +1,7 @@
 package stuff;
 
+import java.awt.Point;
+
 public abstract class Entity {
 	private Vector2f position = new Vector2f(0, 0);
 	private Vector2f velocity = new Vector2f(0, 0);
@@ -7,6 +9,10 @@ public abstract class Entity {
 	
 	public void move() {
 		this.position = this.position.add(velocity);
+	}
+
+	public Point getLocation() {
+		return new Point((int) (position.getX() + size.getX()), (int) (position.getY() + size.getY()));
 	}
 	
 	public Vector2f getPosition() {
@@ -19,6 +25,10 @@ public abstract class Entity {
 	
 	public void setPosition(float x, float y) {
 		this.position = new Vector2f(x, y);
+	}
+	
+	public Point getDirection() {
+		return new Point((int) (velocity.getX() / Math.abs(velocity.getX())), (int) (velocity.getY() / Math.abs(velocity.getY())));
 	}
 	
 	public Vector2f getVelocity() {

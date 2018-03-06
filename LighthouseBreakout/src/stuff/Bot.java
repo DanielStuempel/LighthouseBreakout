@@ -42,7 +42,7 @@ public class Bot implements Runnable {
 		if (Settings.HAX_ON) {
 			if (ball.getPosition().getX() > paddel.getPosition().getX() + paddel.getSize().getX() / 2)
 				engine.changePaddelPosition(1);
-			else if (ball.getPosition().getX() < paddel.getPosition().getX() + paddel.getSize().getX() / 2)
+			else if (ball.getPosition().getX() <= paddel.getPosition().getX() + paddel.getSize().getX() / 2)
 				engine.changePaddelPosition(-1);
 		}
 	}
