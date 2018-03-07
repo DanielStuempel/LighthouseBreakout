@@ -8,6 +8,7 @@ public class SimpleEngine implements Runnable {
 	Level level;
 	SimplePaddel paddel;
 	SimpleBall ball;
+	int points;
 	LinkedList<Animation> eventList;
 	private int timeout = Settings.RESET_TIMEOUT;
 
@@ -51,6 +52,7 @@ public class SimpleEngine implements Runnable {
 		ball.pos.y = level.size.height-2;
 		ball.vel.x = 1;
 		ball.vel.y = 1;
+		points = 0;
 		paddel.pos = (level.size.width - paddel.size) / 2;
 		level.reset();
 	}
@@ -87,7 +89,8 @@ public class SimpleEngine implements Runnable {
 			// test ground
 			else if (newPos.y >= level.size.height - 1) {
 				if (newPos.x < paddel.pos || newPos.x > paddel.pos + paddel.size) {
-					reset();
+					Settings.SCORE = points;
+					Window.w.Scoreboard();
 					return;
 				} // else if (paddel.vel != 0)
 					// ball.vel.x = paddel.vel;
@@ -126,7 +129,14 @@ public class SimpleEngine implements Runnable {
 		}
 		ball.pos.x += ball.vel.x;
 		ball.pos.y += ball.vel.y;
-
+		
+		points += hitCount;
+		
+		if (level.neededPoints()-points == 0) {
+			Settings.SCORE = level.neededPoints();
+			Settings.GAME_WON = true;
+			Window.w.Scoreboard();
+		}
 		if (hitCount > 0)
 			timeout = Settings.RESET_TIMEOUT;
 		if (timeout-- == 0)

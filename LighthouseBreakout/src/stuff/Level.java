@@ -6,6 +6,7 @@ public class Level {
 	public Dimension size = new Dimension(28, 14);
 	private Brick[][] state;
 	private Map map;
+	private int pointsToEnd = 0;
 	
 	public Level(Map m) {
 		state = new Brick[size.width][size.height];
@@ -15,8 +16,10 @@ public class Level {
 	
 	private void buildLevel() {
 		for (int y = 0; y < size.height && y < map.getMap().length; y++) {
-			for (int x = 0; x < size.width && y < map.getMap()[y].length; x++)
+			for (int x = 0; x < size.width && y < map.getMap()[y].length; x++) {
 				state[x][y] =  new Brick(map.getMap()[y][x]);
+				pointsToEnd += state[x][y].getType();
+			}
 		}
 	}
 	
@@ -26,5 +29,8 @@ public class Level {
 	
 	public void reset() {
 		buildLevel();
+	}
+	public int neededPoints() {
+		return pointsToEnd/2;
 	}
 }

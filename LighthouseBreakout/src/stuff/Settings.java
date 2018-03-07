@@ -12,8 +12,8 @@ class Settings {
 	static Theme THEME = Style.Theme.SPOOKY;
 
 	// game engine settings
-	static int GAME_TICK_MS = 80;
-	static int RESET_TIMEOUT = 200;
+	static int GAME_TICK_MS = 1;
+	static int RESET_TIMEOUT = 300;
 
 	// animation settings
 	static boolean DO_ANIMATIONS = true;
@@ -24,6 +24,8 @@ class Settings {
 	static boolean HAX_ON = true;
 	static boolean OPTIONS_MENU = false;
 	static boolean MOUSE_CONTROL = false;
+	static boolean GAME_WON = false;
+	static int SCORE = 0;
 
 	// window settings
 	static enum Keys {
@@ -35,7 +37,8 @@ class Settings {
 		HAX_SWITCH(KeyEvent.VK_C), 
 		CONTROL_SWITCH(KeyEvent.VK_M),
 		ENGINE_RESET(KeyEvent.VK_R),
-		DEBUG(KeyEvent.VK_D);
+		DEBUG(KeyEvent.VK_D), 
+		GAME_START(KeyEvent.VK_SPACE);
 
 		int keyCode;
 
@@ -46,4 +49,5 @@ class Settings {
 	
 	// other settings
 	public static final boolean CONNECT_TO_LIGHTHOUSE = !true ;
+	public static final String PLAYER_NAME = "YOU";
 }

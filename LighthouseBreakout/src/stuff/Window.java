@@ -18,12 +18,14 @@ public class Window extends JFrame {
 	OptionsMenu optionsMenu = new OptionsMenu();
 	Display display;
 	LinkedList<MenuButton> button = new LinkedList<>();
+	public static Window w;
 
 	SimpleEngine engine;
 
 	public Window(Display display, SimpleEngine engine) {
 		this.display = display;
 		this.engine = engine;
+		this.w = this;
 		init();
 	}
 
@@ -68,6 +70,8 @@ public class Window extends JFrame {
 					engine.reset();
 				else if (keyCode == Settings.Keys.DEBUG.keyCode)
 					engine.debug();
+				else if (keyCode == Settings.Keys.GAME_START.keyCode)
+					Settings.GAME_RUNNING = true;
 
 			}
 
@@ -159,10 +163,6 @@ public class Window extends JFrame {
 		validate();
 	}
 
-	
-	
-	
-
 	private void switchMenu() {
 		if (Settings.OPTIONS_MENU ^= true) {
 			setContentPane(optionsMenu);
@@ -177,8 +177,25 @@ public class Window extends JFrame {
 			setContentPane(menu);
 		} else {
 			setContentPane(display);
-			Settings.GAME_RUNNING = true;
 		}
 		validate();
+	}
+
+	public void Scoreboard() {
+		Settings.GAME_RUNNING = false;
+		EndScreen end = new EndScreen();
+		setContentPane(end);
+		end.add(new MenuButton("AGAIN") {
+			
+			@Override
+			public void onClick(ActionEvent e) {
+				Settings.SCORE = 0;
+				engine.reset();
+				setContentPane(display);
+				validate();
+			}
+		});
+		validate();
+		
 	}
 }
