@@ -1,8 +1,12 @@
 package stuff;
 
-import java.awt.Color;
 import java.awt.Point;
+import java.io.InputStream;
 import java.util.LinkedList;
+
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 
 public class SimpleEngine implements Runnable {
 	Level level;
@@ -48,13 +52,23 @@ public class SimpleEngine implements Runnable {
 	}
 
 	public void reset() {
-		ball.pos.x = level.size.width/2-1;
-		ball.pos.y = level.size.height-2;
+		ball.pos.x = level.size.width / 2 - 1;
+		ball.pos.y = level.size.height - 2;
 		ball.vel.x = 1;
 		ball.vel.y = 1;
 		points = 0;
 		paddel.pos = (level.size.width - paddel.size) / 2;
 		level.reset();
+		try {
+			ClassLoader classloader = Thread.currentThread().getContextClassLoader();
+			InputStream is = classloader.getResourceAsStream("XP_START.wav");
+			AudioInputStream audioIn = AudioSystem.getAudioInputStream(is);
+			Clip clip = AudioSystem.getClip();
+			clip.open(audioIn);
+			clip.start();
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	public synchronized void main() throws InterruptedException {
@@ -67,13 +81,15 @@ public class SimpleEngine implements Runnable {
 		eventList.add(tail);
 
 		// update paddel
-//		if (paddel.pos + paddel.vel >= 0 && paddel.pos + paddel.size + paddel.vel <= level.size.width)
-//			paddel.pos += paddel.vel;
-		
-//		if (!(paddel.pos > 0 && paddel.pos < level.size.width-paddel.size)) {
-//			if (paddel.pos < 0) paddel.pos = 0;
-//			if (paddel.pos > level.size.width-paddel.size) paddel.pos = level.size.width-paddel.size;
-//		}
+		// if (paddel.pos + paddel.vel >= 0 && paddel.pos + paddel.size + paddel.vel <=
+		// level.size.width)
+		// paddel.pos += paddel.vel;
+
+		// if (!(paddel.pos > 0 && paddel.pos < level.size.width-paddel.size)) {
+		// if (paddel.pos < 0) paddel.pos = 0;
+		// if (paddel.pos > level.size.width-paddel.size) paddel.pos =
+		// level.size.width-paddel.size;
+		// }
 
 		Point newPos = new Point(ball.pos.x + ball.vel.x, ball.pos.y + ball.vel.y);
 
@@ -90,6 +106,16 @@ public class SimpleEngine implements Runnable {
 			else if (newPos.y >= level.size.height - 1) {
 				if (newPos.x < paddel.pos || newPos.x > paddel.pos + paddel.size) {
 					Settings.SCORE = points;
+					try {
+					ClassLoader classloader = Thread.currentThread().getContextClassLoader();
+					InputStream is = classloader.getResourceAsStream("trump.wav");
+					AudioInputStream audioIn = AudioSystem.getAudioInputStream(is);
+					Clip clip = AudioSystem.getClip();
+					clip.open(audioIn);
+					clip.start();
+					}catch (Exception e) {
+						e.printStackTrace();
+					}
 					Window.w.Scoreboard();
 					return;
 				} // else if (paddel.vel != 0)
@@ -129,10 +155,10 @@ public class SimpleEngine implements Runnable {
 		}
 		ball.pos.x += ball.vel.x;
 		ball.pos.y += ball.vel.y;
-		
+
 		points += hitCount;
-		
-		if (level.neededPoints()-points == 0) {
+
+		if (level.neededPoints() - points == 0) {
 			Settings.SCORE = level.neededPoints();
 			Settings.GAME_WON = true;
 			Window.w.Scoreboard();
@@ -164,7 +190,8 @@ public class SimpleEngine implements Runnable {
 	}
 
 	public void changePaddelPosition(int newP) {
-		if(paddel.pos + newP < 0 || paddel.pos + newP > level.size.width - paddel.size) return;
+		if (paddel.pos + newP < 0 || paddel.pos + newP > level.size.width - paddel.size)
+			return;
 		paddel.pos += newP;
 	}
 
