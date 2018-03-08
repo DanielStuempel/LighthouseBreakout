@@ -59,15 +59,18 @@ public class SimpleEngine implements Runnable {
 		points = 0;
 		paddel.pos = (level.size.width - paddel.size) / 2;
 		level.reset();
-		try {
-			ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-			InputStream is = classloader.getResourceAsStream("XP_START.wav");
-			AudioInputStream audioIn = AudioSystem.getAudioInputStream(is);
-			Clip clip = AudioSystem.getClip();
-			clip.open(audioIn);
-			clip.start();
-		}catch(Exception e) {
-			e.printStackTrace();
+
+		if (Settings.SOUND_XP_START) {
+			try {
+				ClassLoader classloader = Thread.currentThread().getContextClassLoader();
+				InputStream is = classloader.getResourceAsStream("XP_START.wav");
+				AudioInputStream audioIn = AudioSystem.getAudioInputStream(is);
+				Clip clip = AudioSystem.getClip();
+				clip.open(audioIn);
+				clip.start();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
@@ -107,13 +110,20 @@ public class SimpleEngine implements Runnable {
 				if (newPos.x < paddel.pos || newPos.x > paddel.pos + paddel.size) {
 					Settings.SCORE = points;
 					try {
-					ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-					InputStream is = classloader.getResourceAsStream("trump.wav");
-					AudioInputStream audioIn = AudioSystem.getAudioInputStream(is);
-					Clip clip = AudioSystem.getClip();
-					clip.open(audioIn);
-					clip.start();
-					}catch (Exception e) {
+						ClassLoader classloader = Thread.currentThread().getContextClassLoader();
+						InputStream is = null;
+						if (Settings.SOUND_XP_SHUTDOWN)
+							is = classloader.getResourceAsStream("XP_SHUTDOWN.wav");
+						else if (Settings.SOUND_SAD_TRUMPET)
+							is = classloader.getResourceAsStream("trump.wav");
+						if (is != null) {
+							AudioInputStream audioIn = AudioSystem.getAudioInputStream(is);
+							Clip clip = AudioSystem.getClip();
+							clip.open(audioIn);
+							clip.start();
+							
+						}
+					} catch (Exception e) {
 						e.printStackTrace();
 					}
 					Window.w.Scoreboard();
@@ -157,7 +167,6 @@ public class SimpleEngine implements Runnable {
 		ball.pos.y += ball.vel.y;
 
 		points += hitCount;
-
 		if (level.neededPoints() - points == 0) {
 			Settings.SCORE = level.neededPoints();
 			Settings.GAME_WON = true;

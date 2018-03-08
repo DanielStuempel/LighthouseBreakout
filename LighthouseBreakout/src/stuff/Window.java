@@ -125,6 +125,12 @@ public class Window extends JFrame {
 				switchTheme();
 			}
 		});
+		button.add( new MenuButton("Controls") {
+			@Override
+			public void onClick(ActionEvent e) {
+				switchControls();
+			}
+		});
 		button.add( new MenuButton("BACK") {
 			@Override
 			public void onClick(ActionEvent e) {
@@ -143,6 +149,7 @@ public class Window extends JFrame {
 		optionsMenu.add(new JLabel(""));
 		optionsMenu.add(button.get(3));
 		optionsMenu.add(button.get(4));
+		optionsMenu.add(button.get(5));
 
 		setSize(display.getPreferredSize());
 		setLayout(null);
@@ -151,7 +158,7 @@ public class Window extends JFrame {
 
 		setVisible(true);
 	}
-
+	
 	private void switchTheme() {
 		Style.loadTheme(Style.next());
 		menu.reload();
@@ -181,6 +188,12 @@ public class Window extends JFrame {
 		validate();
 	}
 
+	private void switchControls() {
+		ControlMenu controlMenu = new ControlMenu();
+		setContentPane(controlMenu);
+		controlMenu.add(button.get(5));
+		validate();
+	}
 	public void Scoreboard() {
 		Settings.GAME_RUNNING = false;
 		EndScreen end = new EndScreen();

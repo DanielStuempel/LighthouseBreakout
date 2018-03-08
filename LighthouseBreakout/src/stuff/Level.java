@@ -15,6 +15,7 @@ public class Level {
 	}
 	
 	private void buildLevel() {
+		pointsToEnd = 0;
 		for (int y = 0; y < size.height && y < map.getMap().length; y++) {
 			for (int x = 0; x < size.width && y < map.getMap()[y].length; x++) {
 				state[x][y] =  new Brick(map.getMap()[y][x]);
@@ -31,6 +32,6 @@ public class Level {
 		buildLevel();
 	}
 	public int neededPoints() {
-		return pointsToEnd/2;
+		return pointsToEnd;
 	}
 }

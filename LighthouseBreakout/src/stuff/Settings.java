@@ -12,7 +12,7 @@ class Settings {
 	static Theme THEME = Style.Theme.SPOOKY;
 
 	// game engine settings
-	static int GAME_TICK_MS = 1;
+	static int GAME_TICK_MS = 10;
 	static int RESET_TIMEOUT = 300;
 
 	// animation settings
@@ -25,7 +25,12 @@ class Settings {
 	static boolean OPTIONS_MENU = false;
 	static boolean MOUSE_CONTROL = false;
 	static boolean GAME_WON = false;
+	static boolean SOUND_XP_START = false;	//on restart
+	static boolean SOUND_XP_SHUTDOWN = true; //on game lost
+	static boolean SOUND_SAD_TRUMPET = false; //alternative on game lost
+	static boolean FONT_CUSTOM = true;
 	static int SCORE = 0;
+	
 
 	// window settings
 	static enum Keys {
