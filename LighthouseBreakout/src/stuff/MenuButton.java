@@ -17,6 +17,7 @@ public abstract class MenuButton extends JButton {
 	int size = 80;
 	Font font = null;
 	String text = null;
+
 	public MenuButton() {
 		super();
 		init();
@@ -26,6 +27,7 @@ public abstract class MenuButton extends JButton {
 		super(text);
 		init();
 	}
+
 	public MenuButton(String text, int size) {
 		super(text);
 		this.size = size;
@@ -37,23 +39,25 @@ public abstract class MenuButton extends JButton {
 		setText(text);
 		update();
 	}
+
 	public void update() {
 		setFont(Settings.FONT_CUSTOM ? font : new Font("Comic Sans MS", Font.BOLD, size));
 	}
+
 	private void init() {
 		setName(text);
+		GraphicsEnvironment ge = null;
+		try {
+			ClassLoader classloader = Thread.currentThread().getContextClassLoader();
+			InputStream f = classloader.getResourceAsStream("DS-DIGIB.ttf");
+			ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+			font = Font.createFont(Font.TRUETYPE_FONT, f).deriveFont(Font.BOLD, size);
+			ge.registerFont(font);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		if (Settings.FONT_CUSTOM) {
-			GraphicsEnvironment ge = null;
-			try {
-				ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-				InputStream f = classloader.getResourceAsStream("DS-DIGIB.ttf");
-				ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-				font = Font.createFont(Font.TRUETYPE_FONT, f).deriveFont(Font.BOLD, size);
-				ge.registerFont(font);
-				setFont(font);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+			setFont(font);
 		} else {
 			setFont(new Font("Comic Sans MS", Font.BOLD, size));
 		}
