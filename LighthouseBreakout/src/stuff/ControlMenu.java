@@ -1,13 +1,16 @@
 package stuff;
 
+import java.awt.CardLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.util.LinkedList;
 
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 public class ControlMenu extends Menu {
-	public ControlMenu() {
+	public ControlMenu(CardLayout layout, JPanel contentPane) {
+		super(layout, contentPane, "controlsMenu");
 		setLayout(new GridLayout(10, 1));
 		LinkedList<MenuButton> menuButton = new LinkedList<>();
 
@@ -41,18 +44,17 @@ public class ControlMenu extends Menu {
 
 			@Override
 			public void onClick(ActionEvent e) {
-				Settings.FONT_CUSTOM ^= true;
-				update("Cool Font : " + (Settings.FONT_CUSTOM ? "ON" : "OFF"));
-				// TODO: anpassen auf Daniels Code
-				for (MenuButton b : Window.w.button) {
-					b.update();
-				}
-				Window.w.validate();
-
-				for (MenuButton b : menuButton) {
-					b.update();
-				}
-
+//				Settings.FONT_CUSTOM ^= true;
+//				update("Cool Font : " + (Settings.FONT_CUSTOM ? "ON" : "OFF"));
+//				// TODO: anpassen auf Daniels Code
+//				for (MenuButton b : Window.button) {
+//					b.update();
+//				}
+//				Window.w.validate();
+//
+//				for (MenuButton b : menuButton) {
+//					b.update();
+//				}
 			}
 		});
 		menuButton.add(new MenuButton("Annoying Start Sound : " + (Settings.SOUND_XP_START ? "ON" : "OFF"), 40) {

@@ -9,10 +9,7 @@ import tokens.NoToken;
 
 public class Output implements Runnable {
 	private Display.Input display;
-	private byte[] data;
 	private Level level;
-//	private SimplePaddel paddel;
-//	private SimpleBall ball;
 	private SimpleEngine engine;
 	private LinkedList<Animation> eventList;
 
@@ -20,13 +17,10 @@ public class Output implements Runnable {
 	
 	TickTimer outputTimer;
 
-	public Output(SimpleEngine engine, Display.Input display, byte[] data, Level level, LinkedList<Animation> eventList) {
+	public Output(SimpleEngine engine, Display.Input display, Level level, LinkedList<Animation> eventList) {
 		this.display = display;
-		this.data = data;
 		this.level = level;
 		this.engine = engine;
-//		this.paddel = paddel;
-//		this.ball = ball;
 		this.eventList = eventList;
 	}
 
@@ -42,6 +36,7 @@ public class Output implements Runnable {
 	}
 
 	public void init() {
+		
 		if (Settings.CONNECT_TO_LIGHTHOUSE) {
 			lighthouseDisplay = new LighthouseDisplay(NoToken.USER, NoToken.TOKEN);
 			try {
@@ -67,6 +62,8 @@ public class Output implements Runnable {
 		
 		SimpleBall ball = engine.getBall();
 		SimplePaddel paddel = engine.getPaddel();
+		
+		byte[] data = new byte[28 * 14 * 3];
 		
 		for (int q = 0, y = 0; y < level.size.height; y++) {
 			for (int x = 0; x < level.size.width; x++) {

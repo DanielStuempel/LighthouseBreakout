@@ -12,15 +12,16 @@ class Settings {
 	static Theme THEME = Style.Theme.SPOOKY;
 
 	// game engine settings
-	static int GAME_TICK_MS = 10;
+	static int GAME_TICK_MS = 100;
 	static int RESET_TIMEOUT = 300;
+	static boolean EXPERIMENTAL_ENGINE = true;
 
 	// animation settings
 	static boolean DO_ANIMATIONS = true;
 	static boolean PLAYER_INVINCEBLE = false;
 	static boolean BRICK_COLLISION = true;
-	static boolean GAME_RUNNING = false;
-	static boolean MENU_VIEW = true;
+	static boolean GAME_PAUSED = true;
+	static boolean MENU_SHOWN = true;
 	static boolean HAX_ON = true;
 	static boolean OPTIONS_MENU = false;
 	static boolean MOUSE_CONTROL = false;
@@ -37,7 +38,7 @@ class Settings {
 		PADDEL_LEFT(KeyEvent.VK_LEFT),
 		PADDEL_RIGHT(KeyEvent.VK_RIGHT),
 		SWITCH_FPS_DISPLAY(KeyEvent.VK_F),
-		PAUSE_GAME(KeyEvent.VK_P),
+		PAUSE_GAME(KeyEvent.VK_SPACE),
 		SHOW_MENU(KeyEvent.VK_ESCAPE),
 		HAX_SWITCH(KeyEvent.VK_C), 
 		CONTROL_SWITCH(KeyEvent.VK_M),
@@ -53,6 +54,6 @@ class Settings {
 	}
 	
 	// other settings
-	public static final boolean CONNECT_TO_LIGHTHOUSE = !true ;
+	public static boolean CONNECT_TO_LIGHTHOUSE = false;
 	public static String PLAYER_NAME = "YOU";
 }

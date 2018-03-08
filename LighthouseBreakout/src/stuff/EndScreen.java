@@ -1,13 +1,12 @@
 package stuff;
 
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
 
 import javax.swing.JPanel;
 
 public class EndScreen extends Menu {
 	public EndScreen() {
-
+		super(null, null, "");
 		CoolLabel top = new CoolLabel("NOT DONE YET...", 80);
 		setLayout(new GridLayout(4, 1));
 		if (Settings.GAME_WON)

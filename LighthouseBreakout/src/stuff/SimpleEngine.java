@@ -77,7 +77,7 @@ public class SimpleEngine implements Runnable {
 	public synchronized void main() throws InterruptedException {
 		wait();
 
-		if (!Settings.GAME_RUNNING)
+		if (Settings.GAME_PAUSED)
 			return;
 
 		Animation tail = new Animation(new Point(ball.pos), Style.ballColor, Animation.Type.TAIL);
@@ -126,7 +126,7 @@ public class SimpleEngine implements Runnable {
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
-					Window.w.Scoreboard();
+//					Window.w.Scoreboard();
 					return;
 				} // else if (paddel.vel != 0)
 					// ball.vel.x = paddel.vel;
@@ -170,7 +170,7 @@ public class SimpleEngine implements Runnable {
 		if (level.neededPoints() - points == 0) {
 			Settings.SCORE = level.neededPoints();
 			Settings.GAME_WON = true;
-			Window.w.Scoreboard();
+//			Window.w.Scoreboard();
 		}
 		if (hitCount > 0)
 			timeout = Settings.RESET_TIMEOUT;
@@ -206,6 +206,5 @@ public class SimpleEngine implements Runnable {
 
 	public void debug() {
 		eventList.clear();
-
 	}
 }

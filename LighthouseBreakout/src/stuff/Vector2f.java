@@ -33,18 +33,19 @@ public class Vector2f {
 	}
 	
 	public Vector2f normalize() {
-		return normalize(length());
+		float length = length();
+		return new Vector2f(x / length, y / length);
 	}
 	
-	public Vector2f normalize(float length) {
-		return new Vector2f(x / length, y / length);
+	public Vector2f normalize(float l) {
+		return normalize().multiply(l);
 	}
 	
 	public Vector2f rotateDegrees(float angle) {
 		return rotate((float) Math.toRadians(angle));
 	}
 	
-	public Vector2f rotate(double rad) {
+	public Vector2f rotate(float rad) {
 		double sin = Math.sin(rad);
 		double cos = Math.cos(rad);
 		return new Vector2f((float) (x * cos - y * sin), (float) (x * sin + y * cos));

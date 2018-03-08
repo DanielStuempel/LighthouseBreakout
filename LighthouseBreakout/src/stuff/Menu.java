@@ -1,20 +1,35 @@
 package stuff;
 
-import java.awt.GridLayout;
+import java.awt.CardLayout;
+import java.awt.Component;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
-public class Menu extends JPanel {
-	Menu m = this;
+public abstract class Menu extends JPanel {
+	private CardLayout layout;
+	private JPanel contentPane;
 	
-	public Menu() {
+	public Menu(CardLayout layout, JPanel contentPane, String name) {
+		super();
+		this.layout = layout;
+		this.contentPane = contentPane;
+		layout.addLayoutComponent(this, name);
+		contentPane.add(this);
+
 		setBackground(Style.background);
+
 		setBorder(BorderFactory.createLineBorder(Style.border, 7));
-		setLayout(new GridLayout(5, 1));
 	}
-	void reload(){
+	
+//	public void addMenu(Component comp, String name) {
+//		layout.addLayoutComponent(comp, name);
+//		contentPane.add(comp);
+//	}
+	
+	@Override
+	public void repaint() {
+		super.repaint();
 		setBackground(Style.background);
-		setBorder(BorderFactory.createLineBorder(Style.border, 7));
 	}
 }

@@ -11,8 +11,8 @@ public class Display extends JPanel implements Runnable {
 	private Dimension scale = new Dimension (30, 50);
 	
 	private volatile byte[] data = new byte[size.width * size.height * 3];
-	
 	private volatile boolean dataChanged;
+	
 	TickTimer frameRateTimer;
 	
 	protected abstract class Input {
@@ -55,8 +55,8 @@ public class Display extends JPanel implements Runnable {
 		this.wait();
 		if (!dataChanged)
 			return;
-			dataChanged = false;
-			repaint();
+		repaint();
+		dataChanged = false;
 	}
 	
 	@Override
@@ -99,15 +99,15 @@ public class Display extends JPanel implements Runnable {
 	
 	private void write(byte[] data) {
 		if (this.data.length != data.length)
-			throw new IllegalArgumentException();
+			return;
 		this.data = data.clone();
 		dataChanged = true;
 	}
 	
-	public Input getWriter() {
+	public Input getInput() {
 		return new Input() {
 			@Override
-			public final void send(byte[] data) {
+			public void send(byte[] data) {
 				write(data);
 			}
 		};

@@ -1,10 +1,9 @@
 package stuff;
 
 import java.awt.Color;
-import java.awt.Point;
 
 public class Engine implements Runnable {
-	private boolean running;
+	private boolean paused = false;
 
 	private Paddel pad;
 	private Ball ball;
@@ -19,9 +18,8 @@ public class Engine implements Runnable {
 
 	}
 
-	public Engine(Display.Input display, Level level) {
+	public Engine(Display.Input display) {
 		this.display = display;
-		this.level = level;
 	}
 
 	@Override
@@ -37,11 +35,8 @@ public class Engine implements Runnable {
 	}
 
 	private void init() {
-		pad = new Paddel(10, 13, 7);
-		ball = new Ball(13.5f, 10);
-
-		ball.setVelocity(0f, 1f);
-
+		level = new Level(Map.CAU);
+		reset();
 		Engine e = this;
 		TickTimer gameTickTimer = new TickTimer() {
 			@Override
@@ -57,7 +52,7 @@ public class Engine implements Runnable {
 	private synchronized void main() throws InterruptedException {
 		wait();
 
-		if (!Settings.GAME_RUNNING)
+		if (Settings.GAME_PAUSED || paused)
 			return;
 
 		pad.setPosition(pad.getPosition().getX() + newPaddelPosition);
@@ -72,75 +67,57 @@ public class Engine implements Runnable {
 		} else {
 			pad.move();
 		}
-		
+
 		Vector2f pos = ball.getPosition();
 		Vector2f vel = ball.getVelocity();
+
+		// boolean a, b;
 		while (true) {
 			Vector2f newPos = pos.add(vel);
-			if (newPos.getX() < 0.5f) {
-				pos = new Vector2f(0.5f, pos.getY());
+			if (newPos.getX() < 0)
 				vel = new Vector2f(-vel.getX(), vel.getY());
-			} else if (newPos.getX() > 27.5f) {
-				pos = new Vector2f(27.5f, pos.getY());
+			else if (newPos.getX() > level.size.width)
 				vel = new Vector2f(-vel.getX(), vel.getY());
-			} else if (newPos.getY() < 0.5f) {
-				pos = new Vector2f(pos.getX(), 0.5f);
+			else if (newPos.getY() < 0)
 				vel = new Vector2f(vel.getX(), -vel.getY());
-			} else if (newPos.getY() > 12.5f) {
-				if (pos.getX() >= pad.getPosition().getX()
-						&& pos.getX() < pad.getPosition().getX() + pad.getSize().getX()) {
-					pos = new Vector2f(pos.getX(), 12.5f);
-					float rotation = (float) vel.angle(vel.rotate(Math.PI + vel.angle(new Vector2f(1, 0)) * 2));
-					float scaling = (pos.getX() - pad.getPosition().getX() - pad.getSize().getX() / 2)
-							/ pad.getSize().getX();
-					if (vel.getX() < 0)
-						rotation *= -1;
-//					System.out.println(rotation + "+" + scaling);
-//					System.out.println(vel);
-//					System.out.println(ball.getVelocity());
-					Vector2f tmp = vel.rotate(Math.PI + rotation + scaling);
-					float angle = vel.angle(new Vector2f(1, 0));
-					// System.out.println(angle);
-					if (angle > 1 && angle < 2)
-						vel = new Vector2f(tmp);
+			else if (newPos.getY() > level.size.height - 1)
+				if (collision(ball, pad)) {
+					float scaling = ((pos.getX() + ball.getSize().getX() / 2)
+							- (pad.getPosition().getX() + pad.getSize().getX() / 2)) / (pad.getSize().getX() * 10);
+					Vector2f tmp = vel.rotate(-vel.angle(new Vector2f(1, 0)) * 2 + scaling);
+					if (tmp.angle(new Vector2f(1, 0)) > Math.PI / 4 && tmp.angle(new Vector2f(1, 0)) < Math.PI / 4 * 3)
+						vel = tmp;
 					else
-						vel = vel.rotate(Math.PI + rotation);
+						vel = vel.rotate(-vel.angle(new Vector2f(1, 0)) * 2);
 				} else {
-					pos = new Vector2f(13, 10);
-					vel = new Vector2f(0, 1);
-					level.reset();
+					reset();
+					break;
 				}
-			} else if (testBrick(ball.getLocation().x + ball.getDirection().x, ball.getLocation().y + ball.getDirection().y)
-					&& level.get(ball.getLocation().x, ball.getLocation().y).hit()) {
-				if (testBrick(ball.getLocation().x - ball.getDirection().x, ball.getLocation().y))
-					level.get(ball.getLocation().x - ball.getDirection().x, ball.getLocation().y).hit();
-				if (testBrick(ball.getLocation().x, ball.getLocation().y - ball.getDirection().y))
-					level.get(ball.getLocation().x, ball.getLocation().y - ball.getDirection().y).hit();
-				if ((pos.getX() - ball.getLocation().x) - (pos.getY() - ball.getLocation().y) > 0) {
-					pos = ball.getPosition();
+			else {
+				int x = (int) pos.getX();
+				int y = (int) pos.getY();
+				int nx = (int) newPos.getX();
+				int ny = (int) newPos.getY();
+
+				boolean c = collisionBrick((int) newPos.getX(), (int) newPos.getY());
+				boolean a = c && y == ny || collisionBrick((int) newPos.getX(), (int) pos.getY());
+				boolean b = c && x == nx || collisionBrick((int) pos.getX(), (int) newPos.getY());
+
+				if (a && !b)
 					vel = new Vector2f(-vel.getX(), vel.getY());
-					System.out.println("x");
-				} else if ((pos.getX() - ball.getLocation().x) - (pos.getY() - ball.getLocation().y) < 0) {
-					pos = ball.getPosition();
+				else if (b && !a)
 					vel = new Vector2f(vel.getX(), -vel.getY());
-					System.out.println("y");
+				else if (!a && !b && !c) {
+					ball.setPosition(pos);
+					ball.setVelocity(vel);
+					ball.move();
+					break;
 				} else {
-					pos = ball.getPosition();
-					vel = new Vector2f(-vel.getX(), -vel.getY());
-					System.out.println("xy");
-				}
-				vel = new Vector2f(ball.getVelocity().rotate(Math.PI));
-			} else {
-				ball.setPosition(pos);
-				ball.setVelocity(vel);
-				ball.move();
-				break;
+					vel = new Vector2f(-vel.getX(), vel.getY());
+					vel = new Vector2f(vel.getX(), -vel.getY());
+				} 
 			}
-
 		}
-
-		// System.out.println(ball.getPosition() + ":" + ball.getVelocity() + ":" +
-		// ball.getVelocity().length());
 
 		byte[] data = new byte[28 * 14 * 3];
 
@@ -163,29 +140,41 @@ public class Engine implements Runnable {
 		// draw paddel
 		p = (int) (pad.getPosition().getX() + pad.getPosition().getY() * 28) * 3;
 		for (int i = 0; i < pad.getSize().getX(); i++) {
-			data[p++] = -1;
-			data[p++] = -1;
-			data[p++] = -1;
+			data[p++] = (byte) Style.paddel.getRed();
+			data[p++] = (byte) Style.paddel.getGreen();
+			data[p++] = (byte) Style.paddel.getBlue();
 		}
 
 		display.send(data);
 	}
 
 	private boolean collision(Entity a, Entity b) {
-		if (a.getStart().length() > b.getEnd().length() || b.getStart().length() > a.getEnd().length())
+		if (a.getStart().getX() > b.getEnd().getX() || a.getStart().getY() > b.getEnd().getY()
+				|| b.getStart().getX() > a.getEnd().getX() || b.getStart().getY() > a.getEnd().getY())
 			return false;
 		return true;
 	}
 
-	private boolean testBrick(int x, int y) {
+	private boolean collision(Entity a, float x, float y) {
+		if (a.getStart().getX() > x + 1 || a.getStart().getY() > y + 1 || x > a.getEnd().getX()
+				|| y > a.getEnd().getY())
+			return false;
+		return true;
+	}
+
+	private boolean collisionBrick(Vector2f v) {
+		return collisionBrick((int) v.getX(), (int) v.getY());
+	}
+
+	private boolean collisionBrick(int x, int y) {
 		if (x < 0 || y < 0 || x >= level.size.width || y >= level.size.height)
 			return false;
-		return level.get(x, y).getType() != 0;
+		return level.get(x, y).hit();
 	}
 
 	// TODO:
 	public void changePaddelPosition(float x) {
-		newPaddelPosition += x;
+		newPaddelPosition = x;
 	}
 
 	public Ball getPosition() {
@@ -201,19 +190,23 @@ public class Engine implements Runnable {
 	}
 
 	public void pause() {
-		running = false;
+		paused = true;
 	}
 
 	public void unpause() {
-		running = true;
+		paused = false;
 	}
 
 	public boolean isPaused() {
-		return !running;
+		return paused;
 	}
 
 	public void reset() {
-
+		pad = new Paddel(11, 13, 5);
+		ball = new Ball(13.5f, 10);
+		ball.setVelocity(new Vector2f(0.2f, 0.8f).normalize());
+		level.reset();
+		System.out.println("reset");
 	}
 
 	public void debug() {

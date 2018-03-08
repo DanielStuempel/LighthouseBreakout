@@ -1,41 +1,52 @@
 package stuff;
 
+import java.awt.CardLayout;
 import java.awt.event.ActionEvent;
+import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionListener;
-import java.util.LinkedList;
+import java.awt.event.MouseMotionAdapter;
 
 import javax.swing.JFrame;
-import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 public class Window extends JFrame {
 
-	Menu menu = new Menu();
-	OptionsMenu optionsMenu = new OptionsMenu();
-	Display display;
-	LinkedList<MenuButton> button = new LinkedList<>();
-	public static Window w;
+	private MainMenu menu;
+	private OptionsMenu optionsMenu;
+	private Display display;
+	
+	CardLayout layout;
+	JPanel contentPane;
 
-	SimpleEngine engine;
+	private Engine engine;
 
-	public Window(Display display, SimpleEngine engine) {
+	public Window(Display display, Engine engine) {
 		this.display = display;
 		this.engine = engine;
-		this.w = this;
 		init();
 	}
 
 	private void init() {
-		SimplePaddel paddel = engine.getPaddel();
+		layout = new CardLayout();
+		contentPane = new JPanel(layout);
+		setContentPane(contentPane);
+		
+		Paddel paddel = engine.getPaddel();
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				Settings.MOUSE_CONTROL = true;
+			}
+		});
 
-		addMouseMotionListener(new MouseMotionListener() {
-
+		addMouseMotionListener(new MouseMotionAdapter() {
 			@Override
 			public void mouseMoved(MouseEvent e) {
 				if (Settings.MOUSE_CONTROL && !Settings.HAX_ON) {
@@ -43,23 +54,22 @@ public class Window extends JFrame {
 					engine.changePaddelPosition((int) (pos - engine.getPaddel().getPosition().getX()));
 				}
 			}
-
-			@Override
-			public void mouseDragged(MouseEvent e) { }
 		});
 
-		addKeyListener(new KeyListener() {
+		addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent arg0) {
 				int keyCode = arg0.getKeyCode();
-				if (keyCode == Settings.Keys.PADDEL_LEFT.keyCode && !Settings.MOUSE_CONTROL)
+				if (keyCode == Settings.Keys.PADDEL_LEFT.keyCode) {
+					Settings.MOUSE_CONTROL = false;
 					engine.changePaddelPosition(-1);
-				else if (keyCode == Settings.Keys.PADDEL_RIGHT.keyCode && !Settings.MOUSE_CONTROL)
+				} else if (keyCode == Settings.Keys.PADDEL_RIGHT.keyCode) {
+					Settings.MOUSE_CONTROL = false;
 					engine.changePaddelPosition(1);
-				else if (keyCode == Settings.Keys.SWITCH_FPS_DISPLAY.keyCode)
+				} else if (keyCode == Settings.Keys.SWITCH_FPS_DISPLAY.keyCode)
 					Settings.SHOW_FPS_ON_DISPLAY ^= true;
 				else if (keyCode == Settings.Keys.PAUSE_GAME.keyCode)
-					Settings.GAME_RUNNING ^= true;
+					Settings.GAME_PAUSED ^= true;
 				else if (keyCode == Settings.Keys.SHOW_MENU.keyCode)
 					switchView();
 				else if (keyCode == Settings.Keys.HAX_SWITCH.keyCode)
@@ -71,105 +81,29 @@ public class Window extends JFrame {
 				else if (keyCode == Settings.Keys.DEBUG.keyCode)
 					engine.debug();
 				else if (keyCode == Settings.Keys.GAME_START.keyCode)
-					Settings.GAME_RUNNING = true;
-
-			}
-
-			@Override
-			public void keyReleased(KeyEvent arg0) {
-			}
-
-			@Override
-			public void keyTyped(KeyEvent arg0) {
+					Settings.GAME_PAUSED = true;
 			}
 		});
 
-		addFocusListener(new FocusListener() {
-
-			@Override
-			public void focusGained(FocusEvent arg0) {
-			}
-
+		addFocusListener(new FocusAdapter() {
 			@Override
 			public void focusLost(FocusEvent arg0) {
 				requestFocus();
 			}
 		});
-
-		menu = new Menu();
-
-		// MENU
-		button.add(new MenuButton("START") {
-			@Override
-			public void onClick(ActionEvent e) {
-				switchView();
-			}
-		});
-		button.add( new MenuButton("OPTIONS") {
-			@Override
-			public void onClick(ActionEvent e) {
-				switchMenu();
-			}
-		});
-		button.add( new MenuButton("SCORES") {
-			@Override
-			public void onClick(ActionEvent e) {
-				System.out.println("score");
-			}
-		});
-
-		// OPTIONS MENU
-		button.add( new MenuButton("STYLE: " + Settings.THEME.toString()) {
-			@Override
-			public void onClick(ActionEvent e) {
-				switchTheme();
-			}
-		});
-		button.add( new MenuButton("Controls") {
-			@Override
-			public void onClick(ActionEvent e) {
-				switchControls();
-			}
-		});
-		button.add( new MenuButton("BACK") {
-			@Override
-			public void onClick(ActionEvent e) {
-				System.out.println("back");
-				setContentPane(menu);
-				Settings.OPTIONS_MENU = false;
-				validate();
-			}
-		});
-
-		menu.add(new JLabel(" "));
-		menu.add(button.get(0));
-		menu.add(button.get(1));
-		menu.add(button.get(2));
-
-		optionsMenu.add(new JLabel(""));
-		optionsMenu.add(button.get(3));
-		optionsMenu.add(button.get(4));
-		optionsMenu.add(button.get(5));
-
+		
+		menu = new MainMenu(layout, contentPane);
+		
 		setSize(display.getPreferredSize());
-		setLayout(null);
+		
+		contentPane.add(display);
 
-		switchView();
-
+		layout.addLayoutComponent(menu, "menu");
+		layout.addLayoutComponent(display, "display");
+		
 		setVisible(true);
 	}
 	
-	private void switchTheme() {
-		Style.loadTheme(Style.next());
-		menu.reload();
-		optionsMenu.reload();
-		for (MenuButton b : button) {
-			b.reload();
-		}
-		button.get(3).setText("STYLE: " + Settings.THEME.toString());
-		validate();
-	}
-
 	private void switchMenu() {
 		if (Settings.OPTIONS_MENU ^= true) {
 			setContentPane(optionsMenu);
@@ -177,25 +111,24 @@ public class Window extends JFrame {
 		validate();
 	}
 
-
 	private void switchView() {
-		if (!(Settings.MENU_VIEW ^= true)) {
-			Settings.GAME_RUNNING = false;
-			setContentPane(menu);
+		if (Settings.MENU_SHOWN ^= true) {
+			Settings.GAME_PAUSED = true;
+			layout.show(contentPane, "menu");
 		} else {
-			setContentPane(display);
+			layout.show(contentPane, "display");
 		}
 		validate();
 	}
 
-	private void switchControls() {
-		ControlMenu controlMenu = new ControlMenu();
-		setContentPane(controlMenu);
-		controlMenu.add(button.get(5));
-		validate();
-	}
+//	private void switchControls() {
+//		ControlMenu controlMenu = new ControlMenu();
+//		setContentPane(controlMenu);
+////		controlMenu.add(button.get(5));
+//		validate();
+//	}
 	public void Scoreboard() {
-		Settings.GAME_RUNNING = false;
+		Settings.GAME_PAUSED = false;
 		EndScreen end = new EndScreen();
 		setContentPane(end);
 		end.add(new MenuButton("AGAIN") {
@@ -209,6 +142,5 @@ public class Window extends JFrame {
 			}
 		});
 		validate();
-		
 	}
 }
