@@ -15,6 +15,8 @@ import javax.swing.JButton;
 
 public abstract class MenuButton extends JButton {
 	int size = 80;
+	Font font = null;
+	String text = null;
 	public MenuButton() {
 		super();
 		init();
@@ -22,30 +24,36 @@ public abstract class MenuButton extends JButton {
 
 	public MenuButton(String text) {
 		super(text);
-		setName(text);
 		init();
 	}
 	public MenuButton(String text, int size) {
 		super(text);
-		setName(text);
 		this.size = size;
 		init();
 	}
 
+	public void update(String newText) {
+		this.text = newText;
+		setText(text);
+		update();
+	}
+	public void update() {
+		setFont(Settings.FONT_CUSTOM ? font : new Font("Comic Sans MS", Font.BOLD, size));
+	}
 	private void init() {
+		setName(text);
 		if (Settings.FONT_CUSTOM) {
 			GraphicsEnvironment ge = null;
-			Font font = null;
 			try {
 				ClassLoader classloader = Thread.currentThread().getContextClassLoader();
 				InputStream f = classloader.getResourceAsStream("DS-DIGIB.ttf");
 				ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 				font = Font.createFont(Font.TRUETYPE_FONT, f).deriveFont(Font.BOLD, size);
 				ge.registerFont(font);
+				setFont(font);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			setFont(font);
 		} else {
 			setFont(new Font("Comic Sans MS", Font.BOLD, size));
 		}
