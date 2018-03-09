@@ -14,7 +14,9 @@ public class OptionsMenu extends Menu {
 		add(new MenuButton("STYLE: " + Settings.THEME.toString()) {
 			@Override
 			public void onClick(ActionEvent e) {
-				System.out.println("style");
+				Style.next();
+				setText("STYLE: " + Settings.THEME.toString());
+				//TODO: next
 			}
 		});
 		
