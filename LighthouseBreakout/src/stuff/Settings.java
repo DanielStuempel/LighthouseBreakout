@@ -29,7 +29,7 @@ class Settings {
 	static boolean SOUND_XP_START = false;	//on restart
 	static boolean SOUND_XP_SHUTDOWN = true; //on game lost
 	static boolean SOUND_SAD_TRUMPET = false; //alternative on game lost
-	static boolean FONT_CUSTOM = true;
+	static boolean CUSTOM_FONT = true;
 	static int SCORE = 0;
 	
 

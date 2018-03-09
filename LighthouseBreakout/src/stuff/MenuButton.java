@@ -1,71 +1,31 @@
 package stuff;
 
-import java.awt.Font;
-import java.awt.FontFormatException;
-import java.awt.GraphicsEnvironment;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
 
 import javax.swing.JButton;
 
 public abstract class MenuButton extends JButton {
-	int size = 80;
-	Font font = null;
-	String text = null;
-
-	public MenuButton() {
-		super();
-		init();
-	}
-
+	int fontSize;
+	
 	public MenuButton(String text) {
+		this(text, Style.font.getSize());
+	}
+
+	public MenuButton(String text, int fontSize) {
 		super(text);
+		this.fontSize = fontSize;
 		init();
-	}
-
-	public MenuButton(String text, int size) {
-		super(text);
-		this.size = size;
-		init();
-	}
-
-	public void update(String newText) {
-		this.text = newText;
-		setText(text);
-		update();
-	}
-
-	public void update() {
-		setFont(Settings.FONT_CUSTOM ? font : new Font("Comic Sans MS", Font.BOLD, size));
 	}
 
 	private void init() {
-		setName(text);
-		GraphicsEnvironment ge = null;
-		try {
-			ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-			InputStream f = classloader.getResourceAsStream("DS-DIGIB.ttf");
-			ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-			font = Font.createFont(Font.TRUETYPE_FONT, f).deriveFont(Font.BOLD, size);
-			ge.registerFont(font);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		if (Settings.FONT_CUSTOM) {
-			setFont(font);
-		} else {
-			setFont(new Font("Comic Sans MS", Font.BOLD, size));
-		}
-		setForeground(Style.menuButton);
-		setBorderPainted(false);
-		setBackground(Style.background);
 		setFocusPainted(false);
+		setBorderPainted(false);
 		setContentAreaFilled(false);
+		
+		load();
 
 		addActionListener(new ActionListener() {
 			@Override
@@ -89,9 +49,13 @@ public abstract class MenuButton extends JButton {
 
 	public abstract void onClick(ActionEvent e);
 
-	public void reload() {
+	private void load() {
 		setBackground(Style.background);
 		setForeground(Style.menuButton);
+		setFont(Style.font.deriveFont((float) fontSize));
+	}
 
+	public void reload() {
+		load();
 	}
 }

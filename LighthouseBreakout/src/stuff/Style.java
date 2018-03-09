@@ -1,6 +1,7 @@
 package stuff;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.util.Arrays;
 
 public class Style {
@@ -12,6 +13,12 @@ public class Style {
 	public static Color menuButtonOn;
 	public static Color border;
 	public static Color paddel;
+	
+	public static String defaultFont = "ComicSansMS";
+	public static int fontStyle = Font.BOLD;
+	public static int fontSize = 80;
+	public static Font font;
+	
 	
 	public static enum Theme {
 		DEFAULT(null),

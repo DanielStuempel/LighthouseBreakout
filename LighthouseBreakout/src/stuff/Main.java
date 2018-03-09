@@ -1,5 +1,10 @@
 package stuff;
 
+import java.awt.Font;
+import java.awt.FontFormatException;
+import java.awt.GraphicsEnvironment;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Timer;
@@ -15,7 +20,23 @@ public class Main {
 		parseArguments(args);
 
 		Style.loadTheme(Settings.THEME);
-
+		
+		try {
+			InputStream r = Thread.currentThread().getContextClassLoader().getResourceAsStream("DS-DIGIB.ttf");
+			Font f = Font.createFont(Font.TRUETYPE_FONT, r).deriveFont(Style.fontStyle, Style.fontSize);
+			GraphicsEnvironment.getLocalGraphicsEnvironment().registerFont(f);
+			
+			if (Settings.CUSTOM_FONT)
+				Style.font = f;
+			else
+				Style.font = new Font(Style.defaultFont, Style.fontStyle, Style.fontSize);
+			
+		} catch (FontFormatException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
 		LinkedList<Animation> eventList = new LinkedList<>();
 		byte[] data = new byte[28 * 14 * 3];
 

@@ -11,7 +11,7 @@ public class CoolLabel extends JLabel {
 	Font font = null;
 	public CoolLabel(String text, int size) {
 		super(text, SwingConstants.CENTER);
-		if (Settings.FONT_CUSTOM) {
+		if (Settings.CUSTOM_FONT) {
 			GraphicsEnvironment ge = null;
 			try {
 				ClassLoader classloader = Thread.currentThread().getContextClassLoader();

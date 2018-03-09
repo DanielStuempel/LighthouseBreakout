@@ -154,18 +154,7 @@ public class Engine implements Runnable {
 			return false;
 		return true;
 	}
-
-	private boolean collision(Entity a, float x, float y) {
-		if (a.getStart().getX() > x + 1 || a.getStart().getY() > y + 1 || x > a.getEnd().getX()
-				|| y > a.getEnd().getY())
-			return false;
-		return true;
-	}
-
-	private boolean collisionBrick(Vector2f v) {
-		return collisionBrick((int) v.getX(), (int) v.getY());
-	}
-
+	
 	private boolean collisionBrick(int x, int y) {
 		if (x < 0 || y < 0 || x >= level.size.width || y >= level.size.height)
 			return false;

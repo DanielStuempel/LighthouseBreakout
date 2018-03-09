@@ -1,7 +1,6 @@
 package stuff;
 
 import java.awt.CardLayout;
-import java.awt.event.ActionEvent;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.KeyAdapter;
