@@ -8,8 +8,10 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
+import java.net.URL;
 import java.util.LinkedList;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -54,6 +56,11 @@ public class Window extends JFrame {
 		layout = new CardLayout();
 		contentPane = new MainPanel(layout);
 		setContentPane(contentPane);
+		
+		URL iconURL = getClass().getResource("/doge.png");
+		ImageIcon icon = new ImageIcon(iconURL);
+		setIconImage(icon.getImage());
+
 		
 		Paddel paddel = engine.getPaddel();
 
