@@ -23,7 +23,7 @@ public class OptionsMenu extends Menu {
 		add(new MenuButton("SETTINGS") {
 			@Override
 			public void onClick(ActionEvent e) {
-				layout.show(contentPane, "controlsMenu");
+				layout.show(contentPane, "settingsMenu");
 			}
 		});
 		
@@ -41,6 +41,6 @@ public class OptionsMenu extends Menu {
 			}
 		});
 
-		new ControlMenu(layout, contentPane);
+		new SettingsMenu(layout, contentPane);
 	}
 }

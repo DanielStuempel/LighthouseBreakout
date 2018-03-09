@@ -16,7 +16,7 @@ public class Window extends JFrame {
 
 	private MainMenu menu;
 	private EndScreen endScreen;
-	private ControlMenu2 controlMenu;
+	private ControlMenu controlMenu;
 	private Display display;
 	
 	CardLayout layout;
@@ -92,7 +92,7 @@ public class Window extends JFrame {
 		
 		menu = new MainMenu(layout, contentPane);
 		endScreen = new EndScreen(layout, contentPane);
-		controlMenu = new ControlMenu2(layout, contentPane);
+		controlMenu = new ControlMenu(layout, contentPane);
 		
 		
 		setSize(display.getPreferredSize());
