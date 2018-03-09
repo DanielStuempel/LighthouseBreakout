@@ -7,6 +7,7 @@ import stuff.Style;
 
 public class MenuLabel extends JLabel {
 	private int size;
+	
 	public MenuLabel(String text, int size) {
 		super(text, SwingConstants.CENTER);
 		this.size = size;

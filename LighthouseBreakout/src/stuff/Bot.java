@@ -5,7 +5,7 @@ import model.Ball;
 import model.Paddel;
 
 public class Bot implements Runnable {
-	Engine engine;
+	private Engine engine;
 
 	public Bot(Engine engine) {
 		this.engine = engine;
@@ -25,7 +25,7 @@ public class Bot implements Runnable {
 		}
 	}
 
-	public void init() {
+	private void init() {
 		Bot bot = this;
 		TickTimer timer = new TickTimer() {
 			@Override

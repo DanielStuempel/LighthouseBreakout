@@ -11,8 +11,8 @@ import stuff.Style;
 import stuff.Window.MainPanel;
 
 public class EndScreen extends Menu {
-	MenuLabel cl;
-	MenuLabel top;
+	private MenuLabel cl;
+	private MenuLabel top;
 
 	public EndScreen(CardLayout layout, MainPanel contentPane) {
 		super(layout, contentPane, "endScreen");

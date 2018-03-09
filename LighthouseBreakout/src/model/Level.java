@@ -6,8 +6,8 @@ public class Level {
 	public Dimension size = new Dimension(28, 14);
 	private Brick[][] state;
 	private Map map;
-	public int maxScore;
 	private int score;
+	public int maxScore;
 	
 	public Level(Map m) {
 		state = new Brick[size.width][size.height];

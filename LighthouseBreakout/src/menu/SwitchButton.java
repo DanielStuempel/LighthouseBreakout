@@ -3,7 +3,7 @@ package menu;
 import stuff.Style;
 
 public abstract class SwitchButton extends MenuButton {
-	String text;
+	private String text;
 	
 	public SwitchButton(String text, boolean value) {
 		this(text, Style.font.getSize(), value);

@@ -26,8 +26,8 @@ public class Settings {
 	public static boolean HAX_ON = true;
 	public static boolean OPTIONS_MENU = false;
 	public static boolean MOUSE_CONTROL = false;
-	public static boolean SOUND_XP_START = false; // on restart
-	public static boolean SOUND_XP_SHUTDOWN = false; // on game lost
+	public static boolean SOUND_XP_START = true;
+	public static boolean SOUND_XP_SHUTDOWN = false;
 	public static boolean CUSTOM_FONT = true;
 
 	// planned
@@ -36,10 +36,16 @@ public class Settings {
 
 	// window settings
 	public static enum Keys {
-		PADDEL_LEFT(KeyEvent.VK_LEFT), PADDEL_RIGHT(KeyEvent.VK_RIGHT), SWITCH_FPS_DISPLAY(KeyEvent.VK_F), PAUSE_GAME(
-				KeyEvent.VK_SPACE), SHOW_MENU(KeyEvent.VK_ESCAPE), HAX_SWITCH(KeyEvent.VK_C), CONTROL_SWITCH(
-						KeyEvent.VK_M), ENGINE_RESET(
-								KeyEvent.VK_R), DEBUG(KeyEvent.VK_D), GAME_START(KeyEvent.VK_SPACE);
+		PADDEL_LEFT(KeyEvent.VK_LEFT),
+		PADDEL_RIGHT(KeyEvent.VK_RIGHT),
+		SWITCH_FPS_DISPLAY(KeyEvent.VK_F),
+		PAUSE_GAME(KeyEvent.VK_SPACE),
+		SHOW_MENU(KeyEvent.VK_ESCAPE),
+		HAX_SWITCH(KeyEvent.VK_C),
+		CONTROL_SWITCH(KeyEvent.VK_M),
+		ENGINE_RESET(KeyEvent.VK_R),
+		DEBUG(KeyEvent.VK_D),
+		GAME_START(KeyEvent.VK_SPACE);
 
 		int keyCode;
 

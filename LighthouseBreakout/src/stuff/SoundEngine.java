@@ -14,10 +14,6 @@ public class SoundEngine {
 	public static final int GAME_START = 0;
 	public static final int GAME_LOST = 1;
 
-	public SoundEngine() {
-
-	}
-
 	public void playSound(int sound) {
 		String file;
 
