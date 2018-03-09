@@ -10,8 +10,8 @@ import stuff.Window.MainPanel;
 public class MainMenu extends Menu {
 	public MainMenu(CardLayout layout, MainPanel contentPane) {
 		super(layout, contentPane, "main");
-		setLayout(new GridLayout(4, 1));
-
+		setLayout(new GridLayout(5, 1));
+		add(new MenuLabel("", 15));
 		add(new MenuButton("START") {
 			@Override
 			public void onClick(ActionEvent e) {
