@@ -31,7 +31,6 @@ public class Credits extends Menu {
 		String coolText2 = "Breakout von Daniel und Jan";
 		String coolText1 = "";
 		String coolText3 = "";
-
 		add(new MenuLabel("", 40));
 		add(new MenuLabel("", 40));
 		add(new MenuLabel("", 40));
