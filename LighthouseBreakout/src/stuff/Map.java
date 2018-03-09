@@ -150,4 +150,27 @@ public enum Map {
 				return null;
 		}
 	}
+
+	public static Map next() {
+		switch(Settings.LEVEL) {
+		case CAU:
+			return newCAU;
+		case FINAL:
+			return CAU;
+		case FULL:
+			break;
+		case LEVEL:
+			break;
+		case OLD_CAU:
+			break;
+		case TEST:
+			break;
+		case newCAU:
+			return FINAL;
+		default:
+			break;
+		
+		}
+		return Settings.LEVEL;
+	}
 }

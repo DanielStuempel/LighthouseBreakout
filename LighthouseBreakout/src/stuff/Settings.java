@@ -15,6 +15,7 @@ class Settings {
 	static int GAME_TICK_MS = 100;
 	static int RESET_TIMEOUT = 300;
 	static boolean EXPERIMENTAL_ENGINE = true;
+	static Map LEVEL = Map.CAU;
 
 	// animation settings
 	static boolean DO_ANIMATIONS = true;

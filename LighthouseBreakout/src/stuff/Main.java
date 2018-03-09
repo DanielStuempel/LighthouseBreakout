@@ -43,7 +43,7 @@ public class Main {
 		LinkedList<Animation> eventList = new LinkedList<>();
 		byte[] data = new byte[28 * 14 * 3];
 
-		Level level = new Level(Map.newCAU);
+		Level level = new Level(Settings.LEVEL);
 
 		Display display = new Display();
 		Thread displayThread = new Thread(display, "displayThread");

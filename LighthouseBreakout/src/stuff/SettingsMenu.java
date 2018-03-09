@@ -20,6 +20,15 @@ public class SettingsMenu extends Menu {
 				if (input == null || input.isEmpty())
 					return;
 				Settings.PLAYER_NAME = input;
+				setText("Name : " + Settings.PLAYER_NAME);
+			}
+		});
+		
+		add(new MenuButton("Level : " + Settings.LEVEL, 40) {
+			@Override
+			public void onClick(ActionEvent e) {
+				Settings.LEVEL = Map.next();
+				setText("Level : " + Settings.LEVEL);
 			}
 		});
 
