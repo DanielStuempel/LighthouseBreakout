@@ -27,13 +27,13 @@ public class MainMenu extends Menu {
 			}
 		});
 		
-		add(new MenuButton("SCORES") {
+		add(new MenuButton("CREDITS") {
 			@Override
 			public void onClick(ActionEvent e) {
-				System.out.println("score");
+				layout.show(contentPane, "credits");
 			}
 		});
-
+		new Credits(layout, contentPane);
 		new OptionsMenu(layout, contentPane);
 	}
 }

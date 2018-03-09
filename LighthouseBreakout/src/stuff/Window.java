@@ -64,7 +64,7 @@ public class Window extends JFrame {
 		contentPane = new MainPanel(layout);
 		setContentPane(contentPane);
 
-		URL iconURL = getClass().getResource("/doge.png");
+		URL iconURL = getClass().getResource("/icon.png");
 		ImageIcon icon = new ImageIcon(iconURL);
 		setIconImage(icon.getImage());
 
