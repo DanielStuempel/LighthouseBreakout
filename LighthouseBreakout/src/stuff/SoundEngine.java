@@ -15,25 +15,27 @@ public class SoundEngine {
 	public static final int GAME_LOST = 1;
 
 	public SoundEngine() {
-		
+
 	}
 
 	public void playSound(int sound) {
 		String file;
-		
+
 		switch (sound) {
 		case GAME_START:
-			file = "XP_START.wav";
+			if (!Settings.SOUND_XP_START) return;
+				file = "XP_START.wav";
 			break;
 		case GAME_LOST:
 			if (Settings.SOUND_XP_SHUTDOWN)
 				file = "XP_SHUTDOWN.wav";
 			else
 				file = "trump.wav";
+			break;
 		default:
 			return;
 		}
-		
+
 		Clip c;
 		ClassLoader classloader = Thread.currentThread().getContextClassLoader();
 		InputStream i = classloader.getResourceAsStream(file);

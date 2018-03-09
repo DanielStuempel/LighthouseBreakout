@@ -51,7 +51,6 @@ public class SimpleEngine extends Engine {
 		ball.setVelocity(1, 1);
 		paddel.setPosition((level.size.width - paddel.getSize().getX()) / 2);
 		level.reset();
-
 		new SoundEngine().playSound(SoundEngine.GAME_START);
 	}
 

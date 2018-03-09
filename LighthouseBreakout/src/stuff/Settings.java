@@ -25,7 +25,7 @@ class Settings {
 	static boolean OPTIONS_MENU = false;
 	static boolean MOUSE_CONTROL = false;
 	static boolean SOUND_XP_START = false;	//on restart
-	static boolean SOUND_XP_SHUTDOWN = true; //on game lost
+	static boolean SOUND_XP_SHUTDOWN = false; //on game lost
 	static boolean CUSTOM_FONT = true;
 	
 	//planned
