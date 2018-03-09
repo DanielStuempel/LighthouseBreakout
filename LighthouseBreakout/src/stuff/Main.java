@@ -25,17 +25,20 @@ public class Main {
 			InputStream r = Thread.currentThread().getContextClassLoader().getResourceAsStream("DS-DIGIB.ttf");
 			Font f = Font.createFont(Font.TRUETYPE_FONT, r).deriveFont(Style.fontStyle, Style.fontSize);
 			GraphicsEnvironment.getLocalGraphicsEnvironment().registerFont(f);
-			
-			if (Settings.CUSTOM_FONT)
-				Style.font = f;
-			else
-				Style.font = new Font(Style.defaultFont, Style.fontStyle, Style.fontSize);
-			
+			Style.customFont = f;
 		} catch (FontFormatException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
+		if (Style.customFont == null)
+			Style.customFont = Style.defaultFont;
+		
+		if (Settings.CUSTOM_FONT)
+			Style.font = Style.customFont;
+		else
+			Style.font = Style.defaultFont;
 		
 		LinkedList<Animation> eventList = new LinkedList<>();
 		byte[] data = new byte[28 * 14 * 3];

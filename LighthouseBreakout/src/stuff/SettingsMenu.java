@@ -5,10 +5,11 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
+
+import stuff.Window.MainPanel;
 
 public class SettingsMenu extends Menu {
-	public SettingsMenu(CardLayout layout, JPanel contentPane) {
+	public SettingsMenu(CardLayout layout, MainPanel contentPane) {
 		super(layout, contentPane, "settingsMenu");
 		setLayout(new GridLayout(10, 1));
 
@@ -37,21 +38,13 @@ public class SettingsMenu extends Menu {
 				changeValue(Settings.HAX_ON);
 			}
 		});
-
+		
 		add(new SwitchButton("Cool Font", 40, Settings.CUSTOM_FONT) {
 			@Override
 			public void onClick(ActionEvent e) {
-				// Settings.FONT_CUSTOM ^= true;
-				// update("Cool Font : " + (Settings.FONT_CUSTOM ? "ON" : "OFF"));
-				// // TODO: anpassen auf Daniels Code
-				// for (MenuButton b : Window.button) {
-				// b.update();
-				// }
-				// Window.w.validate();
-				//
-				// for (MenuButton b : menuButton) {
-				// b.update();
-				// }
+				Style.font = (Settings.CUSTOM_FONT ^= true) ? Style.customFont : Style.defaultFont;
+				changeValue(Settings.CUSTOM_FONT);
+				contentPane.reload();
 			}
 		});
 
@@ -68,7 +61,7 @@ public class SettingsMenu extends Menu {
 			public void onClick(ActionEvent e) {
 				Settings.SOUND_SAD_TRUMPET ^= true;
 				Settings.SOUND_XP_SHUTDOWN ^= true;
-				setText("End Sound : " + (Settings.SOUND_XP_SHUTDOWN ? "ANNOYING" : "FUNNY"));
+				setText("End Sound : " + (Settings.SOUND_XP_SHUTDOWN ? "Annoying" : "Funny"));
 			}
 		});
 

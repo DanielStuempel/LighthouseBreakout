@@ -13,10 +13,11 @@ public class Style {
 	public static Color menuButtonOn;
 	public static Color border;
 	public static Color paddel;
-	
-	public static String defaultFont = "ComicSansMS";
+
 	public static int fontStyle = Font.BOLD;
 	public static int fontSize = 80;
+	public static Font defaultFont = new Font("Comic Sans MS", fontStyle, fontSize);
+	public static Font customFont;
 	public static Font font;
 	
 	

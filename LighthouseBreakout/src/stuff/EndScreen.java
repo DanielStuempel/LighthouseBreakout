@@ -6,8 +6,10 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.JPanel;
 
+import stuff.Window.MainPanel;
+
 public class EndScreen extends Menu {
-	public EndScreen(CardLayout layout, JPanel contentPane) {
+	public EndScreen(CardLayout layout, MainPanel contentPane) {
 		super(layout, contentPane, "endScreen");
 		CoolLabel top = new CoolLabel("NOT DONE YET...", 80);
 		setLayout(new GridLayout(4, 1));

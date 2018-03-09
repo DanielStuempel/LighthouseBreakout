@@ -4,10 +4,10 @@ import java.awt.CardLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 
-import javax.swing.JPanel;
+import stuff.Window.MainPanel;
 
 public class MainMenu extends Menu {
-	public MainMenu(CardLayout layout, JPanel contentPane) {
+	public MainMenu(CardLayout layout, MainPanel contentPane) {
 		super(layout, contentPane, "main");
 		setLayout(new GridLayout(4, 1));
 
@@ -34,9 +34,5 @@ public class MainMenu extends Menu {
 		});
 
 		new OptionsMenu(layout, contentPane);
-	}
-	
-	public void reload() {
-
 	}
 }

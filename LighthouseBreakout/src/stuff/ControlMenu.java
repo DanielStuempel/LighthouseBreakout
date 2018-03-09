@@ -4,11 +4,11 @@ import java.awt.CardLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 
-import javax.swing.JPanel;
+import stuff.Window.MainPanel;
 
 public class ControlMenu extends Menu {
 
-	public ControlMenu(CardLayout layout, JPanel contentPane) {
+	public ControlMenu(CardLayout layout, MainPanel contentPane) {
 		super(layout, contentPane, "controlMenu");
 
 		setLayout(new GridLayout(11, 1));
@@ -28,7 +28,6 @@ public class ControlMenu extends Menu {
 			@Override
 			public void onClick(ActionEvent e) {
 				layout.show(contentPane, "optionsMenu");
-				;
 
 			}
 		});

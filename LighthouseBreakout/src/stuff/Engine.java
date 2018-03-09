@@ -14,10 +14,6 @@ public class Engine implements Runnable {
 
 	private Level level;
 
-	public Engine() {
-
-	}
-
 	public Engine(Display.Input display) {
 		this.display = display;
 	}
@@ -191,6 +187,7 @@ public class Engine implements Runnable {
 	}
 
 	public void reset() {
+		Settings.GAME_PAUSED = true;
 		pad = new Paddel(11, 13, 5);
 		ball = new Ball(13.5f, 10);
 		ball.setVelocity(new Vector2f(0.2f, 0.8f).normalize());

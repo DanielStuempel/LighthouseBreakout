@@ -4,10 +4,10 @@ import java.awt.CardLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 
-import javax.swing.JPanel;
+import stuff.Window.MainPanel;
 
 public class OptionsMenu extends Menu {
-	public OptionsMenu(CardLayout layout, JPanel contentPane) {
+	public OptionsMenu(CardLayout layout, MainPanel contentPane) {
 		super(layout, contentPane, "optionsMenu");
 		setLayout(new GridLayout(4, 0));
 		
@@ -15,8 +15,9 @@ public class OptionsMenu extends Menu {
 			@Override
 			public void onClick(ActionEvent e) {
 				Style.next();
+				Style.loadTheme(Settings.THEME);
 				setText("STYLE: " + Settings.THEME.toString());
-				//TODO: next
+				contentPane.reload();
 			}
 		});
 		

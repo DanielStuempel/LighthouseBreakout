@@ -1,24 +1,47 @@
 package stuff;
 
 import java.awt.CardLayout;
+import java.util.LinkedList;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
 public abstract class Menu extends JPanel {
-	public Menu(CardLayout layout, JPanel contentPane, String name) {
+	LinkedList<MenuButton> btns;
+	LinkedList<CoolLabel> lbls;
+	
+	public Menu(CardLayout layout, Window.MainPanel contentPane, String name) {
 		super();
+		btns = new LinkedList<>();
+		lbls = new LinkedList<>();
+		
 		layout.addLayoutComponent(this, name);
 		contentPane.add(this);
+		
+		load();
+	}
 
+	public void add(MenuButton b) {
+		super.add(b);
+		btns.add(b);
+	}
+	
+	public void add(CoolLabel l) {
+		super.add(l);
+		lbls.add(l);
+	}
+	
+	private void load() {
 		setBackground(Style.background);
-
 		setBorder(BorderFactory.createLineBorder(Style.border, 7));
 	}
 	
-	@Override
-	public void repaint() {
-		super.repaint();
-		setBackground(Style.background);
+	public void reload() {
+		load();
+
+		for (MenuButton b : btns)
+			b.reload();
+		for (CoolLabel l : lbls)
+			l.reload();
 	}
 }
