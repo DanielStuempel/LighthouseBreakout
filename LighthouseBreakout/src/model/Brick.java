@@ -1,4 +1,4 @@
-package stuff;
+package model;
 
 public class Brick {
 	private int type;

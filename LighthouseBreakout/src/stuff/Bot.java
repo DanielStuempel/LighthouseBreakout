@@ -1,5 +1,9 @@
 package stuff;
 
+import controller.Engine;
+import model.Ball;
+import model.Paddel;
+
 public class Bot implements Runnable {
 	Engine engine;
 

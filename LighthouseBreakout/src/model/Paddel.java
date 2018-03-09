@@ -1,4 +1,4 @@
-package stuff;
+package model;
 
 public class Paddel extends Entity {
 	public Paddel(float x, float w) {

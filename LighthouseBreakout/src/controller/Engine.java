@@ -1,4 +1,9 @@
-package stuff;
+package controller;
+
+import model.Ball;
+import model.Level;
+import model.Paddel;
+import stuff.SyncList;
 
 public abstract class Engine implements Runnable {
 	private boolean paused = true;

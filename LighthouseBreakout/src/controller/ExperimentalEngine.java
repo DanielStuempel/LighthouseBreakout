@@ -1,6 +1,20 @@
-package stuff;
+package controller;
 
 import java.awt.Point;
+
+import model.Ball;
+import model.Entity;
+import model.Level;
+import model.Map;
+import model.Paddel;
+import model.Vector2f;
+import stuff.Main;
+import stuff.Settings;
+import stuff.SoundEngine;
+import stuff.Style;
+import stuff.SyncList;
+import stuff.TickTimer;
+import view.Animation;
 
 public class ExperimentalEngine extends Engine {
 	private Paddel paddel;
@@ -9,7 +23,7 @@ public class ExperimentalEngine extends Engine {
 	private float newPaddelPosition;
 
 	private Level level;
-	
+
 	private SyncList<Animation> eventList;
 
 	public ExperimentalEngine(SyncList<Animation> eventList) {
@@ -51,7 +65,8 @@ public class ExperimentalEngine extends Engine {
 		if (isPaused())
 			return;
 
-		Animation tail = new Animation(new Point((int) ball.getPosition().getX(), (int) ball.getPosition().getY()), Style.ballColor, Animation.Type.TAIL);
+		Animation tail = new Animation(new Point((int) ball.getPosition().getX(), (int) ball.getPosition().getY()),
+				Style.ballColor, Animation.Type.TAIL);
 		eventList.syncAdd(tail);
 
 		paddel.setPosition(paddel.getPosition().getX() + newPaddelPosition);
@@ -82,7 +97,8 @@ public class ExperimentalEngine extends Engine {
 			else if (newPos.getY() > level.size.height - 1)
 				if (collision(ball, paddel)) {
 					float scaling = ((pos.getX() + ball.getSize().getX() / 2)
-							- (paddel.getPosition().getX() + paddel.getSize().getX() / 2)) / (paddel.getSize().getX() * 10);
+							- (paddel.getPosition().getX() + paddel.getSize().getX() / 2))
+							/ (paddel.getSize().getX() * 10);
 					Vector2f tmp = vel.rotate(-vel.angle(new Vector2f(1, 0)) * 2 + scaling);
 					if (tmp.angle(new Vector2f(1, 0)) > Math.PI / 4 && tmp.angle(new Vector2f(1, 0)) < Math.PI / 4 * 3)
 						vel = tmp;
@@ -122,7 +138,7 @@ public class ExperimentalEngine extends Engine {
 				}
 			}
 		}
-		
+
 		if (level.getScore() == level.maxScore) {
 			pause();
 			Settings.GAME_WON = true;
@@ -143,7 +159,8 @@ public class ExperimentalEngine extends Engine {
 		if (x < 0 || y < 0 || x >= level.size.width || y >= level.size.height)
 			return false;
 		int type = level.get(x, y).getType();
-		if (type == 0) return false;
+		if (type == 0)
+			return false;
 		eventList.syncAdd(new Animation(new Point(x, y), type, Animation.Type.BRICKHIT));
 		eventList.syncAdd(new Animation(new Point(x, y), Style.brickColor[type], Animation.Type.EXPLOSION));
 		level.hit(x, y);
@@ -154,7 +171,7 @@ public class ExperimentalEngine extends Engine {
 	public void movePaddel(float x) {
 		newPaddelPosition = x;
 	}
-	
+
 	@Override
 	public void reset() {
 		pause();
@@ -162,7 +179,6 @@ public class ExperimentalEngine extends Engine {
 		ball.setPosition(13, 11);
 		ball.setVelocity(new Vector2f(0.2f, 0.8f).normalize());
 		level.reset();
-		System.out.println("reset");
 	}
 
 	@Override

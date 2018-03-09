@@ -1,4 +1,4 @@
-package stuff;
+package menu;
 
 import java.awt.CardLayout;
 import java.awt.GridLayout;
@@ -6,6 +6,9 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.JOptionPane;
 
+import model.Map;
+import stuff.Settings;
+import stuff.Style;
 import stuff.Window.MainPanel;
 
 public class SettingsMenu extends Menu {
@@ -23,7 +26,7 @@ public class SettingsMenu extends Menu {
 				setText("Name : " + Settings.PLAYER_NAME);
 			}
 		});
-		
+
 		add(new MenuButton("Level : " + Settings.LEVEL, 40) {
 			@Override
 			public void onClick(ActionEvent e) {
@@ -47,7 +50,7 @@ public class SettingsMenu extends Menu {
 				changeValue(Settings.HAX_ON);
 			}
 		});
-		
+
 		add(new SwitchButton("Cool Font", 40, Settings.CUSTOM_FONT) {
 			@Override
 			public void onClick(ActionEvent e) {

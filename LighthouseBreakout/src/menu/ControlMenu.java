@@ -1,4 +1,4 @@
-package stuff;
+package menu;
 
 import java.awt.CardLayout;
 import java.awt.GridLayout;

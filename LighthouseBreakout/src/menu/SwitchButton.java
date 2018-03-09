@@ -1,4 +1,6 @@
-package stuff;
+package menu;
+
+import stuff.Style;
 
 public abstract class SwitchButton extends MenuButton {
 	String text;

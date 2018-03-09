@@ -1,10 +1,13 @@
-package stuff;
+package menu;
 
 import java.awt.CardLayout;
 import java.util.LinkedList;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
+
+import stuff.Style;
+import stuff.Window;
 
 public abstract class Menu extends JPanel {
 	LinkedList<MenuButton> btns;

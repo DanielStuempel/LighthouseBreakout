@@ -1,7 +1,9 @@
-package stuff;
+package menu;
 
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
+
+import stuff.Style;
 
 public class MenuLabel extends JLabel {
 	private int size;

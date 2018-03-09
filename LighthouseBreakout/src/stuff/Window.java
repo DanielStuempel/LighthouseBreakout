@@ -15,6 +15,13 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import controller.Engine;
+import menu.ControlMenu;
+import menu.EndScreen;
+import menu.MainMenu;
+import menu.Menu;
+import view.Display;
+
 public class Window extends JFrame {
 
 	private MainMenu menu;

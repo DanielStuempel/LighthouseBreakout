@@ -2,39 +2,40 @@ package stuff;
 
 import java.awt.event.KeyEvent;
 
+import model.Map;
 import stuff.Style.Theme;
 
-class Settings {
+public class Settings {
 	// display settings
-	static int FRAME_TICK_MS = 20;
-	static boolean SHOW_FPS_ON_DISPLAY = true;
-	static boolean SHOW_RASTER_ON_DISPLAY = true;
-	static Theme THEME = Style.Theme.SPOOKY;
+	public static int FRAME_TICK_MS = 20;
+	public static boolean SHOW_FPS_ON_DISPLAY = true;
+	public static boolean SHOW_RASTER_ON_DISPLAY = true;
+	public static Theme THEME = Style.Theme.SPOOKY;
 
 	// game engine settings
-	static int GAME_TICK_MS = 100;
-	static int RESET_TIMEOUT = 300;
-	static boolean EXPERIMENTAL_ENGINE = true;
-	static Map LEVEL = Map.CAU;
-	static boolean GAME_WON = false;
-	static int SCORE = 0;
+	public static int GAME_TICK_MS = 100;
+	public static int RESET_TIMEOUT = 300;
+	public static boolean EXPERIMENTAL_ENGINE = true;
+	public static Map LEVEL = Map.CAU;
+	public static boolean GAME_WON = false;
+	public static int SCORE = 0;
 
 	// animation settings
-	static boolean DO_ANIMATIONS = true;
-	static boolean MENU_SHOWN = true;
-	static boolean HAX_ON = true;
-	static boolean OPTIONS_MENU = false;
-	static boolean MOUSE_CONTROL = false;
-	static boolean SOUND_XP_START = false; // on restart
-	static boolean SOUND_XP_SHUTDOWN = false; // on game lost
-	static boolean CUSTOM_FONT = true;
+	public static boolean DO_ANIMATIONS = true;
+	public static boolean MENU_SHOWN = true;
+	public static boolean HAX_ON = true;
+	public static boolean OPTIONS_MENU = false;
+	public static boolean MOUSE_CONTROL = false;
+	public static boolean SOUND_XP_START = false; // on restart
+	public static boolean SOUND_XP_SHUTDOWN = false; // on game lost
+	public static boolean CUSTOM_FONT = true;
 
 	// planned
-	static boolean PLAYER_INVINCEBLE = false;
-	static boolean BRICK_COLLISION = true;
+	public static boolean PLAYER_INVINCEBLE = false;
+	public static boolean BRICK_COLLISION = true;
 
 	// window settings
-	static enum Keys {
+	public static enum Keys {
 		PADDEL_LEFT(KeyEvent.VK_LEFT), PADDEL_RIGHT(KeyEvent.VK_RIGHT), SWITCH_FPS_DISPLAY(KeyEvent.VK_F), PAUSE_GAME(
 				KeyEvent.VK_SPACE), SHOW_MENU(KeyEvent.VK_ESCAPE), HAX_SWITCH(KeyEvent.VK_C), CONTROL_SWITCH(
 						KeyEvent.VK_M), ENGINE_RESET(

@@ -10,6 +10,13 @@ import java.util.Timer;
 
 import javax.swing.JFrame;
 
+import controller.Engine;
+import controller.ExperimentalEngine;
+import controller.SimpleEngine;
+import model.Level;
+import view.Animation;
+import view.Display;
+
 public class Main {
 	public static Timer systemTimer = new Timer(true);
 

@@ -1,6 +1,8 @@
-package stuff;
+package model;
 
 import java.util.Arrays;
+
+import stuff.Settings;
 
 public enum Map {
 	TEST(),

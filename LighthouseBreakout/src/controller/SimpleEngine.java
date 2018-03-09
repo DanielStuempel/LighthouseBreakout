@@ -1,6 +1,18 @@
-package stuff;
+package controller;
 
 import java.awt.Point;
+
+import model.Ball;
+import model.Level;
+import model.Paddel;
+import model.Vector2f;
+import stuff.Main;
+import stuff.Settings;
+import stuff.SoundEngine;
+import stuff.Style;
+import stuff.SyncList;
+import stuff.TickTimer;
+import view.Animation;
 
 public class SimpleEngine extends Engine {
 	Level level;

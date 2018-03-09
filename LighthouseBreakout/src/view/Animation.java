@@ -1,9 +1,11 @@
-package stuff;
+package view;
 
 import java.awt.Color;
 import java.awt.Point;
 import java.util.Iterator;
 
+import stuff.Settings;
+import stuff.Style;
 import stuff.Style.Theme;
 
 public class Animation implements Iterator<Color[][]> {

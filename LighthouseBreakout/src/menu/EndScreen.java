@@ -1,4 +1,4 @@
-package stuff;
+package menu;
 
 import java.awt.CardLayout;
 import java.awt.GridLayout;
@@ -6,6 +6,8 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.JPanel;
 
+import stuff.Settings;
+import stuff.Style;
 import stuff.Window.MainPanel;
 
 public class EndScreen extends Menu {
@@ -34,7 +36,7 @@ public class EndScreen extends Menu {
 			}
 		});
 	}
-	
+
 	@Override
 	public void reload() {
 		super.reload();

@@ -1,10 +1,15 @@
-package stuff;
+package view;
 
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 
 import javax.swing.JPanel;
+
+import stuff.Main;
+import stuff.Settings;
+import stuff.Style;
+import stuff.TickTimer;
 
 public class Display extends JPanel implements Runnable {
 	private Dimension size = new Dimension(28, 14);
@@ -15,7 +20,7 @@ public class Display extends JPanel implements Runnable {
 	
 	TickTimer frameRateTimer;
 	
-	protected abstract class Input {
+	public abstract class Input {
 		public abstract void send(byte[] data);
 	}
 	
