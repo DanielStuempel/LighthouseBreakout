@@ -2,6 +2,21 @@ package stuff;
 
 public abstract class Engine implements Runnable {
 	private boolean paused;
+	
+	private SyncList<GameEventListener> listeners = new SyncList<>();
+	
+	public interface GameEventListener {
+		public abstract void gameWon();
+		public abstract void gameLost();
+	}
+	
+	public void addEventGameListener(GameEventListener l) {
+		listeners.syncAdd(l);
+	}
+	
+	public SyncList<GameEventListener> getEventListeners() {
+		return listeners;
+	}
 
 	public abstract Level getLevel();
 	public abstract Paddel getPaddel();

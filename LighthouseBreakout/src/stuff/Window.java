@@ -21,31 +21,31 @@ public class Window extends JFrame {
 	private EndScreen endScreen;
 	private ControlMenu controlMenu;
 	private Display display;
-	
+
 	CardLayout layout;
 	MainPanel contentPane;
-	
+
 	private Engine engine;
-	
+
 	public class MainPanel extends JPanel {
 		private LinkedList<Menu> menus;
-		
+
 		private MainPanel(CardLayout l) {
 			super(l);
 			menus = new LinkedList<>();
 		}
-		
+
 		public void add(Menu m) {
 			super.add(m);
 			menus.add(m);
 		}
-		
+
 		public void reload() {
 			for (Menu m : menus)
 				m.reload();
 		}
 	}
-	
+
 	public Window(Display display, Engine engine) {
 		this.display = display;
 		this.engine = engine;
@@ -56,13 +56,13 @@ public class Window extends JFrame {
 		layout = new CardLayout();
 		contentPane = new MainPanel(layout);
 		setContentPane(contentPane);
-		
+
 		URL iconURL = getClass().getResource("/doge.png");
 		ImageIcon icon = new ImageIcon(iconURL);
 		setIconImage(icon.getImage());
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
+
 		addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
@@ -93,7 +93,10 @@ public class Window extends JFrame {
 				} else if (keyCode == Settings.Keys.SWITCH_FPS_DISPLAY.keyCode)
 					Settings.SHOW_FPS_ON_DISPLAY ^= true;
 				else if (keyCode == Settings.Keys.PAUSE_GAME.keyCode)
-					Settings.GAME_PAUSED ^= true;
+					if (engine.isPaused())
+						engine.unpause();
+					else
+						engine.pause();
 				else if (keyCode == Settings.Keys.SHOW_MENU.keyCode)
 					switchView();
 				else if (keyCode == Settings.Keys.HAX_SWITCH.keyCode)
@@ -113,16 +116,27 @@ public class Window extends JFrame {
 				requestFocus();
 			}
 		});
+		
+		engine.addEventGameListener(new Engine.GameEventListener() {
+			@Override
+			public void gameWon() {
+				layout.show(contentPane, "endScreen");
+			}
+			@Override
+			public void gameLost() {
+				layout.show(contentPane, "endScreen");
+			}
+		});
 
 		setSize(display.getPreferredSize());
 
 		menu = new MainMenu(layout, contentPane);
 		endScreen = new EndScreen(layout, contentPane);
 		controlMenu = new ControlMenu(layout, contentPane);
-		
+
 		contentPane.add(endScreen);
 		contentPane.add(display);
-		
+
 		layout.addLayoutComponent(endScreen, "endScreen");
 		layout.addLayoutComponent(menu, "menu");
 		layout.addLayoutComponent(display, "display");
@@ -133,10 +147,10 @@ public class Window extends JFrame {
 	public void showEndScreen() {
 		layout.show(contentPane, "endScreen");
 	}
-	
+
 	private void switchView() {
 		if (Settings.MENU_SHOWN ^= true) {
-			Settings.GAME_PAUSED = true;
+			engine.pause();
 			layout.show(contentPane, "menu");
 		} else {
 			layout.show(contentPane, "display");

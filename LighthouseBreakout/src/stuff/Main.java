@@ -6,7 +6,6 @@ import java.awt.GraphicsEnvironment;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.Timer;
 
 import javax.swing.JFrame;
@@ -40,7 +39,7 @@ public class Main {
 		else
 			Style.font = Style.defaultFont;
 		
-		LinkedList<Animation> eventList = new LinkedList<>();
+		SyncList<Animation> eventList = new SyncList<>();
 
 		Level level = new Level(Settings.LEVEL);
 
@@ -50,7 +49,7 @@ public class Main {
 		
 		Engine engine;
 		if (Settings.EXPERIMENTAL_ENGINE)
-			engine = new ExperimentalEngine(display.getInput());
+			engine = new ExperimentalEngine();
 		else
 			engine = new SimpleEngine(level, eventList);
 		Thread gameEngineThread = new Thread(engine, "gameEngineThread");

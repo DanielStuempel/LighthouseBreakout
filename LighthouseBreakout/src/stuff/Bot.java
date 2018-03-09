@@ -37,7 +37,7 @@ public class Bot implements Runnable {
 	private synchronized void main() throws InterruptedException {
 		wait();
 		
-		if (Settings.GAME_PAUSED)
+		if (engine.isPaused())
 			return;
 		
 		Ball ball = engine.getBall();

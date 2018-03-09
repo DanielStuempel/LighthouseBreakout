@@ -19,7 +19,6 @@ class Settings {
 
 	// animation settings
 	static boolean DO_ANIMATIONS = true;
-	static boolean GAME_PAUSED = true;
 	static boolean MENU_SHOWN = true;
 	static boolean HAX_ON = true;
 	static boolean OPTIONS_MENU = false;

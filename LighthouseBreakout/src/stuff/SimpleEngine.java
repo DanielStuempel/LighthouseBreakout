@@ -1,17 +1,16 @@
 package stuff;
 
 import java.awt.Point;
-import java.util.LinkedList;
 
 public class SimpleEngine extends Engine {
 	Level level;
 	Paddel paddel;
 	Ball ball;
-	LinkedList<Animation> eventList;
+	SyncList<Animation> eventList;
 
 	int newPaddelPosition;
 	
-	public SimpleEngine(Level level, LinkedList<Animation> eventList) {
+	public SimpleEngine(Level level, SyncList<Animation> eventList) {
 		this.level = level;
 		paddel = new Paddel(0, 7);
 		ball = new Ball(0, 0);
@@ -51,17 +50,18 @@ public class SimpleEngine extends Engine {
 		ball.setVelocity(1, 1);
 		paddel.setPosition((level.size.width - paddel.getSize().getX()) / 2);
 		level.reset();
+
 		new SoundEngine().playSound(SoundEngine.GAME_START);
 	}
 
 	public synchronized void main() throws InterruptedException {
 		wait();
 
-		if (Settings.GAME_PAUSED)
+		if (isPaused())
 			return;
 
 		Animation tail = new Animation(new Point((int) ball.getPosition().getX(), (int) ball.getPosition().getY()), Style.ballColor, Animation.Type.TAIL);
-		eventList.add(tail);
+		eventList.syncAdd(tail);
 
 		// update paddel
 		paddel.setPosition(paddel.getPosition().getX() + newPaddelPosition);
@@ -85,7 +85,9 @@ public class SimpleEngine extends Engine {
 			else if (newPos.y >= level.size.height - 1) {
 				if (newPos.x < paddel.getPosition().getX() || newPos.x > paddel.getPosition().getX() + paddel.getSize().getX()) {
 					new SoundEngine().playSound(SoundEngine.GAME_LOST);
-					// Window.w.Scoreboard();
+					for (GameEventListener l : getEventListeners()) {
+						l.gameLost();
+					}
 					return;
 				}
 				vel.y *= -1;

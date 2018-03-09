@@ -1,19 +1,15 @@
 package stuff;
 
-import java.awt.Color;
-
 public class ExperimentalEngine extends Engine {
 	private Paddel paddel;
 	private Ball ball;
 
 	private float newPaddelPosition;
 
-	private Display.Input display;
-
 	private Level level;
 
-	public ExperimentalEngine(Display.Input display) {
-		this.display = display;
+	public ExperimentalEngine() {
+		
 	}
 
 	@Override
@@ -48,7 +44,7 @@ public class ExperimentalEngine extends Engine {
 	private synchronized void main() throws InterruptedException {
 		wait();
 
-		if (Settings.GAME_PAUSED || isPaused())
+		if (isPaused())
 			return;
 
 		paddel.setPosition(paddel.getPosition().getX() + newPaddelPosition);
@@ -114,34 +110,6 @@ public class ExperimentalEngine extends Engine {
 				}
 			}
 		}
-
-//		byte[] data = new byte[28 * 14 * 3];
-//
-//		for (int q = 0, y = 0; y < level.size.height; y++) {
-//			for (int x = 0; x < level.size.width; x++) {
-//				// draw brick
-//				Color c = Style.brickColor[level.get(x, y).getType()];
-//				data[q++] = (byte) c.getRed();
-//				data[q++] = (byte) c.getGreen();
-//				data[q++] = (byte) c.getBlue();
-//			}
-//		}
-//
-//		// draw ball
-//		int p = ((int) ball.getPosition().getX() + (int) ball.getPosition().getY() * 28) * 3;
-//		data[p++] = (byte) Style.ballColor.getRed();
-//		data[p++] = (byte) Style.ballColor.getGreen();
-//		data[p] = (byte) Style.ballColor.getBlue();
-//
-//		// draw paddel
-//		p = (int) (paddel.getPosition().getX() + paddel.getPosition().getY() * 28) * 3;
-//		for (int i = 0; i < paddel.getSize().getX(); i++) {
-//			data[p++] = (byte) Style.paddel.getRed();
-//			data[p++] = (byte) Style.paddel.getGreen();
-//			data[p++] = (byte) Style.paddel.getBlue();
-//		}
-//
-//		display.send(data);
 	}
 
 	private boolean collision(Entity a, Entity b) {
@@ -164,7 +132,7 @@ public class ExperimentalEngine extends Engine {
 	
 	@Override
 	public void reset() {
-		Settings.GAME_PAUSED = true;
+		pause();
 		paddel.setPosition(11, 13);
 		ball.setPosition(13, 11);
 		ball.setVelocity(new Vector2f(0.2f, 0.8f).normalize());
