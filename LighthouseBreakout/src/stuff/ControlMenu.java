@@ -65,6 +65,12 @@ public class ControlMenu extends Menu {
 				update("Annoying Start Sound : " + (Settings.SOUND_XP_START ? "ON" : "OFF"));
 			}
 		});
+		menuButton.add(new MenuButton("Engine : " + (Settings.EXPERIMENTAL_ENGINE ? "Simple" : "Experimental"), 40) {
+			@Override
+			public void onClick(ActionEvent e) {
+				update("Engine : " + (Settings.SOUND_XP_SHUTDOWN ? "Simple" : "Experimental"));
+			}
+		});
 		menuButton.add(new MenuButton("End Sound : " + (Settings.SOUND_XP_SHUTDOWN ? "Annoying" : "Funny"), 40) {
 			@Override
 			public void onClick(ActionEvent e) {
