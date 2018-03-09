@@ -120,10 +120,12 @@ public class Window extends JFrame {
 		engine.addEventGameListener(new Engine.GameEventListener() {
 			@Override
 			public void gameWon() {
+				endScreen.reload();
 				layout.show(contentPane, "endScreen");
 			}
 			@Override
 			public void gameLost() {
+				endScreen.reload();
 				layout.show(contentPane, "endScreen");
 			}
 		});

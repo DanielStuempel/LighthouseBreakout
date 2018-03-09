@@ -1,7 +1,7 @@
 package stuff;
 
 public abstract class Engine implements Runnable {
-	private boolean paused;
+	private boolean paused = true;
 	
 	private SyncList<GameEventListener> listeners = new SyncList<>();
 	

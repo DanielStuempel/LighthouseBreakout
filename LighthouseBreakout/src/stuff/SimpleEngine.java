@@ -74,7 +74,6 @@ public class SimpleEngine extends Engine {
 		Point newPos, pos, vel;
 		pos = new Point((int) ball.getPosition().getX(), (int) ball.getPosition().getY());
 		vel = new Point((int) ball.getVelocity().getX(), (int) ball.getVelocity().getY());
-		
 		boolean x, y;
 		while (true) {
 			newPos = new Point(pos.x + vel.x, pos.y + vel.y);
@@ -85,9 +84,12 @@ public class SimpleEngine extends Engine {
 			else if (newPos.y >= level.size.height - 1) {
 				if (newPos.x < paddel.getPosition().getX() || newPos.x > paddel.getPosition().getX() + paddel.getSize().getX()) {
 					new SoundEngine().playSound(SoundEngine.GAME_LOST);
+					pause();
+					Settings.SCORE = level.getScore();
 					for (GameEventListener l : getEventListeners()) {
 						l.gameLost();
 					}
+					reset();
 					return;
 				}
 				vel.y *= -1;
@@ -115,9 +117,14 @@ public class SimpleEngine extends Engine {
 		ball.setVelocity(new Vector2f(vel));
 		ball.move();
 		
-		if (level.maxScore - level.getScore() == 0) {
-			
-			// Window.w.Scoreboard();
+		if (level.maxScore == level.getScore()) {
+			System.out.println("whyy");
+			Settings.GAME_WON = true;
+			Settings.SCORE = level.getScore();
+			reset();
+			for(GameEventListener l : getEventListeners()) {
+				l.gameWon();
+			}
 		}
 	}
 

@@ -16,6 +16,8 @@ class Settings {
 	static int RESET_TIMEOUT = 300;
 	static boolean EXPERIMENTAL_ENGINE = false;
 	static Map LEVEL = Map.CAU;
+	static boolean GAME_WON = false;
+	static int SCORE = 0;
 
 	// animation settings
 	static boolean DO_ANIMATIONS = true;
@@ -23,34 +25,28 @@ class Settings {
 	static boolean HAX_ON = true;
 	static boolean OPTIONS_MENU = false;
 	static boolean MOUSE_CONTROL = false;
-	static boolean SOUND_XP_START = false;	//on restart
-	static boolean SOUND_XP_SHUTDOWN = false; //on game lost
+	static boolean SOUND_XP_START = false; // on restart
+	static boolean SOUND_XP_SHUTDOWN = false; // on game lost
 	static boolean CUSTOM_FONT = true;
-	
-	//planned
+
+	// planned
 	static boolean PLAYER_INVINCEBLE = false;
 	static boolean BRICK_COLLISION = true;
 
 	// window settings
 	static enum Keys {
-		PADDEL_LEFT(KeyEvent.VK_LEFT),
-		PADDEL_RIGHT(KeyEvent.VK_RIGHT),
-		SWITCH_FPS_DISPLAY(KeyEvent.VK_F),
-		PAUSE_GAME(KeyEvent.VK_SPACE),
-		SHOW_MENU(KeyEvent.VK_ESCAPE),
-		HAX_SWITCH(KeyEvent.VK_C), 
-		CONTROL_SWITCH(KeyEvent.VK_M),
-		ENGINE_RESET(KeyEvent.VK_R),
-		DEBUG(KeyEvent.VK_D), 
-		GAME_START(KeyEvent.VK_SPACE);
-		
+		PADDEL_LEFT(KeyEvent.VK_LEFT), PADDEL_RIGHT(KeyEvent.VK_RIGHT), SWITCH_FPS_DISPLAY(KeyEvent.VK_F), PAUSE_GAME(
+				KeyEvent.VK_SPACE), SHOW_MENU(KeyEvent.VK_ESCAPE), HAX_SWITCH(KeyEvent.VK_C), CONTROL_SWITCH(
+						KeyEvent.VK_M), ENGINE_RESET(
+								KeyEvent.VK_R), DEBUG(KeyEvent.VK_D), GAME_START(KeyEvent.VK_SPACE);
+
 		int keyCode;
 
 		Keys(int keyCode) {
 			this.keyCode = keyCode;
 		}
 	}
-	
+
 	// other settings
 	public static boolean CONNECT_TO_LIGHTHOUSE = false;
 	public static String PLAYER_NAME = "YOU";

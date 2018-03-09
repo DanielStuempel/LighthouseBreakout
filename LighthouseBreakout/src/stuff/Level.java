@@ -43,6 +43,7 @@ public class Level {
 			return 0;
 		Brick b = state[x][y];
 		int type = b.getType();
+		if (type > 0) score++;
 		b.hit();
 		return type;
 	}
