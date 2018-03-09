@@ -41,7 +41,7 @@ public class OptionsMenu extends Menu {
 		add(new MenuButton("BACK") {
 			@Override
 			public void onClick(ActionEvent e) {
-				layout.previous(contentPane);
+				layout.show(contentPane, "main");;
 			}
 		});
 		add(new MenuLabel("", 40));
