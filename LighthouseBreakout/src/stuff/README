@@ -1,57 +1,45 @@
-somewhat detailed comment:
+Wir haben die Objektorientiertheit von Java genutzt,
+indem wir Breakout zunächst in seine einzelnen Elemente und Komponenten zerlegt haben.
+In Breakout gibt es insgesamt drei Objekte, wovon sich nur zwei bewegen können,
+nämlich der Ball und das vom Spieler bewegbare Panel. Die einzelnen Bricks,
+woraus das eigentliche Level später entsteht sind nicht bewegbar.
+Zunächst haben wir also diese drei Objekte in Klassen definiert. 
+Um diese Modelle beim laufenden Spiel miteinander interagieren zu lassen braucht man 
+einen Controller bzw. in diesem Fall eine Engine. Diese war eine unserer stärksten 
+Probleme auf welches wir bei der Umsetzung des Projektes gestoßen sind. 
+Zunächst haben wir eine einfachere Physik programmiert, welche jedoch den Nachteil hat, 
+dass der Ball sich nur in vier Richtungen bewegen kann (siehe SimpleEngine). 
+Dies ist für eine 14x28 Auflösung von Breakout garnicht mal schlecht geeignet und sah 
+auf dem Lighthouse auch ganz gut aus, jedoch reichte uns diese noch nicht, da man Breakout 
+ja auch mit einer besseren Auflösung Spielen können sollte. Aus diesem Grund haben wir eine 
+weitere Engine (ExperimentalEngine) entwickelt. Diese rechnet mit Vektoren, 
+Winkeln und sehr genauen Werten, was einige Vor- und Nachteile mit sich bringt. 
+Einige Vorteile sind natürlich, dass das Spiel deutlich präziser läuft, es viel mehr 
+möglichkeiten für den Spieler gibt Einfluss auf das Spielgeschehen zu nehmen und es keine 
+Level gibt welche nicht schaffbar sind (was bei der SimpleEngine manchmal der Fall war/ist). 
+Jedoch bringt die neue Engine auch leider einige Nachteile mit sich. Sie sieht auf einer sehr 
+niedrigen Auflösung etwas merkwürdig aus, da wir die sehr präzisen Werte natürlich nicht auf 
+eine so geringe Auflösung abbilden können und stark runden müssen. Zudem ist sie auch noch nicht 
+komplett ausgereift und noch etwas ausbaufähig. Um das ganze Spiel erstmal sehen zu können 
+(was ja tatsächlich manchmal praktisch sein könnte) braucht man natürlich auch noch eine Ansicht bzw. View. 
+Diese erhält die darzustellenden Daten als byte Array (siehe Output) und verarbeitet diese.  
+Die View lässt sich somit sehr einfach austauschen, da sie selber keine Daten des Spiels verwertet, 
+sondern nur die ihr zur Verfügung gestellten Daten darstellt. (ggf. das Spiel auch ohne View möglich ist).
+Im moment haben wir nur eine niedrig auflösende (14x28) Ansicht des Spieles, jedoch lässt sich eine höher
+auflösende Ansicht sehr einfach in unseren Code implementieren.  
+Um eine möglichst präzise Zeitabstimmung unserer Threads zu erhalten, haben wir uns der TimerTask Klasse 
+bedient und auf unsere Bedürfnisse angepasst (siehe TickTimer). Die Animationen der Bewegung des Balls und der 
+Explosion der Bricks haben wir in auch zu einzelnen Objekten verarbeitet, welche in eine Animationsliste hinzugefügt 
+und nacheinander abgearbeitet werden. Um unser Spiel auf jedem Rechner gleichschwer zu spielen, haben wir die 
+gametickrate unabhängig von den FPS gekoppelt. Dies bedeutet, dass  selbst bei weniger FPS das Spiel intern 
+genauso schnell abläuft, wie bei den maximalen FPS.
 
-Wir haben die Objektorientiertheit von Java genutzt, indem wir verschiedene Klassen für unsere Objekte erstellt haben (siehe Klassen).
-Wir haben das MVC - Muster angewandt (siehe Klassen).
-_____________________________________________________________________________________________________
-|"to be acceptable your solution must include a somewhat detailed comment (at least 50 lines or so)"|
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-a somewhat detailed comment
-a somewhat detailed comment
-a somewhat detailed comment
-a somewhat detailed comment
-a somewhat detailed comment
-a somewhat detailed comment
-a somewhat detailed comment
-a somewhat detailed comment
-a somewhat detailed comment
-a somewhat detailed comment
-a somewhat detailed comment
-a somewhat detailed comment
-a somewhat detailed comment
-a somewhat detailed comment
-a somewhat detailed comment
-a somewhat detailed comment
-a somewhat detailed comment
-a somewhat detailed comment
-a somewhat detailed comment
-a somewhat detailed comment
-a somewhat detailed comment
-a somewhat detailed comment
-a somewhat detailed comment
-a somewhat detailed comment
-a somewhat detailed comment
-a somewhat detailed comment
-a somewhat detailed comment
-a somewhat detailed comment
-a somewhat detailed comment
-a somewhat detailed comment
-a somewhat detailed comment
-a somewhat detailed comment
-a somewhat detailed comment
-a somewhat detailed comment
-a somewhat detailed comment
-a somewhat detailed comment
-a somewhat detailed comment
-a somewhat detailed comment
-a somewhat detailed comment
-a somewhat detailed comment
-a somewhat detailed comment
-a somewhat detailed comment
-a somewhat detailed comment
-a somewhat detailed comment
-a somewhat detailed comment
-a somewhat detailed comment
-a somewhat detailed comment
-a somewhat detailed comment
-a somewhat detailed comment
-a somewhat detailed comment
+Folgende Features sind im Spiel enthalten : Hauptmenü, Einstellungen, Übersicht der Tastenbelegung, 
+Veränderung des Farbstils, Scoreboard und noch einige weitere.
+
+Known Bugs: 
+Die Eventliste ist nicht Threadsicher, wodurch ab und an mal eine Nullpointerexception von uns abgefangen wird. 
+Dies ließe sich mit sicherheit relativ leicht ändern bzw umgehen, allerdings fehlt uns dafür leider die Zeit. 
+Unserer Timer scheint, wenn man Eclipse länger offen hat sich aufzuhängen,
+was in eine Verschlechterung der FPS (von 50 auf 30) endet.
+

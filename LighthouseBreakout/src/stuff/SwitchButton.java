@@ -14,6 +14,6 @@ public abstract class SwitchButton extends MenuButton {
 	}
 	
 	public void changeValue(boolean value) {
-		setText(text + " : " + (value ? "on" : "off"));
+		setText(text + " : " + (value ? "ON" : "OFF"));
 	}
 }

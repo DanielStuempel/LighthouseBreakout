@@ -12,7 +12,7 @@ public class ControlMenu extends Menu {
 		super(layout, contentPane, "controlMenu");
 
 		setLayout(new GridLayout(11, 1));
-		add(new CoolLabel("The ingame shortcuts", 40));
+		add(new CoolLabel("INGAME KEYS", 40));
 		add(new CoolLabel("", 20));
 		add(new CoolLabel("show FPS : F", 40));
 		add(new CoolLabel("game start / pause : SPACE", 40));
