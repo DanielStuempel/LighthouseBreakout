@@ -9,7 +9,9 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.util.LinkedList;
+import java.net.URL;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -21,26 +23,7 @@ public class Window extends JFrame {
 	private Display display;
 	
 	CardLayout layout;
-	MainPanel contentPane;
-	
-	public class MainPanel extends JPanel {
-		private LinkedList<Menu> menus;
-		
-		private MainPanel(CardLayout l) {
-			super(l);
-			menus = new LinkedList<>();
-		}
-		
-		public void add(Menu m) {
-			super.add(m);
-			menus.add(m);
-		}
-		
-		public void reload() {
-			for (Menu m : menus)
-				m.reload();
-		}
-	}
+	JPanel contentPane;
 
 	private Engine engine;
 
@@ -52,10 +35,15 @@ public class Window extends JFrame {
 
 	private void init() {
 		layout = new CardLayout();
-		contentPane = new MainPanel(layout);
+		contentPane = new JPanel(layout);
 		setContentPane(contentPane);
 		
 		Paddel paddel = engine.getPaddel();
+		
+		URL iconURL = getClass().getResource("/doge.png");
+		// iconURL is null when not found
+		ImageIcon icon = new ImageIcon(iconURL);
+		setIconImage(icon.getImage());
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
@@ -109,7 +97,7 @@ public class Window extends JFrame {
 				requestFocus();
 			}
 		});
-
+		
 		menu = new MainMenu(layout, contentPane);
 		endScreen = new EndScreen(layout, contentPane);
 		controlMenu = new ControlMenu(layout, contentPane);
