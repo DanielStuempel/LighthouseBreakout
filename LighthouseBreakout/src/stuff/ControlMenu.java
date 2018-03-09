@@ -3,7 +3,7 @@ package stuff;
 import java.awt.CardLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
-import java.util.LinkedList;
+import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -12,7 +12,7 @@ public class ControlMenu extends Menu {
 	public ControlMenu(CardLayout layout, JPanel contentPane) {
 		super(layout, contentPane, "controlsMenu");
 		setLayout(new GridLayout(10, 1));
-		LinkedList<MenuButton> menuButton = new LinkedList<>();
+		ArrayList<MenuButton> menuButton = new ArrayList<>();
 
 		menuButton.add(new MenuButton("Name : " + Settings.PLAYER_NAME, 40) {
 
@@ -65,28 +65,31 @@ public class ControlMenu extends Menu {
 				update("Annoying Start Sound : " + (Settings.SOUND_XP_START ? "ON" : "OFF"));
 			}
 		});
-		menuButton.add(new MenuButton("Annoying End Sound : " + (Settings.SOUND_XP_SHUTDOWN ? "ON" : "OFF"), 40) {
-
+		menuButton.add(new MenuButton("End Sound : " + (Settings.SOUND_XP_SHUTDOWN ? "Annoying" : "Funny"), 40) {
 			@Override
 			public void onClick(ActionEvent e) {
 				Settings.SOUND_XP_SHUTDOWN ^= true;
 				Settings.SOUND_SAD_TRUMPET ^= true;
-				update("Annoying End Sound : " + (Settings.SOUND_XP_SHUTDOWN ? "ON" : "OFF"));
+				update("End Sound : " + (Settings.SOUND_XP_SHUTDOWN ? "Annoying" : "Funny"));
 			}
 		});
-		menuButton.add(new MenuButton("Funny End Sound : " + (Settings.SOUND_SAD_TRUMPET ? "ON" : "OFF"), 40) {
-
+		//TODO: filler
+		menuButton.add(new MenuButton("") {
+			
 			@Override
 			public void onClick(ActionEvent e) {
-				Settings.SOUND_SAD_TRUMPET ^= true;
-				Settings.SOUND_XP_SHUTDOWN ^= true;
-
-				update("Funny End Sound : " + (Settings.SOUND_SAD_TRUMPET ? "ON" : "OFF"));
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		menuButton.add(new MenuButton("BACK") {
+			@Override
+			public void onClick(ActionEvent e) {
+				layout.previous(contentPane);
 			}
 		});
 		for (MenuButton b : menuButton) {
 			add(b);
 		}
-		add(new CoolLabel("", 20));
 	}
 }
