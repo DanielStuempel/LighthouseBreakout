@@ -73,7 +73,7 @@ public class SettingsMenu extends Menu {
 			}
 		});
 
-		add(new CoolLabel("", 20));
+		add(new MenuLabel("", 20));
 
 		add(new MenuButton("BACK") {
 			@Override

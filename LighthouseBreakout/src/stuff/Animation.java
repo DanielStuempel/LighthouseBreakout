@@ -31,8 +31,8 @@ public class Animation implements Iterator<Color[][]> {
 			int blue = c.getBlue() <= 200 ? c.getBlue() + 50 : c.getBlue();
 			this.color = new Color(red, green, blue);
 		} else {
-				this.color = new Color((int) (c.getRed() / 2.5), (int) (c.getGreen() / 2.5), (int) (c.getBlue() / 2.5));
-			
+			this.color = new Color((int) (c.getRed() / 2.5), (int) (c.getGreen() / 2.5), (int) (c.getBlue() / 2.5));
+
 		}
 	}
 

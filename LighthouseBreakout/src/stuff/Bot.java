@@ -36,10 +36,10 @@ public class Bot implements Runnable {
 
 	private synchronized void main() throws InterruptedException {
 		wait();
-		
+
 		if (engine.isPaused())
 			return;
-		
+
 		Ball ball = engine.getBall();
 		Paddel paddel = engine.getPaddel();
 

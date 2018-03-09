@@ -8,7 +8,7 @@ import javax.swing.JPanel;
 
 public abstract class Menu extends JPanel {
 	LinkedList<MenuButton> btns;
-	LinkedList<CoolLabel> lbls;
+	LinkedList<MenuLabel> lbls;
 	
 	public Menu(CardLayout layout, Window.MainPanel contentPane, String name) {
 		super();
@@ -26,7 +26,7 @@ public abstract class Menu extends JPanel {
 		btns.add(b);
 	}
 	
-	public void add(CoolLabel l) {
+	public void add(MenuLabel l) {
 		super.add(l);
 		lbls.add(l);
 	}
@@ -41,7 +41,7 @@ public abstract class Menu extends JPanel {
 
 		for (MenuButton b : btns)
 			b.reload();
-		for (CoolLabel l : lbls)
+		for (MenuLabel l : lbls)
 			l.reload();
 	}
 }

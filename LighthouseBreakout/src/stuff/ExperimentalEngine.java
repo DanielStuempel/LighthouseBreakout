@@ -2,8 +2,6 @@ package stuff;
 
 import java.awt.Point;
 
-import stuff.Engine.GameEventListener;
-
 public class ExperimentalEngine extends Engine {
 	private Paddel paddel;
 	private Ball ball;
