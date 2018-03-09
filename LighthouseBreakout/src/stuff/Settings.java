@@ -45,7 +45,7 @@ class Settings {
 		ENGINE_RESET(KeyEvent.VK_R),
 		DEBUG(KeyEvent.VK_D), 
 		GAME_START(KeyEvent.VK_SPACE);
-
+		
 		int keyCode;
 
 		Keys(int keyCode) {

@@ -18,10 +18,17 @@ public class OptionsMenu extends Menu {
 			}
 		});
 		
-		add(new MenuButton("CONTROLS") {
+		add(new MenuButton("SETTINGS") {
 			@Override
 			public void onClick(ActionEvent e) {
 				layout.show(contentPane, "controlsMenu");
+			}
+		});
+		
+		add(new MenuButton("CONTROLS") {
+			@Override
+			public void onClick(ActionEvent e) {
+				layout.show(contentPane, "controlMenu");
 			}
 		});
 		

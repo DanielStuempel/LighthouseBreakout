@@ -16,7 +16,8 @@ import javax.swing.JPanel;
 public class Window extends JFrame {
 
 	private MainMenu menu;
-	private OptionsMenu optionsMenu;
+	private EndScreen endScreen;
+	private ControlMenu2 controlMenu;
 	private Display display;
 	
 	CardLayout layout;
@@ -80,8 +81,6 @@ public class Window extends JFrame {
 					engine.reset();
 				else if (keyCode == Settings.Keys.DEBUG.keyCode)
 					engine.debug();
-				else if (keyCode == Settings.Keys.GAME_START.keyCode)
-					Settings.GAME_PAUSED = true;
 			}
 		});
 
@@ -93,24 +92,23 @@ public class Window extends JFrame {
 		});
 		
 		menu = new MainMenu(layout, contentPane);
+		endScreen = new EndScreen(layout, contentPane);
+		controlMenu = new ControlMenu2(layout, contentPane);
+		
 		
 		setSize(display.getPreferredSize());
-		
+		contentPane.add(endScreen);
 		contentPane.add(display);
-
+		layout.addLayoutComponent(endScreen, "endScreen");
 		layout.addLayoutComponent(menu, "menu");
 		layout.addLayoutComponent(display, "display");
-		
+		layout.addLayoutComponent(controlMenu, "controlMenu");
 		setVisible(true);
 	}
-	
-	private void switchMenu() {
-		if (Settings.OPTIONS_MENU ^= true) {
-			setContentPane(optionsMenu);
-		}
-		validate();
-	}
 
+	public void showEndScreen() {
+		layout.show(contentPane, "endScreen");
+	}
 	private void switchView() {
 		if (Settings.MENU_SHOWN ^= true) {
 			Settings.GAME_PAUSED = true;
@@ -118,29 +116,6 @@ public class Window extends JFrame {
 		} else {
 			layout.show(contentPane, "display");
 		}
-		validate();
-	}
-
-//	private void switchControls() {
-//		ControlMenu controlMenu = new ControlMenu();
-//		setContentPane(controlMenu);
-////		controlMenu.add(button.get(5));
-//		validate();
-//	}
-	public void Scoreboard() {
-		Settings.GAME_PAUSED = false;
-		EndScreen end = new EndScreen();
-		setContentPane(end);
-		end.add(new MenuButton("AGAIN") {
-			
-			@Override
-			public void onClick(ActionEvent e) {
-				Settings.SCORE = 0;
-				engine.reset();
-				setContentPane(display);
-				validate();
-			}
-		});
 		validate();
 	}
 }

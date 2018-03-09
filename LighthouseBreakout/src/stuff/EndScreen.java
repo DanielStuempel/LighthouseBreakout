@@ -1,12 +1,14 @@
 package stuff;
 
+import java.awt.CardLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
 
 import javax.swing.JPanel;
 
 public class EndScreen extends Menu {
-	public EndScreen() {
-		super(null, null, "");
+	public EndScreen(CardLayout layout, JPanel contentPane) {
+		super(layout, contentPane, "endScreen");
 		CoolLabel top = new CoolLabel("NOT DONE YET...", 80);
 		setLayout(new GridLayout(4, 1));
 		if (Settings.GAME_WON)
@@ -17,6 +19,15 @@ public class EndScreen extends Menu {
 
 		add(scoreboard);
 		loadScores();
+		
+		add(new MenuButton("AGAIN") {
+			
+			@Override
+			public void onClick(ActionEvent e) {
+				layout.previous(contentPane);
+				
+			}
+		});
 	}
 
 	private void loadScores() {
