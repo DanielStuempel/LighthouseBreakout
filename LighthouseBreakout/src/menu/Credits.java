@@ -27,10 +27,20 @@ public class Credits extends Menu {
 			e1.printStackTrace();
 		}
 
-		setLayout(new GridLayout(2, 1));
-		String coolText = null;
+		setLayout(new GridLayout(11, 1));
+		String coolText2 = "Breakout von Daniel und Jan";
+		String coolText1 = "";
+		String coolText3 = "";
 
-		add(new MenuLabel(coolText, 40));
+		add(new MenuLabel("", 40));
+		add(new MenuLabel("", 40));
+		add(new MenuLabel("", 40));
+		add(new MenuLabel("", 40));
+		add(new MenuLabel("", 40));
+		add(new MenuLabel(coolText1, 40));
+		add(new MenuLabel(coolText2, 40));
+		add(new MenuLabel(coolText3, 40));
+		add(new MenuLabel("", 40));
 		add(new MenuButton("BACK") {
 
 			@Override
@@ -39,13 +49,15 @@ public class Credits extends Menu {
 
 			}
 		});
+		add(new MenuLabel("", 40));
+
 
 	}
 
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		g.drawImage(image, this.getWidth() / 2 - image.getWidth() / 2, 2, this);
+		g.drawImage(image, this.getWidth() / 2 - image.getWidth() / 2, 20, this);
 	}
 
 }
