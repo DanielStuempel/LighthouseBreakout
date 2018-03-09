@@ -108,7 +108,7 @@ public class ExperimentalEngine extends Engine {
 					pause();
 					new SoundEngine().playSound(SoundEngine.GAME_LOST);
 					Settings.SCORE = level.getScore();
-					for (GameEventListener l : getEventListeners())
+					for (GameEventListener l : getGameEventListeners())
 						l.gameLost();
 					reset();
 					break;
@@ -143,7 +143,7 @@ public class ExperimentalEngine extends Engine {
 			pause();
 			Settings.GAME_WON = true;
 			Settings.SCORE = level.getScore();
-			for (GameEventListener l : getEventListeners())
+			for (GameEventListener l : getGameEventListeners())
 				l.gameLost();
 		}
 	}
@@ -183,7 +183,7 @@ public class ExperimentalEngine extends Engine {
 
 	@Override
 	public void debug() {
-
+		/* EMPTY */
 	}
 
 	@Override

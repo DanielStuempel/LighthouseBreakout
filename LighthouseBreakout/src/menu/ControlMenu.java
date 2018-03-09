@@ -7,7 +7,6 @@ import java.awt.event.ActionEvent;
 import stuff.Window.MainPanel;
 
 public class ControlMenu extends Menu {
-
 	public ControlMenu(CardLayout layout, MainPanel contentPane) {
 		super(layout, contentPane, "controlMenu");
 
@@ -24,13 +23,10 @@ public class ControlMenu extends Menu {
 		add(new MenuLabel("", 40));
 
 		add(new MenuButton("BACK") {
-
 			@Override
 			public void onClick(ActionEvent e) {
 				layout.show(contentPane, "optionsMenu");
-
 			}
 		});
 	}
-
 }

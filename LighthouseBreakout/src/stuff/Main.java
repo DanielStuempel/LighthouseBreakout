@@ -19,7 +19,7 @@ import view.Display;
 
 public class Main {
 	public static Timer systemTimer = new Timer(true);
-
+	
 	private static HashSet<String> args = new HashSet<String>();
 
 	public static void main(String[] args) {

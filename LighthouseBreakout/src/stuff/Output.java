@@ -19,7 +19,7 @@ public class Output implements Runnable {
 
 	private LighthouseDisplay lighthouseDisplay;
 
-	TickTimer outputTimer;
+	private TickTimer outputTimer;
 
 	public Output(Engine engine, Display.Input display, Level level, SyncList<Animation> eventList) {
 		this.display = display;
@@ -38,8 +38,7 @@ public class Output implements Runnable {
 		}
 	}
 
-	public void init() {
-
+	private void init() {
 		if (Settings.CONNECT_TO_LIGHTHOUSE) {
 			lighthouseDisplay = new LighthouseDisplay(NoToken.USER, NoToken.TOKEN);
 			try {
@@ -48,6 +47,7 @@ public class Output implements Runnable {
 				e.printStackTrace();
 			}
 		}
+		
 		Output o = this;
 		outputTimer = new TickTimer() {
 			@Override
@@ -81,23 +81,13 @@ public class Output implements Runnable {
 
 		Color[][] c = null;
 		for (int i = 0; i < eventList.size(); i++) {
-			// if (i >= eventList.size()) {
-			// System.out.println("caught a null pointer!");
-			// eventList.clear();
-			// break;
-			// }
-			// try {
 			c = eventList.get(i).next();
-			// } catch (NullPointerException e) {
-			// e.printStackTrace();
-			// eventList.clear();
-			// continue;
-			// }
 			if (c == null) {
 				eventList.syncRemove(i);
 				i--;
 				continue;
 			}
+			
 			for (int q = 0, y = 0; y < level.size.height; y++) {
 				for (int x = 0; x < level.size.width; x++) {
 					// draw block

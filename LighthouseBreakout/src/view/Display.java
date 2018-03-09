@@ -18,7 +18,7 @@ public class Display extends JPanel implements Runnable {
 	private volatile byte[] data = new byte[size.width * size.height * 3];
 	private volatile boolean dataChanged;
 	
-	TickTimer frameRateTimer;
+	private TickTimer frameRateTimer;
 	
 	public abstract class Input {
 		public abstract void send(byte[] data);
@@ -56,7 +56,7 @@ public class Display extends JPanel implements Runnable {
 		Main.systemTimer.schedule(frameRateTimer, 0, Settings.FRAME_TICK_MS);
 	}
 	
-	public synchronized void main() throws InterruptedException {
+	private synchronized void main() throws InterruptedException {
 		this.wait();
 		if (!dataChanged)
 			return;

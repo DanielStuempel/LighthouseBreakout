@@ -5,7 +5,6 @@ import java.awt.Font;
 import java.util.Arrays;
 
 public class Style {
-	
 	public static Color background;
 	public static Color ballColor;
 	public static Color[] brickColor = new Color[4];
@@ -19,7 +18,6 @@ public class Style {
 	public static Font defaultFont = new Font("Comic Sans MS", fontStyle, fontSize);
 	public static Font customFont;
 	public static Font font;
-	
 	
 	public static enum Theme {
 		DEFAULT(null),
@@ -38,6 +36,7 @@ public class Style {
 			return parent;
 		}
 	}
+	
 	public static void loadTheme(Theme t) {
 		if (t == null)
 			return;
@@ -89,6 +88,7 @@ public class Style {
 		}
 		brickColor[0] = background;
 	}
+	
 	public static Theme next() {
 		switch (Settings.THEME) {
 		case COLORFUL:
@@ -106,7 +106,6 @@ public class Style {
 			break;
 		default:
 			break;
-		
 		}
 		return Settings.THEME;
 	}

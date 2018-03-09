@@ -15,12 +15,12 @@ import stuff.TickTimer;
 import view.Animation;
 
 public class SimpleEngine extends Engine {
-	Level level;
-	Paddel paddel;
-	Ball ball;
-	SyncList<Animation> eventList;
+	private Level level;
+	private Paddel paddel;
+	private Ball ball;
+	private SyncList<Animation> eventList;
 
-	int newPaddelPosition;
+	private int newPaddelPosition;
 	
 	public SimpleEngine(Level level, SyncList<Animation> eventList) {
 		this.level = level;
@@ -42,7 +42,7 @@ public class SimpleEngine extends Engine {
 		}
 	}
 
-	public void init() {
+	private void init() {
 		reset();
 
 		SimpleEngine e = this;
@@ -57,7 +57,7 @@ public class SimpleEngine extends Engine {
 		Main.systemTimer.schedule(gameTickTimer, 0, Settings.GAME_TICK_MS);
 	}
 
-	public synchronized void main() throws InterruptedException {
+	private synchronized void main() throws InterruptedException {
 		wait();
 
 		if (isPaused())
@@ -89,7 +89,7 @@ public class SimpleEngine extends Engine {
 					new SoundEngine().playSound(SoundEngine.GAME_LOST);
 					pause();
 					Settings.SCORE = level.getScore();
-					for (GameEventListener l : getEventListeners()) {
+					for (GameEventListener l : getGameEventListeners()) {
 						l.gameLost();
 					}
 					reset();
@@ -125,7 +125,7 @@ public class SimpleEngine extends Engine {
 			Settings.GAME_WON = true;
 			Settings.SCORE = level.getScore();
 			reset();
-			for(GameEventListener l : getEventListeners()) {
+			for(GameEventListener l : getGameEventListeners()) {
 				l.gameWon();
 			}
 		}
@@ -140,6 +140,7 @@ public class SimpleEngine extends Engine {
 		return true;
 	}
 	
+	@Override
 	public void reset() {
 		ball.setPosition(level.size.width / 2 - 1, level.size.height - 3);
 		ball.setVelocity(1, 1);
@@ -149,6 +150,7 @@ public class SimpleEngine extends Engine {
 		new SoundEngine().playSound(SoundEngine.GAME_START);
 	}
 
+	@Override
 	public void debug() {
 		eventList.clear();
 	}

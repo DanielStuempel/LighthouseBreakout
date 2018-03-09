@@ -23,14 +23,13 @@ import menu.Menu;
 import view.Display;
 
 public class Window extends JFrame {
-
 	private MainMenu menu;
 	private EndScreen endScreen;
 	private ControlMenu controlMenu;
 	private Display display;
 
-	CardLayout layout;
-	MainPanel contentPane;
+	private CardLayout layout;
+	private MainPanel contentPane;
 
 	private Engine engine;
 
@@ -151,10 +150,6 @@ public class Window extends JFrame {
 		layout.addLayoutComponent(display, "display");
 		layout.addLayoutComponent(controlMenu, "controlMenu");
 		setVisible(true);
-	}
-
-	public void showEndScreen() {
-		layout.show(contentPane, "endScreen");
 	}
 
 	private void switchView() {

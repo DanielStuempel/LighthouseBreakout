@@ -19,7 +19,7 @@ public abstract class Engine implements Runnable {
 		listeners.syncAdd(l);
 	}
 	
-	public SyncList<GameEventListener> getEventListeners() {
+	public SyncList<GameEventListener> getGameEventListeners() {
 		return listeners;
 	}
 
