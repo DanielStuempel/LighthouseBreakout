@@ -14,7 +14,7 @@ class Settings {
 	// game engine settings
 	static int GAME_TICK_MS = 100;
 	static int RESET_TIMEOUT = 300;
-	static boolean EXPERIMENTAL_ENGINE = false;
+	static boolean EXPERIMENTAL_ENGINE = true;
 	static Map LEVEL = Map.CAU;
 	static boolean GAME_WON = false;
 	static int SCORE = 0;

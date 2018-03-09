@@ -12,9 +12,9 @@ public class SimpleEngine extends Engine {
 	
 	public SimpleEngine(Level level, SyncList<Animation> eventList) {
 		this.level = level;
+		this.eventList = eventList;
 		paddel = new Paddel(0, 7);
 		ball = new Ball(0, 0);
-		this.eventList = eventList;
 	}
 
 	@Override
@@ -43,15 +43,6 @@ public class SimpleEngine extends Engine {
 			}
 		};
 		Main.systemTimer.schedule(gameTickTimer, 0, Settings.GAME_TICK_MS);
-	}
-
-	public void reset() {
-		ball.setPosition(level.size.width / 2 - 1, level.size.height - 2);
-		ball.setVelocity(1, 1);
-		paddel.setPosition((level.size.width - paddel.getSize().getX()) / 2);
-		level.reset();
-
-		new SoundEngine().playSound(SoundEngine.GAME_START);
 	}
 
 	public synchronized void main() throws InterruptedException {
@@ -118,7 +109,7 @@ public class SimpleEngine extends Engine {
 		ball.move();
 		
 		if (level.maxScore == level.getScore()) {
-			System.out.println("whyy");
+			pause();
 			Settings.GAME_WON = true;
 			Settings.SCORE = level.getScore();
 			reset();
@@ -132,9 +123,18 @@ public class SimpleEngine extends Engine {
 		int type = level.hit(x, y);
 		if (type == 0)
 			return false;
-		eventList.add(new Animation(new Point(x, y), type, Animation.Type.BRICKHIT));
-		eventList.add(new Animation(new Point(x, y), Style.brickColor[type], Animation.Type.EXPLOSION));
+		eventList.syncAdd(new Animation(new Point(x, y), type, Animation.Type.BRICKHIT));
+		eventList.syncAdd(new Animation(new Point(x, y), Style.brickColor[type], Animation.Type.EXPLOSION));
 		return true;
+	}
+	
+	public void reset() {
+		ball.setPosition(level.size.width / 2 - 1, level.size.height - 3);
+		ball.setVelocity(1, 1);
+		paddel.setPosition((level.size.width - paddel.getSize().getX()) / 2);
+		level.reset();
+
+		new SoundEngine().playSound(SoundEngine.GAME_START);
 	}
 
 	public void debug() {

@@ -1,5 +1,9 @@
 package stuff;
 
+import java.awt.Point;
+
+import stuff.Engine.GameEventListener;
+
 public class ExperimentalEngine extends Engine {
 	private Paddel paddel;
 	private Ball ball;
@@ -7,9 +11,11 @@ public class ExperimentalEngine extends Engine {
 	private float newPaddelPosition;
 
 	private Level level;
+	
+	private SyncList<Animation> eventList;
 
-	public ExperimentalEngine() {
-		
+	public ExperimentalEngine(SyncList<Animation> eventList) {
+		this.eventList = eventList;
 	}
 
 	@Override
@@ -47,6 +53,9 @@ public class ExperimentalEngine extends Engine {
 		if (isPaused())
 			return;
 
+		Animation tail = new Animation(new Point((int) ball.getPosition().getX(), (int) ball.getPosition().getY()), Style.ballColor, Animation.Type.TAIL);
+		eventList.syncAdd(tail);
+
 		paddel.setPosition(paddel.getPosition().getX() + newPaddelPosition);
 		newPaddelPosition = 0;
 
@@ -82,6 +91,11 @@ public class ExperimentalEngine extends Engine {
 					else
 						vel = vel.rotate(-vel.angle(new Vector2f(1, 0)) * 2);
 				} else {
+					pause();
+					new SoundEngine().playSound(SoundEngine.GAME_LOST);
+					Settings.SCORE = level.getScore();
+					for (GameEventListener l : getEventListeners())
+						l.gameLost();
 					reset();
 					break;
 				}
@@ -110,6 +124,14 @@ public class ExperimentalEngine extends Engine {
 				}
 			}
 		}
+		
+		if (level.getScore() == level.maxScore) {
+			pause();
+			Settings.GAME_WON = true;
+			Settings.SCORE = level.getScore();
+			for (GameEventListener l : getEventListeners())
+				l.gameLost();
+		}
 	}
 
 	private boolean collision(Entity a, Entity b) {
@@ -122,7 +144,12 @@ public class ExperimentalEngine extends Engine {
 	private boolean collisionBrick(int x, int y) {
 		if (x < 0 || y < 0 || x >= level.size.width || y >= level.size.height)
 			return false;
-		return level.get(x, y).hit();
+		int type = level.get(x, y).getType();
+		if (type == 0) return false;
+		eventList.syncAdd(new Animation(new Point(x, y), type, Animation.Type.BRICKHIT));
+		eventList.syncAdd(new Animation(new Point(x, y), Style.brickColor[type], Animation.Type.EXPLOSION));
+		level.hit(x, y);
+		return true;
 	}
 
 	@Override

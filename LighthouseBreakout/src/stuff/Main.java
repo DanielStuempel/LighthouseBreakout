@@ -49,7 +49,7 @@ public class Main {
 		
 		Engine engine;
 		if (Settings.EXPERIMENTAL_ENGINE)
-			engine = new ExperimentalEngine();
+			engine = new ExperimentalEngine(eventList);
 		else
 			engine = new SimpleEngine(level, eventList);
 		Thread gameEngineThread = new Thread(engine, "gameEngineThread");
