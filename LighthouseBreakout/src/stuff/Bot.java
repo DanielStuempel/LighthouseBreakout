@@ -1,11 +1,9 @@
 package stuff;
 
 public class Bot implements Runnable {
-	// SimpleEngine engine;
 	Engine engine;
 
 	public Bot(Engine engine) {
-		// public Bot(SimpleEngine engine) {
 		this.engine = engine;
 	}
 
@@ -42,16 +40,13 @@ public class Bot implements Runnable {
 		if (Settings.GAME_PAUSED)
 			return;
 		
-		// SimpleBall ball = engine.getBall();
-		// SimplePaddel paddel = engine.getPaddel();
-		
 		Ball ball = engine.getBall();
 		Paddel paddel = engine.getPaddel();
 
 		if (Settings.HAX_ON) {
 			float f = (ball.getPosition().getX() + ball.getSize().getX() / 2)
 					- (paddel.getPosition().getX() + paddel.getSize().getX() / 2);
-			engine.changePaddelPosition(f);
+			engine.movePaddel(f);
 		}
 	}
 }

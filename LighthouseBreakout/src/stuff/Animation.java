@@ -36,11 +36,11 @@ public class Animation implements Iterator<Color[][]> {
 		}
 	}
 
-	public Animation(Point origin, Brick brick, Type type) {
+	public Animation(Point origin, int brickType, Type type) {
 		this.origin = origin;
 		this.type = type;
-		this.color = Style.brickColor[brick.getType()];
-		this.color2 = Style.brickColor[brick.getType() - 1];
+		this.color = Style.brickColor[brickType];
+		this.color2 = Style.brickColor[brickType - 1];
 	}
 
 	@Override

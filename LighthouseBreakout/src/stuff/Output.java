@@ -10,14 +10,14 @@ import tokens.NoToken;
 public class Output implements Runnable {
 	private Display.Input display;
 	private Level level;
-	private SimpleEngine engine;
+	private Engine engine;
 	private LinkedList<Animation> eventList;
 
 	private LighthouseDisplay lighthouseDisplay;
 	
 	TickTimer outputTimer;
 
-	public Output(SimpleEngine engine, Display.Input display, Level level, LinkedList<Animation> eventList) {
+	public Output(Engine engine, Display.Input display, Level level, LinkedList<Animation> eventList) {
 		this.display = display;
 		this.level = level;
 		this.engine = engine;
@@ -60,8 +60,9 @@ public class Output implements Runnable {
 	private synchronized void main() throws InterruptedException {
 		wait();
 		
-		SimpleBall ball = engine.getBall();
-		SimplePaddel paddel = engine.getPaddel();
+		Ball ball = engine.getBall();
+		Paddel paddel = engine.getPaddel();
+		Level level = engine.getLevel();
 		
 		byte[] data = new byte[28 * 14 * 3];
 		
@@ -109,14 +110,14 @@ public class Output implements Runnable {
 		}
 
 		// draw ball
-		int p = (ball.pos.x + ball.pos.y * 28) * 3;
+		int p = ((int) ball.getPosition().getX() + (int) ball.getPosition().getY() * 28) * 3;
 		data[p++] = (byte) Style.ballColor.getRed();
 		data[p++] = (byte) Style.ballColor.getGreen();
 		data[p] = (byte) Style.ballColor.getBlue();
 
 		// draw paddel
-		p = ((level.size.height - 1) * level.size.width + paddel.pos) * 3;
-		for (int i = 0; i < paddel.size; i++) {
+		p = ((level.size.height - 1) * level.size.width + (int) paddel.getPosition().getX()) * 3;
+		for (int i = 0; i < paddel.getSize().getX(); i++) {
 			data[p++] = (byte)Style.paddel.getRed();
 			data[p++] = (byte)Style.paddel.getGreen();
 			data[p++] = (byte)Style.paddel.getBlue();
@@ -124,16 +125,11 @@ public class Output implements Runnable {
 
 		display.send(data);
 		
-		if (Settings.CONNECT_TO_LIGHTHOUSE) {
-			if (lighthouseDisplay.isConnected()) {
+		if (Settings.CONNECT_TO_LIGHTHOUSE && lighthouseDisplay.isConnected())
 				try {
 					lighthouseDisplay.send(data);
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-			} else {
-//				System.err.println("lighthouse disconnected");
-			}
-		}
 	}
 }

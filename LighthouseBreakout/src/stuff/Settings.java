@@ -14,25 +14,23 @@ class Settings {
 	// game engine settings
 	static int GAME_TICK_MS = 100;
 	static int RESET_TIMEOUT = 300;
-	static boolean EXPERIMENTAL_ENGINE = true;
+	static boolean EXPERIMENTAL_ENGINE = false;
 	static Map LEVEL = Map.CAU;
 
 	// animation settings
 	static boolean DO_ANIMATIONS = true;
-	static boolean PLAYER_INVINCEBLE = false;
-	static boolean BRICK_COLLISION = true;
 	static boolean GAME_PAUSED = true;
 	static boolean MENU_SHOWN = true;
 	static boolean HAX_ON = true;
 	static boolean OPTIONS_MENU = false;
 	static boolean MOUSE_CONTROL = false;
-	static boolean GAME_WON = false;
 	static boolean SOUND_XP_START = false;	//on restart
 	static boolean SOUND_XP_SHUTDOWN = true; //on game lost
-	static boolean SOUND_SAD_TRUMPET = false; //alternative on game lost
 	static boolean CUSTOM_FONT = true;
-	static int SCORE = 0;
 	
+	//planned
+	static boolean PLAYER_INVINCEBLE = false;
+	static boolean BRICK_COLLISION = true;
 
 	// window settings
 	static enum Keys {

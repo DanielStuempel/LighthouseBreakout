@@ -68,7 +68,6 @@ public class SettingsMenu extends Menu {
 		add(new MenuButton("End Sound : " + (Settings.SOUND_XP_SHUTDOWN ? "ANNOYING" : "FUNNY"), 40) {
 			@Override
 			public void onClick(ActionEvent e) {
-				Settings.SOUND_SAD_TRUMPET ^= true;
 				Settings.SOUND_XP_SHUTDOWN ^= true;
 				setText("End Sound : " + (Settings.SOUND_XP_SHUTDOWN ? "Annoying" : "Funny"));
 			}

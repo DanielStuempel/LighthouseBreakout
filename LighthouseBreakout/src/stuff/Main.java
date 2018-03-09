@@ -41,7 +41,6 @@ public class Main {
 			Style.font = Style.defaultFont;
 		
 		LinkedList<Animation> eventList = new LinkedList<>();
-		byte[] data = new byte[28 * 14 * 3];
 
 		Level level = new Level(Settings.LEVEL);
 
@@ -49,12 +48,15 @@ public class Main {
 		Thread displayThread = new Thread(display, "displayThread");
 		displayThread.start();
 		
-//		SimpleEngine engine = new SimpleEngine(level, eventList);
-		Engine engine = new Engine(display.getInput());
+		Engine engine;
+		if (Settings.EXPERIMENTAL_ENGINE)
+			engine = new ExperimentalEngine(display.getInput());
+		else
+			engine = new SimpleEngine(level, eventList);
 		Thread gameEngineThread = new Thread(engine, "gameEngineThread");
 		gameEngineThread.start();
 		
-//		Output output = new Output(engine, display.getWriter(), data, level, eventList);
+		Output output = new Output(engine, display.getInput(), level, eventList);
 		
 		Bot bot = new Bot(engine);
 		Thread botThread = new Thread(bot, "botThread");
@@ -64,7 +66,7 @@ public class Main {
 		window.setLocationRelativeTo(null);
 		window.requestFocus();
 		
-//		output.run();
+		output.run();
 	}
 	
 	private static void parseArguments(String[] args) {

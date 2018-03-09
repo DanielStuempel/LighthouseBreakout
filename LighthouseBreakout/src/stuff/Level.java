@@ -6,7 +6,8 @@ public class Level {
 	public Dimension size = new Dimension(28, 14);
 	private Brick[][] state;
 	private Map map;
-	private int pointsToEnd = 0;
+	public int maxScore;
+	private int score;
 	
 	public Level(Map m) {
 		state = new Brick[size.width][size.height];
@@ -15,11 +16,12 @@ public class Level {
 	}
 	
 	private void buildLevel() {
-		pointsToEnd = 0;
+		maxScore = 0;
+		score = 0;
 		for (int y = 0; y < size.height && y < map.getMap().length; y++) {
 			for (int x = 0; x < size.width && y < map.getMap()[y].length; x++) {
 				state[x][y] =  new Brick(map.getMap()[y][x]);
-				pointsToEnd += state[x][y].getType();
+				maxScore += state[x][y].getType();
 			}
 		}
 	}
@@ -31,7 +33,17 @@ public class Level {
 	public void reset() {
 		buildLevel();
 	}
-	public int neededPoints() {
-		return pointsToEnd;
+	
+	public int getScore() {
+		return score;
+	}
+	
+	public int hit(int x, int y) {
+		if (x < 0 || y < 0 || x > size.width || y > size.height)
+			return 0;
+		Brick b = state[x][y];
+		int type = b.getType();
+		b.hit();
+		return type;
 	}
 }

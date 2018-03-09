@@ -1,8 +1,8 @@
 package stuff;
 
 public class Paddel extends Entity {
-	public Paddel(float x, float y, float w) {
-		setPosition(x, y);
+	public Paddel(float x, float w) {
+		setPosition(x, 13);
 		setSize(w, 1);
 	}
 	

@@ -11,9 +11,9 @@ public abstract class Entity {
 		this.position = this.position.add(velocity);
 	}
 
-//	public Point getLocation() {
-//		return new Point((int) (position.getX() + size.getX() / 2), (int) (position.getY() + size.getY() / 2));
-//	}
+	public Point getLocation() {
+		return new Point((int) (position.getX() + size.getX() / 2), (int) (position.getY() + size.getY() / 2));
+	}
 	
 	public Vector2f getPosition() {
 		return new Vector2f(position);
