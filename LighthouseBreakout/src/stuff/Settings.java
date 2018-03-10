@@ -15,7 +15,9 @@ public class Settings {
 	// game engine settings
 	public static int GAME_TICK_MS = 100;
 	public static int RESET_TIMEOUT = 300;
+	/////////////// Switch Engine
 	public static boolean EXPERIMENTAL_ENGINE = true;
+	///////////////
 	public static Map LEVEL = Map.CAU;
 	public static boolean GAME_WON = false;
 	public static int SCORE = 0;
@@ -27,7 +29,7 @@ public class Settings {
 	public static boolean OPTIONS_MENU = false;
 	public static boolean MOUSE_CONTROL = false;
 	public static boolean SOUND_XP_START = true;
-	public static boolean SOUND_XP_SHUTDOWN = false;
+	public static boolean SOUND_XP_SHUTDOWN = true;
 	public static boolean CUSTOM_FONT = true;
 
 	// planned

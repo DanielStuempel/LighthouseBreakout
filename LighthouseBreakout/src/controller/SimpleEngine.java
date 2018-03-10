@@ -31,6 +31,7 @@ public class SimpleEngine extends Engine {
 
 	@Override
 	public void run() {
+		new SoundEngine().playSound(SoundEngine.GAME_START);
 		init();
 
 		try {
@@ -147,7 +148,7 @@ public class SimpleEngine extends Engine {
 		paddel.setPosition((level.size.width - paddel.getSize().getX()) / 2);
 		level.reset();
 
-		new SoundEngine().playSound(SoundEngine.GAME_START);
+		
 	}
 
 	@Override

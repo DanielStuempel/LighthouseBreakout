@@ -32,6 +32,7 @@ public class ExperimentalEngine extends Engine {
 
 	@Override
 	public void run() {
+		new SoundEngine().playSound(SoundEngine.GAME_START);
 		init();
 		while (true) {
 			try {
